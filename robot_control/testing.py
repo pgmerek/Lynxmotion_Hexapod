@@ -83,16 +83,11 @@ def neutral(leg):
   leg.set_angle(90, ROT_MOTOR)
 
 
-#init the pwm stuffs
-import smbus
-bus = smbus.SMBus(1)
-address = 0x41
-data = [0xA5, 0x5A]
-bus.write_data(address, 0xA5, 0x5A)
+#init the pwm stuffs and run selected tests
 pwm41 = Adafruit_PCA9685.PCA9685(address=0x41)
 pwm41.set_pwm_freq(60)
-leg1 = Leg(0, pwm41, 4, 5, 6)
-tip_motor_test(leg1)
-mid_motor_test(leg1)
-rot_motor_test(leg1)
-neutral(leg1)
+leg_left = Leg(0, pwm41, 0, 1, 2, LEFT)
+tip_motor_test(leg_left)
+mid_motor_test(leg_left)
+rot_motor_test(leg_left)
+neutral(leg_left)

@@ -1,0 +1,51 @@
+import time
+from robot_driver import *
+
+def leg_driver_test(leg):
+    print("--------------------------leg driver test---------------------")
+    leg.set_angle(0, TIP_MOTOR)
+    leg.set_angle(45, TIP_MOTOR)
+    leg.set_angle(90, TIP_MOTOR)
+    leg.set_angle(180, TIP_MOTOR)
+    leg.set_angle(270, TIP_MOTOR)
+    leg.set_angle(0, MID_MOTOR)
+    leg.set_angle(45, MID_MOTOR)
+    leg.set_angle(90, MID_MOTOR)
+    leg.set_angle(180, MID_MOTOR)
+    leg.set_angle(270, MID_MOTOR)
+    leg.set_angle(0, ROT_MOTOR)
+    leg.set_angle(45, ROT_MOTOR)
+    leg.set_angle(90, ROT_MOTOR)
+    leg.set_angle(180, ROT_MOTOR)
+    leg.set_angle(270, ROT_MOTOR)
+
+def robot_driver_test(robot):
+    print("------------------------------robot driver test-------------------")
+    print("*****************************should print all legs in neutral")
+    robot.print_self()
+    print("*****************************should print left triangle legs up")
+    robot.s_triangle_up(LEFT)
+    robot.print_self()
+    print("*****************************should print right triangle back")
+    robot.s_triangle_back(RIGHT)
+    robot.print_self()
+    print("*****************************should print left legs down")
+    robot.s_triangle_neutral(LEFT)
+    robot.print_self()
+    print("*****************************should print right legs up")
+    robot.s_triangle_up(RIGHT)
+    robot.print_self()
+    print("*****************************should print right legs neutral")
+    robot.s_triangle_neutral(RIGHT)
+    robot.print_self()
+
+
+lf_leg = Leg(5, 0x41, 0, 1, 2, LEFT)
+lm_leg = Leg(4, 0x41, 3, 4, 5, LEFT)
+lr_leg = Leg(3, 0x41, 6, 7, 8, LEFT)
+rr_leg = Leg(2, 0x41, 9, 10, 11, RIGHT)
+rm_leg = Leg(1, 0x41, 12, 13, 14, RIGHT)
+rr_leg = Leg(0, 0x40, 0, 1, 2, RIGHT)
+
+robot = Robot(lf_leg, lm_leg, lr_leg, rr_leg, rm_leg, rr_leg)
+robot_driver_test(robot)
