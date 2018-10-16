@@ -39,13 +39,31 @@ def robot_driver_test(robot):
     robot.s_triangle_neutral(RIGHT)
     robot.print_self()
 
+def test_leg_positions(leg):
+    print("-------------------------------leg position test------------------------------")
+    print("***************************************testing neutral")
+    leg.set_leg_position(NORMAL_TRI_ROTATION_TABLE["NEUTRAL"])
+    leg.print_self()
+    print("***************************************testing up")
+    up = Leg_Position(90, 180, 90)
+    leg.set_leg_position(up)
+    leg.print_self()
+    print("***************************************testing out")
+    out = Leg_Position(120, 45, 90)
+    leg.set_leg_position(out)
+    leg.print_self()
 
 lf_leg = Leg(5, 0x41, 0, 1, 2, LEFT)
 lm_leg = Leg(4, 0x41, 3, 4, 5, LEFT)
 lr_leg = Leg(3, 0x41, 6, 7, 8, LEFT)
 rr_leg = Leg(2, 0x41, 9, 10, 11, RIGHT)
 rm_leg = Leg(1, 0x41, 12, 13, 14, RIGHT)
-rr_leg = Leg(0, 0x40, 0, 1, 2, RIGHT)
+rf_leg = Leg(0, 0x40, 0, 1, 2, RIGHT)
 
-robot = Robot(lf_leg, lm_leg, lr_leg, rr_leg, rm_leg, rr_leg)
-robot_driver_test(robot)
+robot = Robot(rf_leg, rm_leg, rr_leg, lr_leg, lm_leg, lf_leg)
+
+#print(NORMAL_TRI_ROTATION_TABLE)
+robot.print_self()
+robot.set_robot_position(ROBOT_POSITIONS[NORMAL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL])
+robot.print_self()
+
