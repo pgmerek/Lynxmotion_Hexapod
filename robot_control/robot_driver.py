@@ -3,7 +3,7 @@ import time
 from robot_data import *
 from leg_data import *
 # uncomment if working with the actual robot
-# import Adafruit_PCA9685
+import Adafruit_PCA9685
 
 
 # all constants related to the robot legs
@@ -16,12 +16,12 @@ L_ROT_MOTOR_LEFT = 590
 
 # right legs are left legs but mirrored so values are different
 # Test before using
-R_TIP_MOTOR_OUT = 300
-R_TIP_MOTOR_IN = 600
-R_MID_MOTOR_UP = 450
-R_MID_MOTOR_DOWN = 120
-R_ROT_MOTOR_RIGHT = 590
-R_ROT_MOTOR_LEFT = 140
+R_TIP_MOTOR_OUT = 150  
+R_TIP_MOTOR_IN = 490
+R_MID_MOTOR_UP = 610
+R_MID_MOTOR_DOWN = 280 
+R_ROT_MOTOR_RIGHT = 150 
+R_ROT_MOTOR_LEFT = 610
 
 # same regardless of side so no need to l/r differentiate
 TIP_MOTOR_OUT_ANGLE = 180
@@ -131,7 +131,7 @@ class Leg(object):
         print("mid_motor pwm : " + str(self.mid_motor) + " angle : " + str(self.pwm_to_angle(self.mid_motor, MID_MOTOR)))
         print("rot_motor pwm : " + str(self.rot_motor) + " angle : " + str(self.pwm_to_angle(self.rot_motor, ROT_MOTOR)))
         # mock function useful for testing when not in the lab. change all instances
-        # of pwm_set_pwm to pwm.set_pwm to use the real function
+        # of pwm.set_pwm to pwm.set_pwm to use the real function
         # Use the pwm.pwn for real, robot usage
 
 
@@ -212,7 +212,7 @@ class Leg(object):
 
             # do the write out and update internal value
             self.tip_motor = pwm_val
-            self.pwm_set_pwm(self.tip_channel, 0, pwm_val)
+            self.pwm.set_pwm(self.tip_channel, 0, pwm_val)
 
         elif motor == MID_MOTOR:
             # get pwm val
@@ -229,7 +229,7 @@ class Leg(object):
 
             # do the write out and update internal value
             self.mid_motor = pwm_val
-            self.pwm_set_pwm(self.mid_channel, 0, pwm_val)
+            self.pwm.set_pwm(self.mid_channel, 0, pwm_val)
 
         elif motor == ROT_MOTOR:
             # get pwm val
@@ -246,39 +246,7 @@ class Leg(object):
 
             # do the write out
             self.rot_motor = pwm_val
-            self.pwm_set_pwm(self.rot_channel, 0, pwm_val)
-
-        # end of the main driver here. These are just some extra "useful" commands
-
-
-    def set_neutral(self):
-        self.set_angle(135, TIP_MOTOR)
-        self.set_angle(45, MID_MOTOR)
-        self.set_angle(90, ROT_MOTOR)
-
-
-    def leg_up(self):
-        self.set_angle(135, TIP_MOTOR)
-        self.set_angle(180, MID_MOTOR)
-
-
-    def leg_down(self):
-        self.set_angle(135, TIP_MOTOR)
-        self.set_angle(45, MID_MOTOR)
-
-
-    def leg_in(self):
-        self.set_angle(45, TIP_MOTOR)
-        self.set_angle(45, MID_MOTOR)
-
-
-    def s_for(self):
-        self.set_angle(120, ROT_MOTOR)
-
-
-    def s_back(self):
-        self.set_angle(60, ROT_MOTOR)
-
+            self.pwm.set_pwm(self.rot_channel, 0, pwm_val)
 
 # operation modes
 TRI = 1
@@ -362,46 +330,4 @@ class Robot(object):
         self.lm_leg.set_leg_position(robot_position.lm_pos)
         self.lf_leg.set_leg_position(robot_position.lf_pos)
 
-    def s_triangle_up(self, side):
-        if self.op_mode != TRIANGLE:
-            return INV_OP_MODE
-        if side == LEFT:
-            for leg in self.left_triangle:
-                leg.leg_up()
-        if side == RIGHT:
-            for leg in self.right_triangle:
-                leg.leg_up()
-        return SUCCESS
-
-    def s_triangle_for(self, side):
-        if self.op_mode != TRIANGLE:
-            return INV_OP_MODE
-        if side == LEFT:
-            for leg in self.left_triangle:
-                leg.s_for()
-        if side == RIGHT:
-            for leg in self.right_triangle:
-                leg.s_for()
-        return SUCCESS
-
-    def s_triangle_back(self, side):
-        if self.op_mode != TRIANGLE:
-            return INV_OP_MODE
-        if side == LEFT:
-            for leg in self.left_triangle:
-                leg.s_back()
-        if side == RIGHT:
-            for leg in self.right_triangle:
-                leg.s_back()
-        return SUCCESS
-
-    def s_triangle_neutral(self, side):
-        if self.op_mode != TRIANGLE:
-            return INV_OP_MODE
-        if side == LEFT:
-            for leg in self.left_triangle:
-                leg.set_neutral()
-        if side == RIGHT:
-            for leg in self.right_triangle:
-                leg.set_neutral()
-        return SUCCESS
+    
