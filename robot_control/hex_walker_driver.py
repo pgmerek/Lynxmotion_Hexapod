@@ -366,7 +366,7 @@ class Hex_Walker(object):
 
     def do_move_set(self, hex_walker_position_list):
         for next_pos in hex_walker_position_list:
-            if next_pos in ALLOWABLE_MOVES[self.current_pos]:
+            if next_pos in HEX_WALKER_POSITIONS[self.current_pos].safe_moves:
                 self.set_hex_walker_position(next_pos)
                 if(HW_MOVE_DEBUG):
                     self.print_self()
@@ -382,7 +382,7 @@ class Hex_Walker(object):
 # NOTE: this function should not be called from external code (except testing) because it might not be safe
     def set_hex_walker_position(self, hex_walker_position_number):
         if(HW_MOVE_DEBUG):
-            print("current position is : " + MOVE_DESCRIPTIONS[self.current_pos] + ", moving to position: " + MOVE_DESCRIPTIONS[hex_walker_position_number])
+            print("current position is : " + HEX_WALKER_POSITIONS[self.current_pos].description + ", moving to position: " + HEX_WALKER_POSITIONS[hex_walker_position_number].description)
         self.current_pos = hex_walker_position_number
         self.do_set_hex_walker_position(HEX_WALKER_POSITIONS[hex_walker_position_number])
 
