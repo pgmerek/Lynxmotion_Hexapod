@@ -1,5 +1,5 @@
 import time
-from robot_driver import *
+from hex_walker_driver import *
 
 def leg_driver_test(leg):
     print("--------------------------leg driver test---------------------")
@@ -19,26 +19,6 @@ def leg_driver_test(leg):
     leg.set_angle(180, ROT_MOTOR)
     leg.set_angle(270, ROT_MOTOR)
 
-def robot_driver_test(robot):
-    print("------------------------------robot driver test-------------------")
-    print("*****************************should print all legs in neutral")
-    robot.print_self()
-    print("*****************************should print left triangle legs up")
-    robot.s_triangle_up(LEFT)
-    robot.print_self()
-    print("*****************************should print right triangle back")
-    robot.s_triangle_back(RIGHT)
-    robot.print_self()
-    print("*****************************should print left legs down")
-    robot.s_triangle_neutral(LEFT)
-    robot.print_self()
-    print("*****************************should print right legs up")
-    robot.s_triangle_up(RIGHT)
-    robot.print_self()
-    print("*****************************should print right legs neutral")
-    robot.s_triangle_neutral(RIGHT)
-    robot.print_self()
-
 def test_leg_positions(leg):
     print("-------------------------------leg position test------------------------------")
     print("***************************************testing neutral")
@@ -53,6 +33,39 @@ def test_leg_positions(leg):
     leg.set_leg_position(out)
     leg.print_self()
 
+def change_front_test(hw):
+    print("--------------------------------hex walker change front test------------------")
+    print("********************************************Should show robot with leg 0,5 up")
+    #use do_set_hex_walker_position to avoid updating the self.current_pos variable and therefore skipping all safety checks that cause failures
+    if(hw.do_set_hex_walker_position(HEX_WALKER_POSITIONS[FRONT_LEGS_UP]) < 0):
+        print("failure")
+    hw.print_self()
+    print("**********************************************Should show robot with leg 1,2 up")
+    hw.do_set_hex_walker_position(HEX_WALKER_POSITIONS[NORMAL_NEUTRAL])
+    hw.set_new_front("1-2")
+    hw.do_set_hex_walker_position(HEX_WALKER_POSITIONS[FRONT_LEGS_UP])
+    hw.print_self()
+    print("**********************************************Should show robot with leg 2,3 up")
+    hw.do_set_hex_walker_position(HEX_WALKER_POSITIONS[NORMAL_NEUTRAL])
+    hw.set_new_front("2-3")
+    hw.do_set_hex_walker_position(HEX_WALKER_POSITIONS[FRONT_LEGS_UP])
+    hw.print_self()
+    
+def move_set_test(hw):
+    moves = [   NORMAL_NEUTRAL,
+                NORMAL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL,
+                NORMAL_TRI_RIGHT_BACK_LEFT_UP_FORWARD,
+                NORMAL_TRI_RIGHT_BACK_LEFT_FORWARD,
+                NORMAL_TRI_RIGHT_UP_BACK_LEFT_FORWARD,
+                NORMAL_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL,
+                NORMAL_TRI_RIGHT_UP_FORWARD_LEFT_BACK,
+                NORMAL_TRI_RIGHT_FORWARD_LEFT_BACK,
+                NORMAL_TRI_RIGHT_FORWARD_LEFT_UP_BACK,
+                NORMAL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL,
+                NORMAL_NEUTRAL]
+    hw.do_move_set(moves)
+
+
 lf_leg = Leg(5, 0x41, 0, 1, 2, LEFT)
 lm_leg = Leg(4, 0x41, 3, 4, 5, LEFT)
 lr_leg = Leg(3, 0x41, 6, 7, 8, LEFT)
@@ -60,10 +73,5 @@ rr_leg = Leg(2, 0x41, 9, 10, 11, RIGHT)
 rm_leg = Leg(1, 0x41, 12, 13, 14, RIGHT)
 rf_leg = Leg(0, 0x40, 0, 1, 2, RIGHT)
 
-robot = Robot(rf_leg, rm_leg, rr_leg, lr_leg, lm_leg, lf_leg)
-
-#print(NORMAL_TRI_ROTATION_TABLE)
-robot.print_self()
-robot.set_robot_position(ROBOT_POSITIONS[NORMAL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL])
-robot.print_self()
-
+hex_walker = Hex_Walker(rf_leg, rm_leg, rr_leg, lr_leg, lm_leg, lf_leg)
+move_set_test(hex_walker)

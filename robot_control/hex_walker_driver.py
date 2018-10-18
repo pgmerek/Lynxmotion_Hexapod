@@ -1,12 +1,14 @@
 from __future__ import division
 import time
-from robot_data import *
+from hex_walker_data import *
 from leg_data import *
 # uncomment if working with the actual robot
-import Adafruit_PCA9685
+#import Adafruit_PCA9685
 
+#Extraneous
+HW_MOVE_DEBUG = 1 #toggle 0/1 to turn debug prints on/off
 
-# all constants related to the robot legs
+# all constants related to the hex_walker legs
 L_TIP_MOTOR_OUT = 600
 L_TIP_MOTOR_IN = 300
 L_MID_MOTOR_UP = 120
@@ -41,7 +43,7 @@ RIGHT = 2
 # error codes and coding constants
 SUCCESS = 0
 INV_PARAM = -1
-
+ILLEGAL_MOVE = -2
 
 # helper functions
 # returns slope given two points
@@ -57,19 +59,6 @@ def linear_map(x1, y1, x2, y2, x_in_val):
     m = slope(x1, y1, x2, y2)
     b = intercept(x2, y2, m)
     return x_in_val * m + b
-
-
-# Helper function to make setting a servo pulse width simpler.
-def set_servo_pulse(channel, pulse):
-    pulse = int(pulse)
-    pulse_length = 1000000  # 1,000,000 us per second
-    pulse_length //= 60  # 60 Hz
-    print('{0}us per period'.format(pulse_length))
-    pulse_length //= 4096  # 12 bits of resolution
-    print('{0}us per bit'.format(pulse_length))
-    pulse *= 1000
-    pulse //= pulse_length
-    pwm.set_pwm(channel, 0, pulse)
 
 # NOTE: these values are ANGLES not raw pwms
 class Leg_Position(object):
@@ -136,8 +125,7 @@ class Leg(object):
 
 
     def pwm_set_pwm(self, channel, unknown, value):
-        print("pwm for channel " + str(channel) + " was set as: " + str(value))
-
+        x = 3
         # returns the angle on success. INV_PARAM otherwise
 
 
@@ -212,7 +200,7 @@ class Leg(object):
 
             # do the write out and update internal value
             self.tip_motor = pwm_val
-            self.pwm.set_pwm(self.tip_channel, 0, pwm_val)
+            self.pwm_set_pwm(self.tip_channel, 0, pwm_val)
 
         elif motor == MID_MOTOR:
             # get pwm val
@@ -229,7 +217,7 @@ class Leg(object):
 
             # do the write out and update internal value
             self.mid_motor = pwm_val
-            self.pwm.set_pwm(self.mid_channel, 0, pwm_val)
+            self.pwm_set_pwm(self.mid_channel, 0, pwm_val)
 
         elif motor == ROT_MOTOR:
             # get pwm val
@@ -246,19 +234,19 @@ class Leg(object):
 
             # do the write out
             self.rot_motor = pwm_val
-            self.pwm.set_pwm(self.rot_channel, 0, pwm_val)
+            self.pwm_set_pwm(self.rot_channel, 0, pwm_val)
 
-# operation modes
-TRI = 1
-ALL_TOGETHER = 2
-SEGMENT = 3
-
-# height options
+# speed options: this is just the time it waits betweeen moves
+PLAID_SPEED = .1
+ULTRA = .3
+FAST = .5
 NORMAL = 1
-CROUCH = 2
-TALL = 3
+SAFE = 2
+SLOW = 3
+SLOOOOOOOOOOW = 5
+SLOOOOOOOOOOOOOOOOOOW = 10
 
-class Robot(object):
+class Hex_Walker(object):
     def __init__(self, rf_leg, rm_leg, rr_leg, lr_leg, lm_leg, lf_leg):
         # this is an initial array that serves as a permanent holder
         self.leg0 = rf_leg
@@ -288,46 +276,123 @@ class Robot(object):
         self.rear_legs = [lr_leg, rr_leg]
 
         # set operating mode
-        self.height = NORMAL
-        self.op_mode = TRI
         self.current_pos = NORMAL_NEUTRAL
+        self.speed = NORMAL
+        self.front = "5-0"
         # set all legs to neutral
         for leg in self.all_legs:
             leg.set_leg_position(NORMAL_TRI_ROTATION_TABLE["NEUTRAL"])
 
     def print_self(self):
+        print("speed: " + str(self.speed) + " || self.current_pos: " + str(self.current_pos) + " || self.front: " + self.front)
         for leg in self.all_legs:
             leg.print_self()
 
+    def set_speed(self, new_speed):
+        self.speed = new_speed
+
+# this function will change the front from being between the "5-0" legs to being
+# between any two legs. The key is "(leg on left)-(leg on right)"
     def set_new_front(self, new_front):
-        if(current_pos != NORMAL_NEUTRAL):
+        if(self.current_pos != NORMAL_NEUTRAL):
             print("Cannot change front while not in the neutral position")
-            return
+            return ILLEGAL_MOVE
         
         # check for which side should be the front and re-assign the legs
         # accordingly
         if( new_front == "0-1" ):
-            print("do something here")
-        elif( new_front == "1-2" ):
-            print("do something here")
-        elif( new_front == "2-3" ):
-            print("do something here")
-        elif( new_front == "3-4" ):
-            print("do something here")
-        elif( new_front == "4-5" ):
-            print("do something here")
-        elif( new_front == "5-0" ):
-            print("do something here")
-        else:
-            print("Invalid front specified")
-            return
+            self.rf_leg = self.leg1
+            self.rm_leg = self.leg2
+            self.rr_leg = self.leg3
+            self.lr_leg = self.leg4
+            self.lm_leg = self.leg5
+            self.lf_leg = self.leg0
+            self.front = new_front
+            return SUCCESS
 
-    def set_robot_position(self, robot_position):
-        self.rf_leg.set_leg_position(robot_position.rf_pos)
-        self.rm_leg.set_leg_position(robot_position.rm_pos)
-        self.rr_leg.set_leg_position(robot_position.rr_pos)
-        self.lr_leg.set_leg_position(robot_position.lr_pos)
-        self.lm_leg.set_leg_position(robot_position.lm_pos)
-        self.lf_leg.set_leg_position(robot_position.lf_pos)
+        elif( new_front == "1-2" ):
+            self.rf_leg = self.leg2
+            self.rm_leg = self.leg3
+            self.rr_leg = self.leg4
+            self.lr_leg = self.leg5
+            self.lm_leg = self.leg0
+            self.lf_leg = self.leg1
+            self.front = new_front
+            return SUCCESS
+
+        elif( new_front == "2-3" ):
+            self.rf_leg = self.leg3
+            self.rm_leg = self.leg4
+            self.rr_leg = self.leg5
+            self.lr_leg = self.leg0
+            self.lm_leg = self.leg1
+            self.lf_leg = self.leg2
+            self.front = new_front
+            return SUCCESS
+
+        elif( new_front == "3-4" ):
+            self.rf_leg = self.leg4
+            self.rm_leg = self.leg5
+            self.rr_leg = self.leg0
+            self.lr_leg = self.leg1
+            self.lm_leg = self.leg2
+            self.lf_leg = self.leg3
+            self.front = new_front
+            return SUCCESS
+
+        elif( new_front == "4-5" ):
+            self.rf_leg = self.leg5
+            self.rm_leg = self.leg0
+            self.rr_leg = self.leg1
+            self.lr_leg = self.leg2
+            self.lm_leg = self.leg3
+            self.lf_leg = self.leg4
+            self.front = new_front
+            return SUCCESS
+
+        elif( new_front == "5-0" ):
+            self.rf_leg = self.leg0
+            self.rm_leg = self.leg1
+            self.rr_leg = self.leg2
+            self.lr_leg = self.leg3
+            self.lm_leg = self.leg4
+            self.lf_leg = self.leg5
+            self.front = new_front
+            return SUCCESS
+
+        else:
+            print("invalid front specified") 
+            return INV_PARAM
+
+    def do_move_set(self, hex_walker_position_list):
+        for next_pos in hex_walker_position_list:
+            if next_pos in ALLOWABLE_MOVES[self.current_pos]:
+                self.set_hex_walker_position(next_pos)
+                if(HW_MOVE_DEBUG):
+                    self.print_self()
+                time.sleep(self.speed)
+            else:
+                print("invalid move set")
+                return ILLEGAL_MOVE
+        return SUCCESS
+
+# NOTE: the functinos set_hex_walker_position and do_set_hex_walker_position are similar but one takes in a raw position and the other uses the defined table AND updates the current position. Using the do
+# version skips this state-updating and so it can be useful for testing
+
+# NOTE: this function should not be called from external code (except testing) because it might not be safe
+    def set_hex_walker_position(self, hex_walker_position_number):
+        if(HW_MOVE_DEBUG):
+            print("current position is : " + MOVE_DESCRIPTIONS[self.current_pos] + ", moving to position: " + MOVE_DESCRIPTIONS[hex_walker_position_number])
+        self.current_pos = hex_walker_position_number
+        self.do_set_hex_walker_position(HEX_WALKER_POSITIONS[hex_walker_position_number])
+
+# NOTE: this function should not be called from external code (except testing) because it might not be safe
+    def do_set_hex_walker_position(self, hex_walker_position):
+        self.rf_leg.set_leg_position(hex_walker_position.rf_pos)
+        self.rm_leg.set_leg_position(hex_walker_position.rm_pos)
+        self.rr_leg.set_leg_position(hex_walker_position.rr_pos)
+        self.lr_leg.set_leg_position(hex_walker_position.lr_pos)
+        self.lm_leg.set_leg_position(hex_walker_position.lm_pos)
+        self.lf_leg.set_leg_position(hex_walker_position.lf_pos)
 
     

@@ -35,70 +35,34 @@ NORMAL_TRI_ROTATION_TABLE = {
         }
 
 # table to be used when the robot is trying to move in a "normal" way (moving with two legs forward)
+# tip motor, mid motor, rot motor
 NORMAL_TRI_MOVEMENT_TABLE = {
-        "CORN_OUT_RIGHT"    : Leg_Position(0, 0, 0),
-        "CORN_OUT"          : Leg_Position(135, 80, 90),
-        "CORN_OUT_LEFT"     : Leg_Position(0, 0, 0),
-        "CORN_RIGHT"        : Leg_Position(0, 0, 0),
-        "CORN_NEUTRAL"      : Leg_Position(90, 90, 90),
-        "CORN_LEFT"         : Leg_Position(0, 0, 0),
-        "CORN_TUCK_RIGHT"   : Leg_Position(0, 0, 0),
-        "CORN_TUCK"         : Leg_Position(75, 75, 90),
-        "CORN_TUCK_LEFT"    : Leg_Position(0, 0, 0),
-        
-        "CORN_UP_OUT_RIGHT"    : Leg_Position(0, 0, 0),
-        "CORN_UP_OUT"          : Leg_Position(135, 125, 90),
-        "CORN_UP_OUT_LEFT"     : Leg_Position(0, 0, 0),
-        "CORN_UP_RIGHT"        : Leg_Position(0, 0, 0),
-        "CORN_UP_NEUTRAL"      : Leg_Position(90, 135, 90),
-        "CORN_UP_LEFT"         : Leg_Position(0, 0, 0),
-        "CORN_UP_TUCK_RIGHT"   : Leg_Position(0, 0, 0),
-        "CORN_UP_TUCK"         : Leg_Position(75, 120, 90),
-        "CORN_UP_TUCK_LEFT"    : Leg_Position(0, 0, 0),
+#all the positions for the front and back legs
+        "CORN_OUT"              : Leg_Position(135, 105, 75),
+        "NEUTRAL"               : Leg_Position(90, 90, 90),
+        "CORN_IN"               : Leg_Position(85, 80, 125),
 
-        
-        "SIDE_OUT_RIGHT"    : Leg_Position(0, 0, 0),
-        "SIDE_OUT"          : Leg_Position(135, 80, 90),
-        "SIDE_OUT_LEFT"     : Leg_Position(0, 0, 0),
-        "SIDE_RIGHT"        : Leg_Position(0, 0, 0),
-        "SIDE_NEUTRAL"      : Leg_Position(90, 90, 90),
-        "SIDE_LEFT"         : Leg_Position(0, 0, 0),
-        "SIDE_TUCK_RIGHT"   : Leg_Position(0, 0, 0),
-        "SIDE_TUCK"         : Leg_Position(75, 75, 90),
-        "SIDE_TUCK_LEFT"    : Leg_Position(0, 0, 0),
+        "CORN_UP_OUT"           : Leg_Position(135, 150, 75),
+        "UP_NEUTRAL"            : Leg_Position(90, 135, 90),
+        "CORN_UP_IN"            : Leg_Position(85, 125, 125),
 
-        "SIDE_UP_OUT_RIGHT"    : Leg_Position(0, 0, 0),
-        "SIDE_UP_OUT"          : Leg_Position(135, 125, 90),
-        "SIDE_UP_OUT_LEFT"     : Leg_Position(0, 0, 0),
-        "SIDE_UP_RIGHT"        : Leg_Position(0, 0, 0),
-        "SIDE_UP_NEUTRAL"      : Leg_Position(90, 135, 90),
-        "SIDE_UP_LEFT"         : Leg_Position(0, 0, 0),
-        "SIDE_UP_TUCK_RIGHT"   : Leg_Position(0, 0, 0),
-        "SIDE_UP_TUCK"         : Leg_Position(75, 120, 90),
-        "SIDE_UP_TUCK_LEFT"    : Leg_Position(0, 0, 0)
+#now all of the positions for the side legs
+        "SIDE_RIGHT"            : Leg_Position(80, 90, 115),
+        "SIDE_LEFT"             : Leg_Position(80, 90, 65),
+
+        "SIDE_UP_RIGHT"         : Leg_Position(80, 135, 115),
+        "SIDE_UP_LEFT"          : Leg_Position(80, 135, 65)
 
         }
 
 # table to be used when the robot is trying to move in a "sideways" way (moving with a single leg forward)
 NORMAL_TRI_SIDE_MOVEMENT_TABLE = {
-        "CORN_OUT_RIGHT"    : Leg_Position(0, 0, 0),
-        "CORN_OUT"          : Leg_Position(135, 80, 90),
-        "CORN_OUT_LEFT"     : Leg_Position(0, 0, 0),
-        "CORN_RIGHT"        : Leg_Position(0, 0, 0),
-        "CORN_NEUTRAL"      : Leg_Position(90, 90, 90),
+        "NEUTRAL"           : Leg_Position(90, 90, 90),
+        "UP_NEUTRAL"        : Leg_Position(90, 135, 90),
         "CORN_LEFT"         : Leg_Position(0, 0, 0),
-        "CORN_TUCK_RIGHT"   : Leg_Position(0, 0, 0),
-        "CORN_TUCK"         : Leg_Position(75, 75, 90),
-        "CORN_TUCK_LEFT"    : Leg_Position(0, 0, 0),
-        "CENT_OUT_RIGHT"    : Leg_Position(0, 0, 0),
-        "CENT_OUT"          : Leg_Position(135, 80, 90),
-        "CENT_OUT_LEFT"     : Leg_Position(0, 0, 0),
-        "CENT_RIGHT"        : Leg_Position(0, 0, 0),
-        "CENT_NEUTRAL"      : Leg_Position(90, 90, 90),
-        "CENT_LEFT"         : Leg_Position(0, 0, 0),
-        "CENT_TUCK_RIGHT"   : Leg_Position(0, 0, 0),
-        "CENT_TUCK"         : Leg_Position(75, 75, 90),
-        "CENT_TUCK_LEFT"    : Leg_Position(0, 0, 0)
+        "CORN_RIGHT"        : Leg_Position(0, 0, 0),
+        "CENT_OUT"          : Leg_Position(0, 0, 0),
+        "CENT_IN"           : Leg_Position(0, 0, 0)
         }
 
 
