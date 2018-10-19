@@ -3,7 +3,7 @@ import time
 from hex_walker_data import *
 from leg_data import *
 # uncomment if working with the actual robot
-#import Adafruit_PCA9685
+import Adafruit_PCA9685
 
 #Extraneous
 HW_MOVE_DEBUG = 1 #toggle 0/1 to turn debug prints on/off

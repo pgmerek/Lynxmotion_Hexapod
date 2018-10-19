@@ -1,4 +1,4 @@
-from .leg_data import *
+from leg_data import *
 
 
 class Hex_Walker_Position(object):  # Class name should be camelcase but I'll let it go
