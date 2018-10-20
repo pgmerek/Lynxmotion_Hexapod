@@ -200,7 +200,7 @@ class Leg(object):
 
             # do the write out and update internal value
             self.tip_motor = pwm_val
-            self.pwm_set_pwm(self.tip_channel, 0, pwm_val)
+            self.pwm.set_pwm(self.tip_channel, 0, pwm_val)
 
         elif motor == MID_MOTOR:
             # get pwm val
@@ -217,7 +217,7 @@ class Leg(object):
 
             # do the write out and update internal value
             self.mid_motor = pwm_val
-            self.pwm_set_pwm(self.mid_channel, 0, pwm_val)
+            self.pwm.set_pwm(self.mid_channel, 0, pwm_val)
 
         elif motor == ROT_MOTOR:
             # get pwm val
@@ -234,7 +234,7 @@ class Leg(object):
 
             # do the write out
             self.rot_motor = pwm_val
-            self.pwm_set_pwm(self.rot_channel, 0, pwm_val)
+            self.pwm.set_pwm(self.rot_channel, 0, pwm_val)
 
 # speed options: this is just the time it waits betweeen moves
 PLAID_SPEED = .1

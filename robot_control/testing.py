@@ -91,13 +91,22 @@ def test_leg_position_table(table, legs):
         time.sleep(sleep_time)
 
 #init the pwm stuffs and run selected tests
-pwm40 = Adafruit_PCA9685.PCA9685(address=0x40)
-pwm40.set_pwm_freq(60)
-sleep_time = 1
-leg_right_mid= Leg(1, pwm40, 0, 1, 2, RIGHT)
-leg_right_front = Leg(0, pwm40, 3, 4, 5, RIGHT)
-leg_left_front = Leg(5, pwm40, 6, 7, 8, LEFT)
-leg_left_mid = Leg(4, pwm40, 9, 10, 11, LEFT)
-legs = [leg_right_mid, leg_right_front, leg_left_front, leg_left_mid]
-test_leg_position_table(NORMAL_TRI_ROTATION_TABLE, legs)
+right_side= Adafruit_PCA9685.PCA9685(address=0x40)
+left_side= Adafruit_PCA9685.PCA9685(address=0x41)
 
+
+right_side.set_pwm_freq(60)
+left_side.set_pwm_freq(60)
+sleep_time = 1
+leg_right_front = Leg(0, right_side, 0, 1, 2, RIGHT)
+leg_right_mid = Leg(1, right_side, 3, 4, 5, RIGHT)
+leg_right_back = Leg(2, right_side, 6, 7, 8, RIGHT)
+leg_left_back= Leg(3, left_side, 0, 1, 2, LEFT)
+leg_left_mid = Leg(4, left_side, 3, 4, 5, LEFT)
+leg_left_front = Leg(5, left_side, 6, 7, 8, LEFT)
+right_legs = [leg_right_front, leg_right_mid, leg_right_back]
+left_legs = [leg_left_front, leg_left_mid, leg_left_back]
+all_legs = right_legs + left_legs
+#test_leg_position_table(NORMAL_TRI_ROTATION_TABLE, left_legs)
+#test_leg_position_table(NORMAL_TRI_ROTATION_TABLE, right_legs)
+test_leg_position_table(NORMAL_TRI_ROTATION_TABLE, all_legs)
