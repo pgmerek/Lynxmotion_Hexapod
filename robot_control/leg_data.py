@@ -13,37 +13,37 @@ class Leg_Position(object):
 
 # table to be used when the robot is trying to rotate in place
 NORMAL_TRI_ROTATION_TABLE = {
-        "OUT_RIGHT"         : Leg_Position(160, 60, 115),
-        "OUT"               : Leg_Position(135, 80, 90),
-        "OUT_LEFT"          : Leg_Position(160, 80, 65),
-        "RIGHT"             : Leg_Position(95, 90, 120),
-        "NEUTRAL"           : Leg_Position(90, 90, 90),
-        "LEFT"              : Leg_Position(95, 90, 60),
-        "TUCK_RIGHT"        : Leg_Position(75, 85, 115),
-        "TUCK"              : Leg_Position(75, 75, 90),
-        "TUCK_LEFT"         : Leg_Position(75, 85, 65),
-        "UP_OUT_RIGHT"      : Leg_Position(160, 105, 115),
-        "UP_OUT"            : Leg_Position(135, 125, 90),
-        "UP_OUT_LEFT"       : Leg_Position(160, 125, 65),
-        "UP_RIGHT"          : Leg_Position(95, 135, 120),
-        "UP_NEUTRAL"        : Leg_Position(90, 135, 90),
-        "UP_LEFT"           : Leg_Position(95, 135, 60),
-        "UP_TUCK_RIGHT"     : Leg_Position(75, 130, 115),
-        "UP_TUCK"           : Leg_Position(75, 120, 90),
-        "UP_TUCK_LEFT"      : Leg_Position(75, 130, 65)
+        "NEUTRAL"           : Leg_Position(120, 45, 90),
+        "UP_NEUTRAL"        : Leg_Position(120, 90, 90),
+        
+        "RIGHT"             : Leg_Position(125, 45, 120),
+        "UP_RIGHT"          : Leg_Position(125, 90, 120),
+        
+        "LEFT"              : Leg_Position(125, 45, 60),
+        "UP_LEFT"           : Leg_Position(125, 90, 60)
 
-        }
+
+#old        "RIGHT"             : Leg_Position(95, 90, 120),
+#old        "NEUTRAL"           : Leg_Position(90, 90, 90),
+#old        "LEFT"              : Leg_Position(95, 90, 60),
+#old        "UP_RIGHT"          : Leg_Position(95, 135, 120),
+#old        "UP_NEUTRAL"        : Leg_Position(90, 135, 90),
+#old        "UP_LEFT"           : Leg_Position(95, 135, 60),
+
+   
+   }
 
 # table to be used when the robot is trying to move in a "normal" way (moving with two legs forward)
 # tip motor, mid motor, rot motor
 NORMAL_TRI_MOVEMENT_TABLE = {
 #all the positions for the front and back legs
+        "NEUTRAL"               : Leg_Position(120, 45, 90),
+        "UP_NEUTRAL"            : Leg_Position(120, 90, 90),
+      
         "CORN_OUT"              : Leg_Position(135, 105, 75),
-        "NEUTRAL"               : Leg_Position(90, 90, 90),
         "CORN_IN"               : Leg_Position(85, 80, 125),
 
         "CORN_UP_OUT"           : Leg_Position(135, 150, 75),
-        "UP_NEUTRAL"            : Leg_Position(90, 135, 90),
         "CORN_UP_IN"            : Leg_Position(85, 125, 125),
 
 #now all of the positions for the side legs
@@ -52,6 +52,23 @@ NORMAL_TRI_MOVEMENT_TABLE = {
 
         "SIDE_UP_RIGHT"         : Leg_Position(80, 135, 115),
         "SIDE_UP_LEFT"          : Leg_Position(80, 135, 65)
+
+
+#old        "NEUTRAL"               : Leg_Position(90, 90, 90),
+#old        "UP_NEUTRAL"            : Leg_Position(90, 135, 90),
+        
+#old        "CORN_OUT"              : Leg_Position(135, 105, 75),
+#old        "CORN_IN"               : Leg_Position(85, 80, 125),
+
+#old        "CORN_UP_OUT"           : Leg_Position(135, 150, 75),
+#old        "CORN_UP_IN"            : Leg_Position(85, 125, 125),
+
+#now all of the positions for the side legs
+#old        "SIDE_RIGHT"            : Leg_Position(80, 90, 115),
+#old        "SIDE_LEFT"             : Leg_Position(80, 90, 65),
+
+#old        "SIDE_UP_RIGHT"         : Leg_Position(80, 135, 115),
+#old        "SIDE_UP_LEFT"          : Leg_Position(80, 135, 65)
 
         }
 

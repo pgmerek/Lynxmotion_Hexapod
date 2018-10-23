@@ -72,9 +72,6 @@ NORMAL_TRI_RIGHT_LEFT_LEFT_UP_RIGHT = 15
 # testing positions
 FRONT_LEGS_UP = 1001
 
-# stupid placeholder until the work of making safe tables is done
-TABLE = [1]
-
 # these are all defines as hex_walker_position(rf, rm, rr, lr, lm, lf)
 HEX_WALKER_POSITIONS = {
         # Normal (standard height) walking positions the order that they need to execute
@@ -103,7 +100,9 @@ HEX_WALKER_POSITIONS = {
                             [NORMAL_NEUTRAL,
                              NORMAL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL,
                              NORMAL_TRI_RIGHT_BACK_LEFT_UP_FORWARD,
-                             NORMAL_TRI_RIGHT_FORWARD_LEFT_UP_BACK
+                             NORMAL_TRI_RIGHT_FORWARD_LEFT_UP_BACK,
+                             NORMAL_TRI_RIGHT_RIGHT_LEFT_UP_LEFT,
+                             NORMAL_TRI_RIGHT_LEFT_LEFT_UP_RIGHT
                              ],
                             "right is neutral, left is up",
                             ),
@@ -124,12 +123,12 @@ HEX_WALKER_POSITIONS = {
                             ),
         # 4
         NORMAL_TRI_RIGHT_BACK_LEFT_FORWARD:
-        Hex_Walker_Position(NORMAL_TRI_MOVEMENT_TABLE["NEUTRAL"],
-                            NORMAL_TRI_MOVEMENT_TABLE["NEUTRAL"],
-                            NORMAL_TRI_MOVEMENT_TABLE["NEUTRAL"],
-                            NORMAL_TRI_MOVEMENT_TABLE["NEUTRAL"],
-                            NORMAL_TRI_MOVEMENT_TABLE["NEUTRAL"],
-                            NORMAL_TRI_MOVEMENT_TABLE["NEUTRAL"],
+        Hex_Walker_Position(NORMAL_TRI_MOVEMENT_TABLE["CORN_IN"],
+                            NORMAL_TRI_MOVEMENT_TABLE["SIDE_LEFT"],
+                            NORMAL_TRI_MOVEMENT_TABLE["CORN_OUT"],
+                            NORMAL_TRI_MOVEMENT_TABLE["CORN_IN"],
+                            NORMAL_TRI_MOVEMENT_TABLE["SIDE_LEFT"],
+                            NORMAL_TRI_MOVEMENT_TABLE["CORN_OUT"],
                             [NORMAL_TRI_RIGHT_BACK_LEFT_FORWARD,
                              NORMAL_TRI_RIGHT_UP_BACK_LEFT_FORWARD,
                              NORMAL_TRI_RIGHT_BACK_LEFT_UP_FORWARD
@@ -138,12 +137,12 @@ HEX_WALKER_POSITIONS = {
                             ),
         # 5
         NORMAL_TRI_RIGHT_UP_BACK_LEFT_FORWARD:
-        Hex_Walker_Position(NORMAL_TRI_MOVEMENT_TABLE["NEUTRAL"],
-                            NORMAL_TRI_MOVEMENT_TABLE["NEUTRAL"],
-                            NORMAL_TRI_MOVEMENT_TABLE["NEUTRAL"],
-                            NORMAL_TRI_MOVEMENT_TABLE["NEUTRAL"],
-                            NORMAL_TRI_MOVEMENT_TABLE["NEUTRAL"],
-                            NORMAL_TRI_MOVEMENT_TABLE["NEUTRAL"],
+        Hex_Walker_Position(NORMAL_TRI_MOVEMENT_TABLE["CORN_UP_IN"],
+                            NORMAL_TRI_MOVEMENT_TABLE["SIDE_LEFT"],
+                            NORMAL_TRI_MOVEMENT_TABLE["CORN_UP_OUT"],
+                            NORMAL_TRI_MOVEMENT_TABLE["CORN_IN"],
+                            NORMAL_TRI_MOVEMENT_TABLE["SIDE_UP_LEFT"],
+                            NORMAL_TRI_MOVEMENT_TABLE["CORN_OUT"],
                             [NORMAL_TRI_RIGHT_UP_BACK_LEFT_FORWARD,
                              NORMAL_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL,
                              NORMAL_TRI_RIGHT_UP_FORWARD_LEFT_BACK,
@@ -153,27 +152,29 @@ HEX_WALKER_POSITIONS = {
                             ),
         # 6
         NORMAL_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL:
-        Hex_Walker_Position(NORMAL_TRI_MOVEMENT_TABLE["NEUTRAL"],
+        Hex_Walker_Position(NORMAL_TRI_MOVEMENT_TABLE["UP_NEUTRAL"],
                             NORMAL_TRI_MOVEMENT_TABLE["NEUTRAL"],
+                            NORMAL_TRI_MOVEMENT_TABLE["UP_NEUTRAL"],
                             NORMAL_TRI_MOVEMENT_TABLE["NEUTRAL"],
-                            NORMAL_TRI_MOVEMENT_TABLE["NEUTRAL"],
-                            NORMAL_TRI_MOVEMENT_TABLE["NEUTRAL"],
+                            NORMAL_TRI_MOVEMENT_TABLE["UP_NEUTRAL"],
                             NORMAL_TRI_MOVEMENT_TABLE["NEUTRAL"],
                             [NORMAL_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL,
                              NORMAL_TRI_RIGHT_UP_FORWARD_LEFT_BACK,
                              NORMAL_TRI_RIGHT_UP_BACK_LEFT_FORWARD,
-                             NORMAL_NEUTRAL
+                             NORMAL_NEUTRAL,
+                             NORMAL_TRI_RIGHT_UP_RIGHT_LEFT_LEFT,
+                             NORMAL_TRI_RIGHT_UP_LEFT_LEFT_RIGHT
                              ],
                             "right is up, left is neutral",
                             ),
         # 7
         NORMAL_TRI_RIGHT_UP_FORWARD_LEFT_BACK:
-        Hex_Walker_Position(NORMAL_TRI_MOVEMENT_TABLE["NEUTRAL"],
-                            NORMAL_TRI_MOVEMENT_TABLE["NEUTRAL"],
-                            NORMAL_TRI_MOVEMENT_TABLE["NEUTRAL"],
-                            NORMAL_TRI_MOVEMENT_TABLE["NEUTRAL"],
-                            NORMAL_TRI_MOVEMENT_TABLE["NEUTRAL"],
-                            NORMAL_TRI_MOVEMENT_TABLE["NEUTRAL"],
+        Hex_Walker_Position(NORMAL_TRI_MOVEMENT_TABLE["CORN_UP_OUT"],
+                            NORMAL_TRI_MOVEMENT_TABLE["SIDE_RIGHT"],
+                            NORMAL_TRI_MOVEMENT_TABLE["CORN_UP_IN"],
+                            NORMAL_TRI_MOVEMENT_TABLE["CORN_OUT"],
+                            NORMAL_TRI_MOVEMENT_TABLE["SIDE_UP_RIGHT"],
+                            NORMAL_TRI_MOVEMENT_TABLE["CORN_IN"],
                             [NORMAL_TRI_RIGHT_UP_FORWARD_LEFT_BACK,
                              NORMAL_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL,
                              NORMAL_TRI_RIGHT_UP_BACK_LEFT_FORWARD,
@@ -183,12 +184,12 @@ HEX_WALKER_POSITIONS = {
                             ),
         # 8
         NORMAL_TRI_RIGHT_FORWARD_LEFT_BACK:
-        Hex_Walker_Position(NORMAL_TRI_MOVEMENT_TABLE["NEUTRAL"],
-                            NORMAL_TRI_MOVEMENT_TABLE["NEUTRAL"],
-                            NORMAL_TRI_MOVEMENT_TABLE["NEUTRAL"],
-                            NORMAL_TRI_MOVEMENT_TABLE["NEUTRAL"],
-                            NORMAL_TRI_MOVEMENT_TABLE["NEUTRAL"],
-                            NORMAL_TRI_MOVEMENT_TABLE["NEUTRAL"],
+        Hex_Walker_Position(NORMAL_TRI_MOVEMENT_TABLE["CORN_OUT"],
+                            NORMAL_TRI_MOVEMENT_TABLE["SIDE_RIGHT"],
+                            NORMAL_TRI_MOVEMENT_TABLE["CORN_IN"],
+                            NORMAL_TRI_MOVEMENT_TABLE["CORN_OUT"],
+                            NORMAL_TRI_MOVEMENT_TABLE["SIDE_RIGHT"],
+                            NORMAL_TRI_MOVEMENT_TABLE["CORN_IN"],
                             [NORMAL_TRI_RIGHT_FORWARD_LEFT_BACK,
                              NORMAL_TRI_RIGHT_UP_FORWARD_LEFT_BACK,
                              NORMAL_TRI_RIGHT_FORWARD_LEFT_UP_BACK
@@ -197,12 +198,12 @@ HEX_WALKER_POSITIONS = {
                             ),
         # 9
         NORMAL_TRI_RIGHT_FORWARD_LEFT_UP_BACK:
-        Hex_Walker_Position(NORMAL_TRI_MOVEMENT_TABLE["NEUTRAL"],
-                            NORMAL_TRI_MOVEMENT_TABLE["NEUTRAL"],
-                            NORMAL_TRI_MOVEMENT_TABLE["NEUTRAL"],
-                            NORMAL_TRI_MOVEMENT_TABLE["NEUTRAL"],
-                            NORMAL_TRI_MOVEMENT_TABLE["NEUTRAL"],
-                            NORMAL_TRI_MOVEMENT_TABLE["NEUTRAL"],
+        Hex_Walker_Position(NORMAL_TRI_MOVEMENT_TABLE["CORN_OUT"],
+                            NORMAL_TRI_MOVEMENT_TABLE["SIDE_UP_RIGHT"],
+                            NORMAL_TRI_MOVEMENT_TABLE["CORN_IN"],
+                            NORMAL_TRI_MOVEMENT_TABLE["CORN_UP_OUT"],
+                            NORMAL_TRI_MOVEMENT_TABLE["SIDE_RIGHT"],
+                            NORMAL_TRI_MOVEMENT_TABLE["CORN_UP_IN"],
                             [NORMAL_TRI_RIGHT_FORWARD_LEFT_UP_BACK,
                              NORMAL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL,
                              NORMAL_TRI_RIGHT_BACK_LEFT_UP_FORWARD,
@@ -214,68 +215,86 @@ HEX_WALKER_POSITIONS = {
         # Normal rotation movements
         # 10
         NORMAL_TRI_RIGHT_RIGHT_LEFT_UP_LEFT:
-        Hex_Walker_Position(NORMAL_TRI_ROTATION_TABLE["NEUTRAL"],
-                            NORMAL_TRI_ROTATION_TABLE["NEUTRAL"],
-                            NORMAL_TRI_ROTATION_TABLE["NEUTRAL"],
-                            NORMAL_TRI_ROTATION_TABLE["NEUTRAL"],
-                            NORMAL_TRI_ROTATION_TABLE["NEUTRAL"],
-                            NORMAL_TRI_ROTATION_TABLE["NEUTRAL"],
-                            TABLE,
+        Hex_Walker_Position(NORMAL_TRI_ROTATION_TABLE["RIGHT"],
+                            NORMAL_TRI_ROTATION_TABLE["UP_LEFT"],
+                            NORMAL_TRI_ROTATION_TABLE["RIGHT"],
+                            NORMAL_TRI_ROTATION_TABLE["UP_LEFT"],
+                            NORMAL_TRI_ROTATION_TABLE["RIGHT"],
+                            NORMAL_TRI_ROTATION_TABLE["UP_LEFT"],
+                            [NORMAL_TRI_RIGHT_RIGHT_LEFT_UP_LEFT,
+                            NORMAL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL,
+                            NORMAL_TRI_RIGHT_RIGHT_LEFT_LEFT
+                            ],
                             "right is right, left is up",
                             ),
         # 11
         NORMAL_TRI_RIGHT_RIGHT_LEFT_LEFT:
-        Hex_Walker_Position(NORMAL_TRI_ROTATION_TABLE["NEUTRAL"],
-                            NORMAL_TRI_ROTATION_TABLE["NEUTRAL"],
-                            NORMAL_TRI_ROTATION_TABLE["NEUTRAL"],
-                            NORMAL_TRI_ROTATION_TABLE["NEUTRAL"],
-                            NORMAL_TRI_ROTATION_TABLE["NEUTRAL"],
-                            NORMAL_TRI_ROTATION_TABLE["NEUTRAL"],
-                            TABLE,
+        Hex_Walker_Position(NORMAL_TRI_ROTATION_TABLE["RIGHT"],
+                            NORMAL_TRI_ROTATION_TABLE["LEFT"],
+                            NORMAL_TRI_ROTATION_TABLE["RIGHT"],
+                            NORMAL_TRI_ROTATION_TABLE["LEFT"],
+                            NORMAL_TRI_ROTATION_TABLE["RIGHT"],
+                            NORMAL_TRI_ROTATION_TABLE["LEFT"],
+                            [NORMAL_TRI_RIGHT_RIGHT_LEFT_LEFT,
+                            NORMAL_TRI_RIGHT_UP_RIGHT_LEFT_LEFT,
+                            NORMAL_TRI_RIGHT_RIGHT_LEFT_UP_LEFT
+                            ],
                             "right is right, left is left",
                             ),
         # 12
         NORMAL_TRI_RIGHT_UP_RIGHT_LEFT_LEFT:
-        Hex_Walker_Position(NORMAL_TRI_ROTATION_TABLE["NEUTRAL"],
-                            NORMAL_TRI_ROTATION_TABLE["NEUTRAL"],
-                            NORMAL_TRI_ROTATION_TABLE["NEUTRAL"],
-                            NORMAL_TRI_ROTATION_TABLE["NEUTRAL"],
-                            NORMAL_TRI_ROTATION_TABLE["NEUTRAL"],
-                            NORMAL_TRI_ROTATION_TABLE["NEUTRAL"],
-                            TABLE,
+        Hex_Walker_Position(NORMAL_TRI_ROTATION_TABLE["UP_RIGHT"],
+                            NORMAL_TRI_ROTATION_TABLE["LEFT"],
+                            NORMAL_TRI_ROTATION_TABLE["UP_RIGHT"],
+                            NORMAL_TRI_ROTATION_TABLE["LEFT"],
+                            NORMAL_TRI_ROTATION_TABLE["UP_RIGHT"],
+                            NORMAL_TRI_ROTATION_TABLE["LEFT"],
+                            [NORMAL_TRI_RIGHT_UP_RIGHT_LEFT_LEFT,
+                            NORMAL_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL,
+                            NORMAL_TRI_RIGHT_RIGHT_LEFT_LEFT,
+                            ],
                             "right is up, left is left",
                             ),
         # 13
         NORMAL_TRI_RIGHT_UP_LEFT_LEFT_RIGHT:
-        Hex_Walker_Position(NORMAL_TRI_ROTATION_TABLE["NEUTRAL"],
-                            NORMAL_TRI_ROTATION_TABLE["NEUTRAL"],
-                            NORMAL_TRI_ROTATION_TABLE["NEUTRAL"],
-                            NORMAL_TRI_ROTATION_TABLE["NEUTRAL"],
-                            NORMAL_TRI_ROTATION_TABLE["NEUTRAL"],
-                            NORMAL_TRI_ROTATION_TABLE["NEUTRAL"],
-                            TABLE,
+        Hex_Walker_Position(NORMAL_TRI_ROTATION_TABLE["UP_LEFT"],
+                            NORMAL_TRI_ROTATION_TABLE["RIGHT"],
+                            NORMAL_TRI_ROTATION_TABLE["UP_LEFT"],
+                            NORMAL_TRI_ROTATION_TABLE["RIGHT"],
+                            NORMAL_TRI_ROTATION_TABLE["UP_LEFT"],
+                            NORMAL_TRI_ROTATION_TABLE["RIGHT"],
+                            [NORMAL_TRI_RIGHT_UP_LEFT_LEFT_RIGHT,
+                            NORMAL_TRI_RIGHT_LEFT_LEFT_RIGHT,
+                            NORMAL_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL
+                            ],
                             "right is up, left is right",
                             ),
         # 14
         NORMAL_TRI_RIGHT_LEFT_LEFT_RIGHT:
-        Hex_Walker_Position(NORMAL_TRI_ROTATION_TABLE["NEUTRAL"],
-                            NORMAL_TRI_ROTATION_TABLE["NEUTRAL"],
-                            NORMAL_TRI_ROTATION_TABLE["NEUTRAL"],
-                            NORMAL_TRI_ROTATION_TABLE["NEUTRAL"],
-                            NORMAL_TRI_ROTATION_TABLE["NEUTRAL"],
-                            NORMAL_TRI_ROTATION_TABLE["NEUTRAL"],
-                            TABLE,
+        Hex_Walker_Position(NORMAL_TRI_ROTATION_TABLE["LEFT"],
+                            NORMAL_TRI_ROTATION_TABLE["RIGHT"],
+                            NORMAL_TRI_ROTATION_TABLE["LEFT"],
+                            NORMAL_TRI_ROTATION_TABLE["RIGHT"],
+                            NORMAL_TRI_ROTATION_TABLE["LEFT"],
+                            NORMAL_TRI_ROTATION_TABLE["RIGHT"],
+                            [NORMAL_TRI_RIGHT_LEFT_LEFT_RIGHT,
+                            NORMAL_TRI_RIGHT_LEFT_LEFT_UP_RIGHT,
+                            NORMAL_TRI_RIGHT_UP_LEFT_LEFT_RIGHT
+                            ],
                             "Right is left, left is right",
                             ),
         # 15
         NORMAL_TRI_RIGHT_LEFT_LEFT_UP_RIGHT:
-        Hex_Walker_Position(NORMAL_TRI_ROTATION_TABLE["NEUTRAL"],
-                            NORMAL_TRI_ROTATION_TABLE["NEUTRAL"],
-                            NORMAL_TRI_ROTATION_TABLE["NEUTRAL"],
-                            NORMAL_TRI_ROTATION_TABLE["NEUTRAL"],
-                            NORMAL_TRI_ROTATION_TABLE["NEUTRAL"],
-                            NORMAL_TRI_ROTATION_TABLE["NEUTRAL"],
-                            TABLE,
+        Hex_Walker_Position(NORMAL_TRI_ROTATION_TABLE["LEFT"],
+                            NORMAL_TRI_ROTATION_TABLE["UP_RIGHT"],
+                            NORMAL_TRI_ROTATION_TABLE["LEFT"],
+                            NORMAL_TRI_ROTATION_TABLE["UP_RIGHT"],
+                            NORMAL_TRI_ROTATION_TABLE["LEFT"],
+                            NORMAL_TRI_ROTATION_TABLE["UP_RIGHT"],
+                            [NORMAL_TRI_RIGHT_LEFT_LEFT_UP_RIGHT,
+                            NORMAL_TRI_RIGHT_LEFT_LEFT_RIGHT,
+                            NORMAL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL
+                            ],
                             "right is left, left is up",
                             ),
         # past here are just positions that are used for testing.
@@ -287,7 +306,7 @@ HEX_WALKER_POSITIONS = {
                             NORMAL_TRI_ROTATION_TABLE["NEUTRAL"],
                             NORMAL_TRI_ROTATION_TABLE["NEUTRAL"],
                             Leg_Position(180, 180, 90),
-                            TABLE,
+                            [],
                             "front two legs are raised",
                             )
         }

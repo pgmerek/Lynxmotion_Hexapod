@@ -83,30 +83,75 @@ def neutral(leg):
   leg.set_angle(90, ROT_MOTOR)
 
 def test_leg_position_table(table, legs):
-    
     for key in table.keys():
         print(key)
         for leg in legs:
             leg.set_leg_position(table[key])
         time.sleep(sleep_time)
 
+def normal_walk_test(hw):
+    hw.speed = 1
+    moves = [
+    NORMAL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL,
+    NORMAL_TRI_RIGHT_BACK_LEFT_UP_FORWARD,
+    NORMAL_TRI_RIGHT_BACK_LEFT_FORWARD,
+    NORMAL_TRI_RIGHT_UP_BACK_LEFT_FORWARD,
+    NORMAL_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL,
+    NORMAL_TRI_RIGHT_UP_FORWARD_LEFT_BACK,
+    NORMAL_TRI_RIGHT_FORWARD_LEFT_BACK,
+    NORMAL_TRI_RIGHT_FORWARD_LEFT_UP_BACK
+    ]
+    hw.do_move_set(moves)
+
+def normal_rotate_test(hw):
+    hw.speed = 1
+    moves = [
+    NORMAL_NEUTRAL,
+    NORMAL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL,
+    NORMAL_TRI_RIGHT_RIGHT_LEFT_UP_LEFT,
+    NORMAL_TRI_RIGHT_RIGHT_LEFT_LEFT,
+    NORMAL_TRI_RIGHT_UP_RIGHT_LEFT_LEFT,
+    NORMAL_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL,
+    NORMAL_TRI_RIGHT_UP_LEFT_LEFT_RIGHT,
+    NORMAL_TRI_RIGHT_LEFT_LEFT_RIGHT,
+    NORMAL_TRI_RIGHT_LEFT_LEFT_UP_RIGHT,
+    NORMAL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL,
+    NORMAL_NEUTRAL
+    ]
+    hw.do_move_set(moves)
+    reverse_moves = []
+    i = len(moves) - 1
+    while(i >= 0):
+        reverse_moves.append(moves[i])
+        i = i - 1
+    hw.do_move_set(reverse_moves)
+
 #init the pwm stuffs and run selected tests
 right_side= Adafruit_PCA9685.PCA9685(address=0x40)
 left_side= Adafruit_PCA9685.PCA9685(address=0x41)
 
-
+# create some legs
 right_side.set_pwm_freq(60)
 left_side.set_pwm_freq(60)
 sleep_time = 1
-leg_right_front = Leg(0, right_side, 0, 1, 2, RIGHT)
-leg_right_mid = Leg(1, right_side, 3, 4, 5, RIGHT)
-leg_right_back = Leg(2, right_side, 6, 7, 8, RIGHT)
-leg_left_back= Leg(3, left_side, 0, 1, 2, LEFT)
-leg_left_mid = Leg(4, left_side, 3, 4, 5, LEFT)
-leg_left_front = Leg(5, left_side, 6, 7, 8, LEFT)
-right_legs = [leg_right_front, leg_right_mid, leg_right_back]
-left_legs = [leg_left_front, leg_left_mid, leg_left_back]
+rf = Leg(0, right_side, 0, 1, 2, 0)
+rm = Leg(1, right_side, 3, 4, 5, 1)
+rr = Leg(2, right_side, 6, 7, 8, 2)
+lr = Leg(3, left_side, 0, 1, 2, 3)
+lm = Leg(4, left_side, 3, 4, 5, 4)
+lf = Leg(5, left_side, 6, 7, 8, 5)
+right_legs = [rf, rm, rr]
+left_legs = [lf, lm, lr]
 all_legs = right_legs + left_legs
-#test_leg_position_table(NORMAL_TRI_ROTATION_TABLE, left_legs)
+'''
+for leg in all_legs:
+    print("-----------------------------next leg-----------------------------")
+    test_leg_position_table(NORMAL_TRI_ROTATION_TABLE, [leg])
+'''
 #test_leg_position_table(NORMAL_TRI_ROTATION_TABLE, right_legs)
-test_leg_position_table(NORMAL_TRI_ROTATION_TABLE, all_legs)
+#test_leg_position_table(NORMAL_TRI_ROTATION_TABLE, all_legs)
+# create a test walker
+hex_walker = Hex_Walker(rf, rm, rr, lr, lm, lf)
+
+normal_rotate_test(hw)
+#normal_walk_test(hex_walker)
