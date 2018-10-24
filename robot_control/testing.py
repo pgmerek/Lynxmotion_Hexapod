@@ -86,37 +86,51 @@ def test_leg_position_table(table, legs):
     for key in table.keys():
         print(key)
         for leg in legs:
+            leg.set_leg_position(table["NEUTRAL"])
+            time.sleep(1)
             leg.set_leg_position(table[key])
-        time.sleep(sleep_time)
+        time.sleep(1)
 
-def normal_walk_test(hw):
+def test_leg_position(leg, neutral, position):
+    print("going to neutral")
+    leg.set_leg_position(neutral)
+    print("going to leg_position")
+    time.sleep(5)
+    leg.set_leg_position(position)
+    time.sleep(5)
+    leg.set_leg_position(neutral)
+
+def crouch_walk_test(hw):
     hw.speed = 1
     moves = [
-    NORMAL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL,
-    NORMAL_TRI_RIGHT_BACK_LEFT_UP_FORWARD,
-    NORMAL_TRI_RIGHT_BACK_LEFT_FORWARD,
-    NORMAL_TRI_RIGHT_UP_BACK_LEFT_FORWARD,
-    NORMAL_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL,
-    NORMAL_TRI_RIGHT_UP_FORWARD_LEFT_BACK,
-    NORMAL_TRI_RIGHT_FORWARD_LEFT_BACK,
-    NORMAL_TRI_RIGHT_FORWARD_LEFT_UP_BACK
+    CROUCH_NEUTRAL,
+    CROUCH_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL,
+    CROUCH_TRI_RIGHT_BACK_LEFT_UP_FORWARD,
+    CROUCH_TRI_RIGHT_BACK_LEFT_FORWARD,
+    CROUCH_TRI_RIGHT_UP_BACK_LEFT_FORWARD,
+    CROUCH_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL,
+    CROUCH_TRI_RIGHT_UP_FORWARD_LEFT_BACK,
+    CROUCH_TRI_RIGHT_FORWARD_LEFT_BACK,
+    CROUCH_TRI_RIGHT_FORWARD_LEFT_UP_BACK,
+    CROUCH_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL,
+    CROUCH_NEUTRAL
     ]
     hw.do_move_set(moves)
 
-def normal_rotate_test(hw):
+def crouch_rotate_test(hw):
     hw.speed = 1
     moves = [
-    NORMAL_NEUTRAL,
-    NORMAL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL,
-    NORMAL_TRI_RIGHT_RIGHT_LEFT_UP_LEFT,
-    NORMAL_TRI_RIGHT_RIGHT_LEFT_LEFT,
-    NORMAL_TRI_RIGHT_UP_RIGHT_LEFT_LEFT,
-    NORMAL_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL,
-    NORMAL_TRI_RIGHT_UP_LEFT_LEFT_RIGHT,
-    NORMAL_TRI_RIGHT_LEFT_LEFT_RIGHT,
-    NORMAL_TRI_RIGHT_LEFT_LEFT_UP_RIGHT,
-    NORMAL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL,
-    NORMAL_NEUTRAL
+    CROUCH_NEUTRAL,
+    CROUCH_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL,
+    CROUCH_TRI_RIGHT_RIGHT_LEFT_UP_LEFT,
+    CROUCH_TRI_RIGHT_RIGHT_LEFT_LEFT,
+    CROUCH_TRI_RIGHT_UP_RIGHT_LEFT_LEFT,
+    CROUCH_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL,
+    CROUCH_TRI_RIGHT_UP_LEFT_LEFT_RIGHT,
+    CROUCH_TRI_RIGHT_LEFT_LEFT_RIGHT,
+    CROUCH_TRI_RIGHT_LEFT_LEFT_UP_RIGHT,
+    CROUCH_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL,
+    CROUCH_NEUTRAL
     ]
     hw.do_move_set(moves)
     reverse_moves = []
@@ -143,15 +157,18 @@ lf = Leg(5, left_side, 6, 7, 8, 5)
 right_legs = [rf, rm, rr]
 left_legs = [lf, lm, lr]
 all_legs = right_legs + left_legs
+
+
+hex_walker = Hex_Walker(rf, rm, rr, lr, lm, lf)
+hex_walker.do_move_set([CROUCH_NEUTRAL])
 '''
 for leg in all_legs:
     print("-----------------------------next leg-----------------------------")
     test_leg_position_table(NORMAL_TRI_ROTATION_TABLE, [leg])
 '''
-#test_leg_position_table(NORMAL_TRI_ROTATION_TABLE, right_legs)
-#test_leg_position_table(NORMAL_TRI_ROTATION_TABLE, all_legs)
-# create a test walker
-hex_walker = Hex_Walker(rf, rm, rr, lr, lm, lf)
 
-normal_rotate_test(hw)
-#normal_walk_test(hex_walker)
+#test_leg_position(rf, CROUCH_TRI_MOVEMENT_TABLE["NEUTRAL"], CROUCH_TRI_MOVEMENT_TABLE["SIDE_LEFT"])
+#test_leg_position_table(CROUCH_TRI_MOVEMENT_TABLE, [rf])
+# create a test walker
+#crouch_rotate_test(hex_walker)
+crouch_walk_test(hex_walker)

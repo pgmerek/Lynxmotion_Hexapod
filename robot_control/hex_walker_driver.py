@@ -3,7 +3,7 @@ import time
 from hex_walker_data import *
 from leg_data import *
 # uncomment if working with the actual robot
-import Adafruit_PCA9685
+#import Adafruit_PCA9685
 
 #Extraneous
 HW_MOVE_DEBUG = 1 #toggle 0/1 to turn debug prints on/off
@@ -51,6 +51,22 @@ c_5_MID_MOTOR_DOWN = 482
 c_5_ROT_MOTOR_RIGHT = 155
 c_5_ROT_MOTOR_LEFT = 614
 
+c_L_ARM_TIP_MOTOR_OUT = 999
+c_L_ARM_TIP_MOTOR_IN = 999
+c_L_ARM_MID_MOTOR_UP = 999
+c_L_ARM_MOTOR_DOWN = 999
+c_L_ARM_MOTOR_RIGHT = 999
+c_L_ARM_ROT_MOTOR_LEFT = 999
+
+c_R_ARM_TIP_MOTOR_OUT = 999
+c_R_ARM_TIP_MOTOR_IN = 999
+c_R_ARM_MID_MOTOR_UP = 999
+c_R_ARM_MOTOR_DOWN = 999
+c_R_ARM_MOTOR_RIGHT = 999
+c_R_ARM_ROT_MOTOR_LEFT = 999
+
+
+
 # same regardless of side so no need to l/r differentiate
 TIP_MOTOR_OUT_ANGLE = 180
 TIP_MOTOR_IN_ANGLE = 60
@@ -58,6 +74,13 @@ MID_MOTOR_UP_ANGLE = 180
 MID_MOTOR_DOWN_ANGLE = 45
 ROT_MOTOR_RIGHT_ANGLE = 180
 ROT_MOTOR_LEFT_ANGLE = 0
+
+ARM_TIP_MOTOR_OUT_ANGLE = 999
+ARM_TIP_MOTOR_IN_ANGLE = 999
+ARM_MID_MOTOR_UP_ANGLE = 999
+ARM_MID_MOTOR_DOWN_ANGLE = 999
+ARM_ROT_MOTOR_RIGHT = 999
+ARM_ROT_MOTOR_LEFT = 999
 
 TIP_MOTOR = 1
 MID_MOTOR = 2
@@ -108,56 +131,78 @@ class Leg(object):
         self.mid_channel = mid_channel
         self.rot_channel = rot_channel
         # now, assign the correct constants
-        if leg_num == 0:
+        if leg_num == LEG_0:
             self.TIP_MOTOR_OUT      = c_0_TIP_MOTOR_OUT
             self.TIP_MOTOR_IN       = c_0_TIP_MOTOR_IN
             self.MID_MOTOR_UP       = c_0_MID_MOTOR_UP
             self.MID_MOTOR_DOWN     = c_0_MID_MOTOR_DOWN
             self.ROT_MOTOR_RIGHT    = c_0_ROT_MOTOR_RIGHT
             self.ROT_MOTOR_LEFT     = c_0_ROT_MOTOR_LEFT
-        elif leg_num == 1:
+        elif leg_num == LEG_1:
             self.TIP_MOTOR_OUT      = c_1_TIP_MOTOR_OUT
             self.TIP_MOTOR_IN       = c_1_TIP_MOTOR_IN
             self.MID_MOTOR_UP       = c_1_MID_MOTOR_UP
             self.MID_MOTOR_DOWN     = c_1_MID_MOTOR_DOWN
             self.ROT_MOTOR_RIGHT    = c_1_ROT_MOTOR_RIGHT
             self.ROT_MOTOR_LEFT     = c_1_ROT_MOTOR_LEFT
-        elif leg_num == 2:
+        elif leg_num == LEG_2:
             self.TIP_MOTOR_OUT      = c_2_TIP_MOTOR_OUT
             self.TIP_MOTOR_IN       = c_2_TIP_MOTOR_IN
             self.MID_MOTOR_UP       = c_2_MID_MOTOR_UP
             self.MID_MOTOR_DOWN     = c_2_MID_MOTOR_DOWN
             self.ROT_MOTOR_RIGHT    = c_2_ROT_MOTOR_RIGHT
             self.ROT_MOTOR_LEFT     = c_2_ROT_MOTOR_LEFT
-        elif leg_num == 3:
+        elif leg_num == LEG_3:
             self.TIP_MOTOR_OUT      = c_3_TIP_MOTOR_OUT
             self.TIP_MOTOR_IN       = c_3_TIP_MOTOR_IN
             self.MID_MOTOR_UP       = c_3_MID_MOTOR_UP
             self.MID_MOTOR_DOWN     = c_3_MID_MOTOR_DOWN
             self.ROT_MOTOR_RIGHT    = c_3_ROT_MOTOR_RIGHT
             self.ROT_MOTOR_LEFT     = c_3_ROT_MOTOR_LEFT
-        elif leg_num == 4:
+        elif leg_num == LEG_4:
             self.TIP_MOTOR_OUT      = c_4_TIP_MOTOR_OUT
             self.TIP_MOTOR_IN       = c_4_TIP_MOTOR_IN
             self.MID_MOTOR_UP       = c_4_MID_MOTOR_UP
             self.MID_MOTOR_DOWN     = c_4_MID_MOTOR_DOWN
             self.ROT_MOTOR_RIGHT    = c_4_ROT_MOTOR_RIGHT
             self.ROT_MOTOR_LEFT     = c_4_ROT_MOTOR_LEFT
-        elif leg_num == 5:
+        elif leg_num == LEG_5:
             self.TIP_MOTOR_OUT      = c_5_TIP_MOTOR_OUT
             self.TIP_MOTOR_IN       = c_5_TIP_MOTOR_IN
             self.MID_MOTOR_UP       = c_5_MID_MOTOR_UP
             self.MID_MOTOR_DOWN     = c_5_MID_MOTOR_DOWN
             self.ROT_MOTOR_RIGHT    = c_5_ROT_MOTOR_RIGHT
             self.ROT_MOTOR_LEFT     = c_5_ROT_MOTOR_LEFT
+        elif leg_num == ARM_R:
+            self.TIP_MOTOR_OUT      = c_R_ARM_TIP_MOTOR_OUT
+            self.TIP_MOTOR_IN       = c_R_ARM_TIP_MOTOR_IN
+            self.MID_MOTOR_UP       = c_R_ARM_MID_MOTOR_UP
+            self.MID_MOTOR_DOWN     = c_R_ARM_MID_MOTOR_DOWN
+            self.ROT_MOTOR_RIGHT    = c_R_ARM_ROT_MOTOR_RIGHT
+            self.ROT_MOTOR_LEFT     = c_R_ARM_ROT_MOTOR_LEFT
+        elif leg_num == ARM_L:
+            self.TIP_MOTOR_OUT      = c_L_ARM_TIP_MOTOR_OUT
+            self.TIP_MOTOR_IN       = c_L_ARM_TIP_MOTOR_IN
+            self.MID_MOTOR_UP       = c_L_ARM_MID_MOTOR_UP
+            self.MID_MOTOR_DOWN     = c_L_ARM_MID_MOTOR_DOWN
+            self.ROT_MOTOR_RIGHT    = c_L_ARM_ROT_MOTOR_RIGHT
+            self.ROT_MOTOR_LEFT     = c_L_ARM_ROT_MOTOR_LEFT
 
-        # these could just be left global, but make them self.consts for continuity
-        self.TIP_MOTOR_IN_ANGLE = TIP_MOTOR_IN_ANGLE
-        self.TIP_MOTOR_OUT_ANGLE = TIP_MOTOR_OUT_ANGLE
-        self.MID_MOTOR_UP_ANGLE = MID_MOTOR_UP_ANGLE
-        self.MID_MOTOR_DOWN_ANGLE = MID_MOTOR_DOWN_ANGLE
-        self.ROT_MOTOR_RIGHT_ANGLE = ROT_MOTOR_RIGHT_ANGLE
-        self.ROT_MOTOR_LEFT_ANGLE = ROT_MOTOR_LEFT_ANGLE
+        if(leg_num == ARM_L or leg_num == ARM_R):
+            self.TIP_MOTOR_IN_ANGLE = ARM_TIP_MOTOR_IN_ANGLE
+            self.TIP_MOTOR_OUT_ANGLE = ARM_TIP_MOTOR_OUT_ANGLE
+            self.MID_MOTOR_UP_ANGLE = ARM_MID_MOTOR_UP_ANGLE
+            self.MID_MOTOR_DOWN_ANGLE = ARM_MID_MOTOR_DOWN_ANGLE
+            self.ROT_MOTOR_RIGHT_ANGLE = ARM_ROT_MOTOR_RIGHT_ANGLE
+            self.ROT_MOTOR_LEFT_ANGLE = ARM_ROT_MOTOR_LEFT_ANGLE
+        else:
+            self.TIP_MOTOR_IN_ANGLE = TIP_MOTOR_IN_ANGLE
+            self.TIP_MOTOR_OUT_ANGLE = TIP_MOTOR_OUT_ANGLE
+            self.MID_MOTOR_UP_ANGLE = MID_MOTOR_UP_ANGLE
+            self.MID_MOTOR_DOWN_ANGLE = MID_MOTOR_DOWN_ANGLE
+            self.ROT_MOTOR_RIGHT_ANGLE = ROT_MOTOR_RIGHT_ANGLE
+            self.ROT_MOTOR_LEFT_ANGLE = ROT_MOTOR_LEFT_ANGLE
+
 
         # set initial values that are not given
         self.tip_motor = -1
