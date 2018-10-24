@@ -94,6 +94,16 @@ SUCCESS = 0
 INV_PARAM = -1
 ILLEGAL_MOVE = -2
 
+LEG_0 = 0
+LEG_1 = 1
+LEG_2 = 2
+LEG_3 = 3
+LEG_4 = 4
+LEG_5 = 5
+
+ARM_L = 6
+ARM_R = 7
+
 # helper functions
 # returns slope given two points
 def slope(x1, y1, x2, y2):

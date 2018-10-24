@@ -101,7 +101,7 @@ def test_leg_position(leg, neutral, position):
     leg.set_leg_position(neutral)
 
 def crouch_walk_test(hw):
-    hw.speed = 1
+    hw.speed = 0.1
     moves = [
     CROUCH_NEUTRAL,
     CROUCH_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL,
@@ -114,6 +114,23 @@ def crouch_walk_test(hw):
     CROUCH_TRI_RIGHT_FORWARD_LEFT_UP_BACK,
     CROUCH_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL,
     CROUCH_NEUTRAL
+    ]
+    hw.do_move_set(moves)
+
+def tall_walk_test(hw):
+    hw.speed = 0.1
+    moves = [
+    TALL_NEUTRAL,
+    TALL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL,
+    TALL_TRI_RIGHT_BACK_LEFT_UP_FORWARD,
+    TALL_TRI_RIGHT_BACK_LEFT_FORWARD,
+    TALL_TRI_RIGHT_UP_BACK_LEFT_FORWARD,
+    TALL_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL,
+    TALL_TRI_RIGHT_UP_FORWARD_LEFT_BACK,
+    TALL_TRI_RIGHT_FORWARD_LEFT_BACK,
+    TALL_TRI_RIGHT_FORWARD_LEFT_UP_BACK,
+    TALL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL,
+    TALL_NEUTRAL
     ]
     hw.do_move_set(moves)
 
