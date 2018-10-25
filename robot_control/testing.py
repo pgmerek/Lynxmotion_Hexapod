@@ -157,6 +157,28 @@ def crouch_rotate_test(hw):
         i = i - 1
     hw.do_move_set(reverse_moves)
 
+def tall_rotate_test(hw):
+    hw.speed = 1
+    moves = [
+    TALL_NEUTRAL,
+    TALL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL,
+    TALL_TRI_RIGHT_RIGHT_LEFT_UP_LEFT,
+    TALL_TRI_RIGHT_RIGHT_LEFT_LEFT,
+    TALL_TRI_RIGHT_UP_RIGHT_LEFT_LEFT,
+    TALL_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL,
+    TALL_TRI_RIGHT_UP_LEFT_LEFT_RIGHT,
+    TALL_TRI_RIGHT_LEFT_LEFT_RIGHT,
+    TALL_TRI_RIGHT_LEFT_LEFT_UP_RIGHT,
+    TALL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL,
+    TALL_NEUTRAL
+    ]
+    hw.do_move_set(moves)
+    reverse_moves = []
+    i = len(moves) - 1
+    while(i >= 0):
+        reverse_moves.append(moves[i])
+    hw.do_move_set(reverse_moves)
+
 #init the pwm stuffs and run selected tests
 right_side= Adafruit_PCA9685.PCA9685(address=0x40)
 left_side= Adafruit_PCA9685.PCA9685(address=0x41)
@@ -177,7 +199,7 @@ all_legs = right_legs + left_legs
 
 
 hex_walker = Hex_Walker(rf, rm, rr, lr, lm, lf)
-hex_walker.do_move_set([CROUCH_NEUTRAL])
+hex_walker.do_move_set([TALL_NEUTRAL])
 '''
 for leg in all_legs:
     print("-----------------------------next leg-----------------------------")
@@ -188,4 +210,6 @@ for leg in all_legs:
 #test_leg_position_table(CROUCH_TRI_MOVEMENT_TABLE, [rf])
 # create a test walker
 #crouch_rotate_test(hex_walker)
-crouch_walk_test(hex_walker)
+#crouch_walk_test(hex_walker)
+while(True):
+    tall_walk_test(hex_walker)

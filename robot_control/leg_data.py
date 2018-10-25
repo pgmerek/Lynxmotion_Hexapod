@@ -116,30 +116,29 @@ TALL_TRI_MOVEMENT_TABLE = {
         "NEUTRAL"               : Leg_Position(120, 45, 90),
         "UP_NEUTRAL"            : Leg_Position(45, 90, 90),
       
-        "CORN_OUT_LEFT"         : Leg_Position(80, 125, 85),
-        "CORN_OUT_RIGHT"        : Leg_Position(80, 125, 95),
+        "CORN_OUT_LEFT"         : Leg_Position(125, 52, 80),
+        "CORN_OUT_RIGHT"        : Leg_Position(125, 52, 100),
 
-        "CORN_UP_OUT_LEFT"      : Leg_Position(85, 175, 85),
-        "CORN_UP_OUT_RIGHT"     : Leg_Position(85, 175, 95),
+        "CORN_UP_OUT_LEFT"      : Leg_Position(60, 90, 80),
+        "CORN_UP_OUT_RIGHT"     : Leg_Position(60, 90, 100),
 
-        "SIDE_RIGHT"            : Leg_Position(70, 125, 105),
-        "SIDE_LEFT"             : Leg_Position(70, 125, 75),
+        "SIDE_RIGHT"            : Leg_Position(115, 60, 130),
+        "SIDE_LEFT"             : Leg_Position(115, 60, 50),
 
-        "SIDE_UP_RIGHT"         : Leg_Position(70, 170, 95),
-        "SIDE_UP_LEFT"          : Leg_Position(70, 170, 85)
+        "SIDE_UP_RIGHT"         : Leg_Position(60, 80, 130),
+        "SIDE_UP_LEFT"          : Leg_Position(60, 80, 50)
 }
 
-
+# Do this
 TALL_TRI_SIDE_MOVEMENT_TABLE = {
-        "OUT_RIGHT"     : Leg_Position(0, 0, 0),
-        "OUT"           : Leg_Position(0, 0, 0),
-        "OUT_LEFT"      : Leg_Position(0, 0, 0),
+        "CENTER_OUT"
+        "CENTER_IN"
+        "SIDE_OUT_RIGHT"     : Leg_Position(0, 0, 0),
+        "SIDE_OUT"           : Leg_Position(0, 0, 0),
+        "SIDE_OUT_LEFT"      : Leg_Position(0, 0, 0),
         "RIGHT"         : Leg_Position(0, 0, 0),
         "NEUTRAL"       : Leg_Position(0, 0, 0),
         "LEFT"          : Leg_Position(0, 0, 0),
-        "TUCK_RIGHT"    : Leg_Position(0, 0, 0),
-        "TUCK"          : Leg_Position(0, 0, 0),
-        "TUCK_LEFT"     : Leg_Position(0, 0, 0)
         }
 
 

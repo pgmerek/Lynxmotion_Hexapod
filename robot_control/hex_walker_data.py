@@ -137,7 +137,8 @@ HEX_WALKER_POSITIONS = {
                             NORMAL_TRI_MOVEMENT_TABLE["NEUTRAL"],
                             [NORMAL_NEUTRAL, CROUCH_NEUTRAL,
                              NORMAL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL,
-                             NORMAL_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL
+                             NORMAL_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL,
+                             TALL_NEUTRAL
                              ],
                             "normal neutral position",
                             ),
