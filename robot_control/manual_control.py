@@ -22,17 +22,19 @@ all_legs = right_legs + left_legs
 
 
 def enter_angle(prompt, previous_value):
-    user_input = input(prompt)
+    user_input = raw_input(prompt)
     if not user_input:  # If empty input, assume that the value is meant to be repeated
         return previous_value
 
-    return user_input
+    return int(user_input)
 
 
 leg_number = input("Enter the leg number:")
 tip_angle = input("Enter the tip angle:")
 mid_angle = input("Enter the mid angle:")
 rot_angle = input("Enter the rot angle:")
+print("\n")
+all_legs[leg_number].set_leg_position(Leg_Position(tip_angle, mid_angle, rot_angle))
 
 
 while(True):
