@@ -131,19 +131,25 @@ TALL_TRI_MOVEMENT_TABLE = {
 
 # Do this
 TALL_TRI_SIDE_MOVEMENT_TABLE = {
-        "CENTER_OUT"
-        "CENTER_IN"
-        "SIDE_OUT_RIGHT"     : Leg_Position(0, 0, 0),
-        "SIDE_OUT"           : Leg_Position(0, 0, 0),
-        "SIDE_OUT_LEFT"      : Leg_Position(0, 0, 0),
-        "RIGHT"         : Leg_Position(0, 0, 0),
-        "NEUTRAL"       : Leg_Position(0, 0, 0),
-        "LEFT"          : Leg_Position(0, 0, 0),
+        "NEUTRAL": Leg_Position(120, 45, 90),
+        "UP_NEUTRAL": Leg_Position(45, 90, 90),
+
+        "CENTER_OUT": Leg_Position(0, 0, 0),
+        "CENTER_IN": Leg_Position(0, 0, 0),
+
+        "SIDE_OUT_RIGHT": Leg_Position(0, 0, 0),
+        "SIDE_OUT": Leg_Position(0, 0, 0),
+        "SIDE_OUT_LEFT": Leg_Position(0, 0, 0),
+
+        "SIDE_IN_RIGHT": Leg_Position(0, 0, 0),
+        "SIDE_IN": Leg_Position(0, 0, 0),
+        "SIDE_IN_LEFT": Leg_Position(0, 0, 0),
+
+        "UP_SIDE_OUT_RIGHT": Leg_Position(0, 0, 0),
+        "UP_SIDE_OUT": Leg_Position(0, 0, 0),
+        "UP_SIDE_OUT_LEFT": Leg_Position(0, 0, 0),
+
+        "UP_SIDE_IN_RIGHT": Leg_Position(0, 0, 0),
+        "UP_SIDE_IN": Leg_Position(0, 0, 0),
+        "UP_SIDE_IN_LEFT": Leg_Position(0, 0, 0),
         }
-
-
-
-
-
-
-
