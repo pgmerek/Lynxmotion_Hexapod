@@ -119,20 +119,16 @@ TALL_TRI_RIGHT_LEFT_LEFT_UP_RIGHT = 45
 
 # possible hex_walker positions during a tripod "side walk" cycle
 # "front" doesn't refer to the label on the robot. The front is just the side that the robot is moving towards.
-"""
-TALL_NEUTRAL = 46
-TALL_TRI_FRONT_NEUTRAL_BACK_UP_NEUTRAL = 47
-TALL_TRI_FRONT_BACKWARDS_BACK_UP_FORWARD = 48
-TALL_TRI_FRONT_BACKWARDS_BACK_UP_FORWARD = 34
-TALL_TRI_RIGHT_UP_BACK_LEFT_FORWARD = 35
-TALL_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL = 36
-TALL_TRI_RIGHT_UP_FORWARD_LEFT_BACK = 37
-TALL_TRI_RIGHT_FORWARD_LEFT_BACK = 38
-TALL_TRI_RIGHT_FORWARD_LEFT_UP_BACK = 39"""
-# TALL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL
 
-
-
+# TALL_NEUTRAL = 46
+TALL_TRI_FRONT_CENTER_UP_OUT_BACK_NEUTRAL = 46
+TALL_TRI_FRONT_CENTER_OUT_BACK_UP_NEUTRAL = 47
+TALL_TRI_FRONT_BACKWARDS_BACK_UP_NEUTRAL= 48
+TALL_TRI_FRONT_BACKWARDS_BACK_NEUTRAL= 49
+TALL_TRI_FRONT_UP_NEUTRAL_BACK_NEUTRAL = 50 
+TALL_TRI_FRONT_UP_NEUTRAL_BACK_BACKWARDS = 51
+TALL_TRI_FRONT_NEUTRAL_BACK_BACKWARDS = 52
+TALL_TRI_FRONT_NEUTRAL_BACK_UP_NEUTRAL = 53
 
 # testing positions
 FRONT_LEGS_UP = 1001
@@ -596,7 +592,8 @@ HEX_WALKER_POSITIONS = {
                             TALL_TRI_MOVEMENT_TABLE["NEUTRAL"],
                             [TALL_NEUTRAL, NORMAL_NEUTRAL,
                              TALL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL,
-                             TALL_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL
+                             TALL_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL,
+                             TALL_TRI_FRONT_CENTER_UP_OUT_BACK_NEUTRAL
                              ],
                             "crouch neutral position",
                             ),
@@ -807,7 +804,110 @@ HEX_WALKER_POSITIONS = {
                             "right is left, left is up",
                             ),
 
+        # 46
+        TALL_TRI_FRONT_CENTER_UP_OUT_BACK_NEUTRAL:
+        Hex_Walker_Position(TALL_TRI_SIDE_MOVEMENT_TABLE["CENTER_UP_OUT"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["NEUTRAL"],
+                            [TALL_TRI_FRONT_CENTER_OUT_BACK_UP_NEUTRAL
+                            ],
+                            "front leg up-out, all others neutral",
+                            ),
 
+
+        # 47
+        TALL_TRI_FRONT_CENTER_OUT_BACK_UP_NEUTRAL:
+        Hex_Walker_Position(TALL_TRI_SIDE_MOVEMENT_TABLE["CENTER_OUT"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            [TALL_TRI_FRONT_BACKWARDS_BACK_UP_NEUTRAL
+                            ],
+                            "front leg out, all others neutral",
+                            ),
+
+        # 48
+        TALL_TRI_FRONT_BACKWARDS_BACK_UP_NEUTRAL:
+        Hex_Walker_Position(TALL_TRI_SIDE_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["SIDE_OUT_RIGHT"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["SIDE_OUT_LEFT"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            [TALL_TRI_FRONT_BACKWARDS_BACK_NEUTRAL
+                            ],
+                            "front legs back, all others up neutral",
+                            ),
+
+        # 49
+        TALL_TRI_FRONT_BACKWARDS_BACK_NEUTRAL:
+        Hex_Walker_Position(TALL_TRI_SIDE_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["SIDE_OUT_RIGHT"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["SIDE_OUT_LEFT"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["NEUTRAL"],
+                            [TALL_TRI_FRONT_UP_NEUTRAL_BACK_NEUTRAL
+                            ],
+                            "front legs back, all others neutral",
+                            ),
+        # 50
+        TALL_TRI_FRONT_UP_NEUTRAL_BACK_NEUTRAL: 
+        Hex_Walker_Position(TALL_TRI_SIDE_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["NEUTRAL"],
+                            [TALL_TRI_FRONT_UP_NEUTRAL_BACK_BACKWARDS
+                            ],
+                            "front legs up neutral, all others neutral",
+                            ),
+        
+        # 51
+        TALL_TRI_FRONT_UP_NEUTRAL_BACK_BACKWARDS:
+        Hex_Walker_Position(TALL_TRI_SIDE_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["SIDE_OUT_RIGHT"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["CENTER_OUT"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["SIDE_OUT_LEFT"],
+                            [TALL_TRI_FRONT_NEUTRAL_BACK_BACKWARDS
+                            ],
+                            "front legs up neutral, all others back",
+                            ),
+
+        # 52
+        TALL_TRI_FRONT_NEUTRAL_BACK_BACKWARDS:
+        Hex_Walker_Position(TALL_TRI_SIDE_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["SIDE_OUT_RIGHT"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["CENTER_OUT"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["SIDE_OUT_LEFT"],
+                            [TALL_TRI_FRONT_NEUTRAL_BACK_UP_NEUTRAL
+                            ],
+                            "front legs neutral, all others back",
+                            ),
+        # 53
+        TALL_TRI_FRONT_NEUTRAL_BACK_UP_NEUTRAL:
+        Hex_Walker_Position(TALL_TRI_SIDE_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            [TALL_NEUTRAL
+                            ],
+                            "front legs neutral, all others up neutral",
+                            ),
+
+        # past here are just positions that are used for testing.
         # past here are just positions that are used for testing.
         # They can only be reached by __set_hex_walker_position direct calls
         FRONT_LEGS_UP:

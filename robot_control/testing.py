@@ -118,24 +118,23 @@ def crouch_walk_test(hw):
     hw.do_move_set(moves)
 
 def tall_side_walk_test(hw):
-    hw.speed = 0.1
+    hw.speed = 1
     moves = [
     TALL_NEUTRAL,
-    TALL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL,
-    TALL_TRI_RIGHT_BACK_LEFT_UP_FORWARD,
-    TALL_TRI_RIGHT_BACK_LEFT_FORWARD,
-    TALL_TRI_RIGHT_UP_BACK_LEFT_FORWARD,
-    TALL_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL,
-    TALL_TRI_RIGHT_UP_FORWARD_LEFT_BACK,
-    TALL_TRI_RIGHT_FORWARD_LEFT_BACK,
-    TALL_TRI_RIGHT_FORWARD_LEFT_UP_BACK,
-    TALL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL,
-    TALL_NEUTRAL
+    TALL_TRI_FRONT_CENTER_UP_OUT_BACK_NEUTRAL,
+    TALL_TRI_FRONT_CENTER_OUT_BACK_UP_NEUTRAL,
+    TALL_TRI_FRONT_BACKWARDS_BACK_UP_NEUTRAL,
+    TALL_TRI_FRONT_BACKWARDS_BACK_NEUTRAL,
+    TALL_TRI_FRONT_UP_NEUTRAL_BACK_NEUTRAL,
+    TALL_TRI_FRONT_UP_NEUTRAL_BACK_BACKWARDS,
+    TALL_TRI_FRONT_NEUTRAL_BACK_BACKWARDS,
+    TALL_TRI_FRONT_NEUTRAL_BACK_UP_NEUTRAL
     ]
+
     hw.do_move_set(moves)
 
 def tall_walk_test(hw):
-    hw.speed = 2
+    hw.speed = 0.05
     moves = [
     TALL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL,
     TALL_TRI_RIGHT_BACK_LEFT_UP_FORWARD,
@@ -227,5 +226,5 @@ for leg in all_legs:
 #crouch_rotate_test(hex_walker)
 #crouch_walk_test(hex_walker)
 for i in range(0,10):
-    tall_walk_test(hex_walker)
+    tall_side_walk_test(hex_walker)
 hex_walker.do_move_set([TALL_NEUTRAL])
