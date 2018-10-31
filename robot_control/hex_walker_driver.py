@@ -2,6 +2,8 @@ from __future__ import division
 import time
 from hex_walker_data import *
 from leg_data import *
+from torso_data import *
+
 # uncomment if working with the actual robot
 #import Adafruit_PCA9685
 
@@ -81,6 +83,12 @@ ARM_MID_MOTOR_UP_ANGLE = 999
 ARM_MID_MOTOR_DOWN_ANGLE = 999
 ARM_ROT_MOTOR_RIGHT = 999
 ARM_ROT_MOTOR_LEFT = 999
+
+# rotation motor constants
+ROTATOR_MOTOR_LEFT = 999
+ROTATOR_MOTOR_RIGHT = 999
+ROTATOR_LEFT_ANGLE = 180
+ROTATOR_RIGHT_ANGLE = 0
 
 TIP_MOTOR = 1
 MID_MOTOR = 2
@@ -232,12 +240,6 @@ class Leg(object):
         # mock function useful for testing when not in the lab. change all instances
         # of pwm.set_pwm to pwm.set_pwm to use the real function
         # Use the pwm.pwn for real, robot usage
-
-
-    def pwm_set_pwm(self, channel, unknown, value):
-        x = 3
-        # returns the angle on success. INV_PARAM otherwise
-
 
     def angle_to_pwm(self, angle, motor):
         if motor == TIP_MOTOR:
@@ -505,4 +507,51 @@ class Hex_Walker(object):
         self.lm_leg.set_leg_position(hex_walker_position.lm_pos)
         self.lf_leg.set_leg_position(hex_walker_position.lf_pos)
 
+class Rotator(object):
+    def __init__(self, pwm, channel):
+        self.pwm = pwm
+        self.channel = channel
+        self.pwm_val = -1
+        self.ROTATOR_MOTOR_LEFT  = ROTATOR_MOTOR_LEFT = 999
+        self.ROTATOR_MOTOR_RIGHT = ROTATOR_MOTOR_RIGHT = 999
+        self.ROTATORO_LEFT_ANGLE = ROTATOR_LEFT_ANGLE = 0
+        self.ROTATOR_RIGHT_ANGLE = ROTATOR_RIGHT_ANGLE = 180
+        self.set_angle(90)
+
+    def angle_to_pwm(self, angle):
+        return linear_map(self.ROTATOR_LEFT_ANGLE, self.ROTATOR_MOTOR_LEFT, self.ROTATOR_RIGHT_ANGLE, self.ROTATOR_MOTOR_RIGHT), angle)
+
+    def set_angle(self, angle):
+        pwm_val = int(self.angle_to_pwm(angle))
+
+        # safety check
+        upper = max(self.ROTATOR_MOTOR_LEFT, self.ROTATOR_MOTOR_RIGHT)
+        lower = min(self.ROTATOR_MOTOR_LEFT, self.ROTATOR_MOTOR_RIGHT)
+
+        if pwm_val < lower:
+            pwm_val = lower
+
+        elif pwm_val > upper:
+            pwm_val = upper
+
+        self.pwm_val = pwm_val
+        self.pwm.set_pwm(self.channel, 0, pwm_val)
+
+class Robot_Torso(object):
+    def __init__(self, right_arm, left_arm, rotator):
+        self.right_arm = right_arm
+        self.left_arm = left_arm
+        self.rotator = rotator
+        self.current_position = TORSO_NEUTRAL
+        self.set_torso_position(TORSO_POSITIONS[TORSO_NEUTRAL])
+
+    def set_torso_position(self, torso_position_number, rotation):
+        self.current_position = torso_position_number
+        self.do_set_torso_position(TORSO_POSITIONS[torso_position_number], rotation)
+
+    def do_set_torso_position(self, torso_position, rotation):
+        self.right_arm.set_leg_position(torso_position.right_arm)
+        self.left_arm.set_leg_position(torso_position.left_arm)
+        self.rotator.set_angle(rotation)
     
+
