@@ -53,19 +53,19 @@ c_5_MID_MOTOR_DOWN = 482
 c_5_ROT_MOTOR_RIGHT = 155
 c_5_ROT_MOTOR_LEFT = 614
 
-c_L_ARM_TIP_MOTOR_OUT = 999
-c_L_ARM_TIP_MOTOR_IN = 999
-c_L_ARM_MID_MOTOR_UP = 999
-c_L_ARM_MOTOR_DOWN = 999
-c_L_ARM_MOTOR_RIGHT = 999
-c_L_ARM_ROT_MOTOR_LEFT = 999
+c_L_ARM_TIP_MOTOR_OUT = 609
+c_L_ARM_TIP_MOTOR_IN = 153
+c_L_ARM_MID_MOTOR_OUT = 92
+c_L_ARM_MID_MOTOR_IN = 544
+c_L_ARM_ROT_MOTOR_UP = 118
+c_L_ARM_ROT_MOTOR_DOWN = 574
 
-c_R_ARM_TIP_MOTOR_OUT = 999
-c_R_ARM_TIP_MOTOR_IN = 999
-c_R_ARM_MID_MOTOR_UP = 999
-c_R_ARM_MOTOR_DOWN = 999
-c_R_ARM_MOTOR_RIGHT = 999
-c_R_ARM_ROT_MOTOR_LEFT = 999
+c_R_ARM_TIP_MOTOR_OUT = 146
+c_R_ARM_TIP_MOTOR_IN = 603
+c_R_ARM_MID_MOTOR_OUT = 569
+c_R_ARM_MID_MOTOR_IN = 135
+c_R_ARM_ROT_MOTOR_UP = 628
+c_R_ARM_ROT_MOTOR_DOWN = 110
 
 
 
@@ -77,18 +77,18 @@ MID_MOTOR_DOWN_ANGLE = 45
 ROT_MOTOR_RIGHT_ANGLE = 180
 ROT_MOTOR_LEFT_ANGLE = 0
 
-ARM_TIP_MOTOR_OUT_ANGLE = 999
-ARM_TIP_MOTOR_IN_ANGLE = 999
-ARM_MID_MOTOR_UP_ANGLE = 999
-ARM_MID_MOTOR_DOWN_ANGLE = 999
-ARM_ROT_MOTOR_RIGHT = 999
-ARM_ROT_MOTOR_LEFT = 999
+ARM_TIP_MOTOR_OUT_ANGLE = 180
+ARM_TIP_MOTOR_IN_ANGLE = 0
+ARM_MID_MOTOR_OUT_ANGLE = 180
+ARM_MID_MOTOR_IN_ANGLE = 0
+ARM_ROT_MOTOR_UP_ANGLE = 180
+ARM_ROT_MOTOR_DOWN_ANGLE = 0
 
 # rotation motor constants
-ROTATOR_MOTOR_LEFT = 999
-ROTATOR_MOTOR_RIGHT = 999
-ROTATOR_LEFT_ANGLE = 180
-ROTATOR_RIGHT_ANGLE = 0
+ROTATOR_MOTOR_LEFT = 424
+ROTATOR_MOTOR_RIGHT = 217
+ROTATOR_LEFT_ANGLE = 45
+ROTATOR_RIGHT_ANGLE = 135
 
 TIP_MOTOR = 1
 MID_MOTOR = 2
@@ -194,28 +194,28 @@ class Leg(object):
         elif leg_num == ARM_R:
             self.TIP_MOTOR_OUT      = c_R_ARM_TIP_MOTOR_OUT
             self.TIP_MOTOR_IN       = c_R_ARM_TIP_MOTOR_IN
-            self.MID_MOTOR_UP       = c_R_ARM_MID_MOTOR_UP
-            self.MID_MOTOR_DOWN     = c_R_ARM_MID_MOTOR_DOWN
-            self.ROT_MOTOR_RIGHT    = c_R_ARM_ROT_MOTOR_RIGHT
-            self.ROT_MOTOR_LEFT     = c_R_ARM_ROT_MOTOR_LEFT
+            self.MID_MOTOR_UP       = c_R_ARM_MID_MOTOR_OUT
+            self.MID_MOTOR_DOWN     = c_R_ARM_MID_MOTOR_IN
+            self.ROT_MOTOR_RIGHT    = c_R_ARM_ROT_MOTOR_UP
+            self.ROT_MOTOR_LEFT     = c_R_ARM_ROT_MOTOR_DOWN
         elif leg_num == ARM_L:
             self.TIP_MOTOR_OUT      = c_L_ARM_TIP_MOTOR_OUT
             self.TIP_MOTOR_IN       = c_L_ARM_TIP_MOTOR_IN
-            self.MID_MOTOR_UP       = c_L_ARM_MID_MOTOR_UP
-            self.MID_MOTOR_DOWN     = c_L_ARM_MID_MOTOR_DOWN
-            self.ROT_MOTOR_RIGHT    = c_L_ARM_ROT_MOTOR_RIGHT
-            self.ROT_MOTOR_LEFT     = c_L_ARM_ROT_MOTOR_LEFT
+            self.MID_MOTOR_UP       = c_L_ARM_MID_MOTOR_OUT
+            self.MID_MOTOR_DOWN     = c_L_ARM_MID_MOTOR_IN
+            self.ROT_MOTOR_RIGHT    = c_L_ARM_ROT_MOTOR_UP
+            self.ROT_MOTOR_LEFT     = c_L_ARM_ROT_MOTOR_DOWN
 
         if(leg_num == ARM_L or leg_num == ARM_R):
-            self.TIP_MOTOR_IN_ANGLE = ARM_TIP_MOTOR_IN_ANGLE
             self.TIP_MOTOR_OUT_ANGLE = ARM_TIP_MOTOR_OUT_ANGLE
-            self.MID_MOTOR_UP_ANGLE = ARM_MID_MOTOR_UP_ANGLE
-            self.MID_MOTOR_DOWN_ANGLE = ARM_MID_MOTOR_DOWN_ANGLE
-            self.ROT_MOTOR_RIGHT_ANGLE = ARM_ROT_MOTOR_RIGHT_ANGLE
-            self.ROT_MOTOR_LEFT_ANGLE = ARM_ROT_MOTOR_LEFT_ANGLE
+            self.TIP_MOTOR_IN_ANGLE = ARM_TIP_MOTOR_IN_ANGLE
+            self.MID_MOTOR_UP_ANGLE = ARM_MID_MOTOR_OUT_ANGLE
+            self.MID_MOTOR_DOWN_ANGLE = ARM_MID_MOTOR_IN_ANGLE
+            self.ROT_MOTOR_RIGHT_ANGLE = ARM_ROT_MOTOR_UP_ANGLE
+            self.ROT_MOTOR_LEFT_ANGLE = ARM_ROT_MOTOR_DOWN_ANGLE
         else:
-            self.TIP_MOTOR_IN_ANGLE = TIP_MOTOR_IN_ANGLE
             self.TIP_MOTOR_OUT_ANGLE = TIP_MOTOR_OUT_ANGLE
+            self.TIP_MOTOR_IN_ANGLE = TIP_MOTOR_IN_ANGLE
             self.MID_MOTOR_UP_ANGLE = MID_MOTOR_UP_ANGLE
             self.MID_MOTOR_DOWN_ANGLE = MID_MOTOR_DOWN_ANGLE
             self.ROT_MOTOR_RIGHT_ANGLE = ROT_MOTOR_RIGHT_ANGLE
@@ -226,9 +226,12 @@ class Leg(object):
         self.tip_motor = -1
         self.mid_motor = -1
         self.rot_motor = -1
-        self.set_angle(45, TIP_MOTOR)
-        self.set_angle(180, MID_MOTOR)
-        self.set_angle(90, ROT_MOTOR)
+        if(leg_num == ARM_L or leg_num == ARM_R):
+            self.set_leg_position(TORSO_ARM_TABLE["NEUTRAL"])
+        else:
+            self.set_angle(45, TIP_MOTOR)
+            self.set_angle(180, MID_MOTOR)
+            self.set_angle(90, ROT_MOTOR)
 
 
     def print_self(self):
@@ -508,22 +511,22 @@ class Hex_Walker(object):
         self.lf_leg.set_leg_position(hex_walker_position.lf_pos)
 
 class Rotator(object):
-    def __init__(self, pwm, channel):
+    def __init__(self, uid, pwm, channel):
+        self.uid = uid
         self.pwm = pwm
         self.channel = channel
         self.pwm_val = -1
-        self.ROTATOR_MOTOR_LEFT  = ROTATOR_MOTOR_LEFT = 999
-        self.ROTATOR_MOTOR_RIGHT = ROTATOR_MOTOR_RIGHT = 999
-        self.ROTATORO_LEFT_ANGLE = ROTATOR_LEFT_ANGLE = 0
-        self.ROTATOR_RIGHT_ANGLE = ROTATOR_RIGHT_ANGLE = 180
+        self.ROTATOR_MOTOR_LEFT  = ROTATOR_MOTOR_LEFT
+        self.ROTATOR_MOTOR_RIGHT = ROTATOR_MOTOR_RIGHT
+        self.ROTATOR_LEFT_ANGLE = ROTATOR_LEFT_ANGLE
+        self.ROTATOR_RIGHT_ANGLE = ROTATOR_RIGHT_ANGLE
         self.set_angle(90)
 
     def angle_to_pwm(self, angle):
-        return linear_map(self.ROTATOR_LEFT_ANGLE, self.ROTATOR_MOTOR_LEFT, self.ROTATOR_RIGHT_ANGLE, self.ROTATOR_MOTOR_RIGHT), angle)
+        return linear_map(self.ROTATOR_LEFT_ANGLE, self.ROTATOR_MOTOR_LEFT, self.ROTATOR_RIGHT_ANGLE, self.ROTATOR_MOTOR_RIGHT, angle)
 
     def set_angle(self, angle):
         pwm_val = int(self.angle_to_pwm(angle))
-
         # safety check
         upper = max(self.ROTATOR_MOTOR_LEFT, self.ROTATOR_MOTOR_RIGHT)
         lower = min(self.ROTATOR_MOTOR_LEFT, self.ROTATOR_MOTOR_RIGHT)
@@ -543,7 +546,7 @@ class Robot_Torso(object):
         self.left_arm = left_arm
         self.rotator = rotator
         self.current_position = TORSO_NEUTRAL
-        self.set_torso_position(TORSO_POSITIONS[TORSO_NEUTRAL])
+        self.set_torso_position(TORSO_NEUTRAL, 90)
 
     def set_torso_position(self, torso_position_number, rotation):
         self.current_position = torso_position_number
