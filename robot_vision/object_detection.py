@@ -1,4 +1,7 @@
-# import the necessary packages
+"""
+Script to identify objects based on their color
+Author: Emma Smith
+"""
 import numpy as np
 import imutils
 import time
@@ -13,9 +16,9 @@ class my_object:
         self.depth = depth
         self.width = width
 
+
 MAX_SIZE = 50
 MIN_SIZE = 10
-
 
 
 # define the lower and upper boundaries of the colors in the HSV color space
@@ -91,7 +94,7 @@ rawCapture = PiRGBArray(camera, size=(640, 480))
 time.sleep(0.1)
 
 
-counter=1
+counter = 1
 for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
     image = frame.array
     color = detect_color(image)
