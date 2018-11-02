@@ -595,7 +595,7 @@ HEX_WALKER_POSITIONS = {
                              TALL_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL,
                              TALL_TRI_FRONT_CENTER_UP_OUT_BACK_NEUTRAL
                              ],
-                            "crouch neutral position",
+                            "tall neutral position",
                             ),
 
         # 32

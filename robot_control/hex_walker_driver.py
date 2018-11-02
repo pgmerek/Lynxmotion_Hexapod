@@ -127,6 +127,22 @@ def linear_map(x1, y1, x2, y2, x_in_val):
     b = intercept(x2, y2, m)
     return x_in_val * m + b
 
+def get_front_from_direction(direction):
+    if(direction == 0):
+        return "5-0"
+    elif(direction == 60):
+        return "0-1"
+    elif(direction == 120):
+        return "1-2"
+    elif(direction == 180):
+        return "2-3"
+    elif(direction == 240):
+        return "3-4"
+    elif(direction == 300):
+        return "4-5"
+    else:
+        return "5-0"
+
 # NOTE: these values are ANGLES not raw pwms
 class Leg_Position(object):
     def __init__(self, tip_motor, mid_motor, rot_motor):
@@ -353,13 +369,9 @@ class Leg(object):
 
 # speed options: this is just the time it waits betweeen moves
 PLAID_SPEED = .1
-ULTRA = .3
-FAST = .5
-NORMAL = 1
-SAFE = 2
-SLOW = 3
-SLOOOOOOOOOOW = 5
-SLOOOOOOOOOOOOOOOOOOW = 10
+NORMAL = .2
+SLOW = .4
+DEBUG = 5
 
 class Hex_Walker(object):
     def __init__(self, rf_leg, rm_leg, rr_leg, lr_leg, lm_leg, lf_leg):
@@ -395,8 +407,7 @@ class Hex_Walker(object):
         self.speed = NORMAL
         self.front = "5-0"
         # set all legs to neutral
-        for leg in self.all_legs:
-            leg.set_leg_position(NORMAL_TRI_ROTATION_TABLE["NEUTRAL"])
+        self.set_hex_walker_position(TALL_NEUTRAL)
 
     def print_self(self):
         print("speed: " + str(self.speed) + " || self.current_pos: " + str(self.current_pos) + " || self.front: " + self.front)
@@ -409,7 +420,8 @@ class Hex_Walker(object):
 # this function will change the front from being between the "5-0" legs to being
 # between any two legs. The key is "(leg on left)-(leg on right)"
     def set_new_front(self, new_front):
-        if(self.current_pos != NORMAL_NEUTRAL):
+        cp = self.current_pos
+        if(cp != TALL_NEUTRAL and cp != NORMAL_NEUTRAL and cp != CROUCH_NEUTRAL):
             print("Cannot change front while not in the neutral position")
             return ILLEGAL_MOVE
         
@@ -483,13 +495,93 @@ class Hex_Walker(object):
         for next_pos in hex_walker_position_list:
             if next_pos in HEX_WALKER_POSITIONS[self.current_pos].safe_moves:
                 self.set_hex_walker_position(next_pos)
-                if(HW_MOVE_DEBUG):
-                    self.print_self()
                 time.sleep(self.speed)
             else:
                 print("invalid move set")
                 return ILLEGAL_MOVE
         return SUCCESS
+    
+    # torso movement functions
+    def walk(self, num_steps, direction):
+        
+        self.set_new_front(get_front_from_direction(direction))
+        print("dir: " + get_front_from_direction(direction))
+        
+        # start walk by lifting legs
+        self.set_hex_walker_position(TALL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL)
+        # define positions to go through to get steps from a neutral legs up
+        left_step = [
+        TALL_TRI_RIGHT_BACK_LEFT_UP_FORWARD,
+        TALL_TRI_RIGHT_BACK_LEFT_FORWARD,
+        TALL_TRI_RIGHT_UP_BACK_LEFT_FORWARD,
+        TALL_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL ]
+        
+        right_step = [
+        TALL_TRI_RIGHT_UP_FORWARD_LEFT_BACK,
+        TALL_TRI_RIGHT_FORWARD_LEFT_BACK,
+        TALL_TRI_RIGHT_FORWARD_LEFT_UP_BACK,
+        TALL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL ]
+        
+        last_step = "right"
+
+        for i in range (0, num_steps):
+            if(last_step == "right"):
+                self.do_move_set(left_step)
+                last_step = "left"
+            elif(last_step == "left"):
+                self.do_move_set(right_step)
+                last_step = "right"
+        #cleanup
+        self.set_hex_walker_position(TALL_NEUTRAL)
+        self.set_new_front("5-0")
+
+    def rotate(self, num_steps, direction):
+        
+        # start rotate by lifting legs
+        self.set_hex_walker_position(TALL_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL)
+        # define positions to go through to get steps from neutral legs up
+        go_left_right_step = [
+        TALL_TRI_RIGHT_RIGHT_LEFT_UP_LEFT,
+        TALL_TRI_RIGHT_RIGHT_LEFT_LEFT,
+        TALL_TRI_RIGHT_UP_RIGHT_LEFT_LEFT,
+        TALL_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL]
+
+        go_left_left_step = [
+        TALL_TRI_RIGHT_UP_LEFT_LEFT_RIGHT,
+        TALL_TRI_RIGHT_LEFT_LEFT_RIGHT,
+        TALL_TRI_RIGHT_LEFT_LEFT_UP_RIGHT,
+        TALL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL]
+
+        go_right_right_step = [
+        TALL_TRI_RIGHT_LEFT_LEFT_UP_RIGHT,
+        TALL_TRI_RIGHT_LEFT_LEFT_RIGHT,
+        TALL_TRI_RIGHT_UP_LEFT_LEFT_RIGHT,
+        TALL_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL]
+
+        go_right_left_step = [
+        TALL_TRI_RIGHT_UP_RIGHT_LEFT_LEFT,
+        TALL_TRI_RIGHT_RIGHT_LEFT_LEFT,
+        TALL_TRI_RIGHT_RIGHT_LEFT_UP_LEFT,
+        TALL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL]
+
+        if(direction == RIGHT):
+            left_step = go_right_left_step
+            right_step = go_right_right_step
+        if(direction == LEFT):
+            left_step = go_left_left_step
+            right_step = go_left_right_step
+
+        last_step = "right"
+        for i in range (0, num_steps):
+            if(last_step == "right"):
+                self.do_move_set(left_step)
+                last_step = "left"
+            elif(last_step == "left"):
+                self.do_move_set(right_step)
+                last_step = "right"
+        #cleanup
+        self.set_hex_walker_position(TALL_NEUTRAL)
+
 
 # NOTE: the functinos set_hex_walker_position and do_set_hex_walker_position are similar but one takes in a raw position and the other uses the defined table AND updates the current position. Using the do
 # version skips this state-updating and so it can be useful for testing
@@ -556,5 +648,40 @@ class Robot_Torso(object):
         self.right_arm.set_leg_position(torso_position.right_arm)
         self.left_arm.set_leg_position(torso_position.left_arm)
         self.rotator.set_angle(rotation)
-    
 
+    def do_moveset(self, positions, rotations, sleeps, repetitions):
+        for j in range(0, repetitions):
+            for i in range(0, len(positions)):
+                self.set_torso_position(positions[i], rotations[i])
+                time.sleep(sleeps[i])
+
+    # torso movement functions
+    def monkey(self, repetitions):
+        moves = []
+        moves.append(TORSO_MONKEY_RIGHT_UP)
+        moves.append(TORSO_MONKEY_LEFT_UP)
+        moves.append(TORSO_MONKEY_RIGHT_UP)
+        moves.append(TORSO_MONKEY_LEFT_UP)
+        moves.append(TORSO_MONKEY_RIGHT_UP)
+        moves.append(TORSO_MONKEY_LEFT_UP)
+        moves.append(TORSO_MONKEY_RIGHT_UP)
+        moves.append(TORSO_MONKEY_LEFT_UP)
+        moves.append(TORSO_MONKEY_RIGHT_UP)
+        moves.append(TORSO_MONKEY_LEFT_UP)
+        moves.append(TORSO_MONKEY_RIGHT_UP)
+        moves.append(TORSO_MONKEY_LEFT_UP)
+        moves.append(TORSO_MONKEY_RIGHT_UP)
+        moves.append(TORSO_MONKEY_LEFT_UP)
+        moves.append(TORSO_MONKEY_RIGHT_UP)
+        moves.append(TORSO_MONKEY_LEFT_UP)
+        rotations = [45, 45, 45, 45, 45, 45, 45, 45, 135, 135, 135, 135, 135, 135, 135,135]
+        sleeps =    [.1, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1]
+        self.do_moveset(moves, rotations, sleeps, repetitions)
+
+    def wave(self, rotation, repetitions):
+        moves = []
+        moves.append(TORSO_WAVE_DOWN)
+        moves.append(TORSO_WAVE_UP)
+        rotations = [rotation, rotation]
+        sleeps = [.4, .4]
+        self.do_moveset(moves, rotations, sleeps, repetitions)

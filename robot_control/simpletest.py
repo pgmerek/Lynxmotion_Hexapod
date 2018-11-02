@@ -13,8 +13,8 @@ import Adafruit_PCA9685
 #logging.basicConfig(level=logging.DEBUG)
 
 # Initialise the PCA9685 using the default address (0x40).
-pwm = Adafruit_PCA9685.PCA9685(address=0x40)
-channel = 6
+pwm = Adafruit_PCA9685.PCA9685(address=0x41)
+channel = 10
 #pwm = Adafruit_PCA9685.PCA9685(address=0x41, busnum=2)
 
 # Helper function to make setting a servo pulse width simpler.
