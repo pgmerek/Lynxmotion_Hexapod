@@ -14,8 +14,7 @@ class MyObject:
     """
     Generic object
     """
-    def __init__(self, frame, object_type, size, location):
-        self.frame = frame
+    def __init__(self, object_type, size, location):
         self.object_type = object_type
         self.size = size
         self.location = location
@@ -96,15 +95,17 @@ def detect_color(image):
                 else:
                     object_size = "medium"
 
-                object_location = "Middle"
+                object_location = "middle"
                 if center[0] <= LEFT:
                     object_location = "left"
                 elif center[0] >= RIGHT:
                     object_location = "right"
-                detected_object = MyObject(frame, key, object_size, object_location)
+                detected_object = MyObject(key, object_size, object_location)
+                cv2.imshow("Frame", frame)
                 return detected_object
 
-    no_image = MyObject(frame, "None", "None", "None")
+    no_image = MyObject("none", "none", "none")
+    cv2.imshow("Frame", frame)
     return no_image
 
 def detect_face(image):
@@ -113,8 +114,24 @@ def detect_face(image):
     :param image: 
     :return: returns object
     """
+    face_cascade = cv2.CascadeClassifier('//home//pi//opencv//opencv//data//haarcascades//haarcascade_frontal_face_default.xml')
+
+    eye_cascade = cv2.CascadeClassifier('//home//pi//opencv//opencv//data//haarcascades//haarcascade_eye.xml')
+
+    print (face_cascade)
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    faces = face_casca
+    faces = face_cascade.detectMultiScale(gray, 1.3, 5)
+
+    for (x, y, w, h) in faces:
+        cv2.rectangle(image, (x, y), (x + w, y + h), (255, 0, 0), 2)
+        roi_gray = gray[y:y + h, x:x + w]
+        roi_color = image[y:y + h, x:x + w]
+        eyes = eye_cascade.detectMultiScale(roi_gray)
+        for (ex, ey, ew, eh) in eyes:
+            cv2.rectangle(roi_color, (ex, ey), (ex + ew, ey + eh), (0, 255, 0), 2)
+    cv2.imshow("Test", image)
+
+    return image
 
 
 
@@ -135,8 +152,9 @@ def raspi_camera():
         image = frame.array
         color = detect_color(image)
         counter += 1
+        # face = detect_face(image)
+        # cv2.imshow("Face", face)
         print(counter, "I see a ", color.object_type, "object, that is ", color.size, " in size and is located at ", color.location)
-        cv2.imshow("Frame", color.frame)
         key = cv2.waitKey(1) & 0xFF
         if key == ord("q"):
             break
