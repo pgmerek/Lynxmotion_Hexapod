@@ -6,8 +6,8 @@ import numpy as np
 import imutils
 import time
 import cv2
-# from picamera.array import PiRGBArray
-# from picamera import PiCamera
+from picamera.array import PiRGBArray
+from picamera import PiCamera
 
 
 class MyObject:
@@ -23,23 +23,26 @@ class MyObject:
 
 # Parameters to define frame and object
 FRAME_SIZE = 600
-MAX_RADIUS = 50
+MAX_RADIUS = 80
 MIN_RADIUS = 0.5
+FRAME_RATE =  60
+RESOLUTION = (600, 400)
 
 # Parameters to define size and location of object
 LEFT = FRAME_SIZE/3
 RIGHT = 2 * FRAME_SIZE/3
 SMALL = (MAX_RADIUS * MAX_RADIUS/3) * np.pi
-LARGE = 2 * (MAX_RADIUS* MIN_RADIUS/3) * np.pi
+LARGE = 2 * (MAX_RADIUS* MAX_RADIUS/3) * np.pi
 
 
 # Define the lower and upper boundaries of the colors in the HSV color space
-lower = {'red': (166, 84, 141), 'green': (66, 122, 129), 'blue': (97, 100, 117), 'yellow': (23, 59, 119)}
-upper = {'red': (186, 255, 255), 'green': (86, 255, 255), 'blue': (117, 255, 255), 'yellow': (54, 255, 255)}
+lower = {'blue': (97, 100, 117), 'yellow': (0, 135, 184), 'pink': (96, 20, 199)}
+
+upper = {'blue': (117, 255, 255), 'yellow': (54, 255, 255), 'pink':(238, 192, 255)}
 
 # Define standard colors for circle around the object
 colors = {'red': (0, 0, 255), 'green': (0, 255, 0), 'blue': (255, 0, 0), 'yellow': (0, 255, 217),
-          'orange': (0, 140, 255)}
+        'orange': (0, 140, 255), 'pink':(147, 20, 255)}
 
 
 def detect_color(image):
@@ -82,7 +85,7 @@ def detect_color(image):
                 # draw the circle and centroid on the frame,
                 # then update the list of tracked points
                 cv2.circle(frame, (int(x), int(y)), int(radius), colors[key], 2)
-                cv2.putText(frame, key, (int(x - radius), int(y - radius)), cv2.FONT_HERSHEY_SIMPLEX, 0.6,
+                cv2.putText(frame, key + str(radius), (int(x - radius), int(y - radius)), cv2.FONT_HERSHEY_SIMPLEX, 0.6,
                             colors[key], 2)
 
                 object_size = np.pi * radius * radius
@@ -104,16 +107,26 @@ def detect_color(image):
     no_image = MyObject(frame, "None", "None", "None")
     return no_image
 
+def detect_face(image):
+    """
+    detects faces in the image
+    :param image: 
+    :return: returns object
+    """
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    faces = face_casca
 
-'''def raspi_camera():
-"""
-Use this function when running this on the pi
-"""
+
+
+def raspi_camera():
+    """
+    Use this function when running this on the pi
+    """
     # camera = cv2.VideoCapture(0)
     camera = PiCamera()
-    camera.resolution = (640, 480)
-    camera.framerate = 32
-    raw_capture = PiRGBArray(camera, size=(640, 480))
+    camera.resolution = RESOLUTION
+    camera.framerate = FRAME_RATE
+    raw_capture = PiRGBArray(camera, size=RESOLUTION)
 
     time.sleep(0.1)
 
@@ -129,7 +142,7 @@ Use this function when running this on the pi
             break
         raw_capture.truncate(0)
     cv2.destroyAllWindows()
-'''
+
 
 
 def laptop_camera():
@@ -153,4 +166,5 @@ def laptop_camera():
     cv2.destroyAllWindows()
 
 
-laptop_camera()
+# laptop_camera()
+raspi_camera()
