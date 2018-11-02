@@ -104,11 +104,11 @@ TALL_TRI_ROTATION_TABLE = {
         "NEUTRAL"           : Leg_Position(120, 45, 90),
         "UP_NEUTRAL"        : Leg_Position(45, 90, 90),
         
-        "RIGHT"             : Leg_Position(50, 130, 120),
-        "UP_RIGHT"          : Leg_Position(50, 180, 120),
+        "RIGHT"             : Leg_Position(120, 45, 120),
+        "UP_RIGHT"          : Leg_Position(45, 90, 120),
         
-        "LEFT"              : Leg_Position(50, 130, 60),
-        "UP_LEFT"           : Leg_Position(50, 180, 60)
+        "LEFT"              : Leg_Position(120, 45, 60),
+        "UP_LEFT"           : Leg_Position(45, 90, 60)
 
 }
 
