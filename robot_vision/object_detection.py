@@ -11,6 +11,9 @@ import cv2
 
 
 class MyObject:
+    """
+    Generic object
+    """
     def __init__(self, frame, object_type, size, location):
         self.frame = frame
         self.object_type = object_type
@@ -18,9 +21,12 @@ class MyObject:
         self.location = location
 
 
+# Parameters to define frame and object
 FRAME_SIZE = 600
 MAX_RADIUS = 50
 MIN_RADIUS = 0.5
+
+# Parameters to define size and location of object
 LEFT = FRAME_SIZE/3
 RIGHT = 2 * FRAME_SIZE/3
 SMALL = (MAX_RADIUS * MAX_RADIUS/3) * np.pi
