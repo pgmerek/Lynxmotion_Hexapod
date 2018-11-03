@@ -3,6 +3,10 @@ import time
 from hex_walker_driver import *
 import logging
 import threading
+import sys
+sys.path.append('../robot_vision')
+from object_detection import *
+import cv 
 
 
 logging.basicConfig(level=logging.WARNING,
@@ -50,19 +54,26 @@ hex_walker = Hex_Walker(rf, rm, rr, lr, lm, lf)
 r = Leg(0, pwm_41, 12, 11, 10, ARM_R)
 l = Leg(0, pwm_40, 12, 11, 10, ARM_L)
 rot = Rotator(0, pwm_40, 9)
-
+ca
 torso = Robot_Torso(r, l, rot)
 
 # colors are pink, blue, yellow, none
 # sizes are small medium large, none
 # locations are left right middle, none
 
-while(1):
+camera = PiCamera ()
+camera.resolution = RESOLUTION
+camera.framerate = FRAME_RATE
+raw_capture = PiRGBArray(camera, size=RESOLUTION)
 
+time.sleep (0.1)
+for frame in camera.capture_continuous(raw_capture, format="bgr", use_video_port=True):
+    image = frame.array
+    item = detect_color(image)
     # instead of open cv
-    color = raw_input("object color:")
-    size = raw_input("object size:")
-    loc = raw_input("object loc:")
+    color = item.object_type # raw_input("object color:")
+    size = item.size # raw_input("object size:")
+    loc =  item.location # raw_input("object loc:")
     leg_cmd = "none"
     leg_args = []
     torso_cmd = "none"

@@ -139,19 +139,18 @@ def raspi_camera():
     """
     Use this function when running this on the pi
     """
-    item = MyObject()
     # camera = cv2.VideoCapture(0)
     camera = PiCamera()
-    camera.resolution = item.RESOLUTION
-    camera.framerate = item.FRAME_RATE
-    raw_capture = PiRGBArray(camera, size=item.RESOLUTION)
+    camera.resolution = RESOLUTION
+    camera.framerate = FRAME_RATE
+    raw_capture = PiRGBArray(camera, size=RESOLUTION)
 
     time.sleep(0.1)
 
     counter = 1
     for frame in camera.capture_continuous(raw_capture, format="bgr", use_video_port=True):
         image = frame.array
-        color = item.detect_color(image)
+        color = detect_color(image)
         counter += 1
         # face = detect_face(image)
         # cv2.imshow("Face", face)
