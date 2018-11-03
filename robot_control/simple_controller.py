@@ -6,7 +6,6 @@ import threading
 import sys
 sys.path.append('../robot_vision')
 from object_detection import *
-import cv 
 
 
 logging.basicConfig(level=logging.WARNING,
@@ -54,7 +53,6 @@ hex_walker = Hex_Walker(rf, rm, rr, lr, lm, lf)
 r = Leg(0, pwm_41, 12, 11, 10, ARM_R)
 l = Leg(0, pwm_40, 12, 11, 10, ARM_L)
 rot = Rotator(0, pwm_40, 9)
-ca
 torso = Robot_Torso(r, l, rot)
 
 # colors are pink, blue, yellow, none
@@ -112,7 +110,7 @@ for frame in camera.capture_continuous(raw_capture, format="bgr", use_video_port
     torso_thread.start()
     leg_thread.join()
     torso_thread.join()
-
+    raw_capture.truncate(0)
 
 
 

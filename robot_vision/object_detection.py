@@ -25,7 +25,7 @@ FRAME_SIZE = 600
 MAX_RADIUS = 80
 MIN_RADIUS = 0.5
 FRAME_RATE =  60
-RESOLUTION = (600, 400)
+RESOLUTION = (608, 400)
 
 # Parameters to define size and location of object
 LEFT = FRAME_SIZE/3
