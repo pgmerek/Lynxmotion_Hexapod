@@ -41,7 +41,7 @@ def main():
         if not compare_lists(user_inputs, previous_user_inputs):
             print("Values changed")
             torso[0].set_leg_position(Leg_Position(user_inputs[1], user_inputs[2], user_inputs[3]))
-            torso[1].set_leg_position(Leg_Position(user_inputs[1], user_inputs[2], user_inputs[3]))
+            torso[1].set_leg_position(Leg_Position(user_inputs[3], user_inputs[4], user_inputs[6]))
             torso[2].set_angle(user_inputs[0])
     cv.destroyAllWindows()
 
