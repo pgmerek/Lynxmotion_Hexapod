@@ -62,6 +62,9 @@ TORSO_DANCE_ABOVE_RIGHT_UP = 11
 TORSO_MONKEY_RIGHT_UP = 12
 TORSO_MONKEY_LEFT_UP = 13
 
+# finish hand shake
+TORSO_SHAKE_MID = 14
+
 TORSO_POSITIONS = {
         # 1
         TORSO_NEUTRAL:
@@ -95,7 +98,13 @@ TORSO_POSITIONS = {
         Torso_Position(TORSO_ARM_TABLE["HAND_SHAKE_DOWN"],
                         TORSO_ARM_TABLE["NEUTRAL"],
                         "handshaking with the right hand (down pos)"),
-        
+        # 14
+        TORSO_SHAKE_MID:
+        Torso_Position(TORSO_ARM_TABLE["HAND_SHAKE_MID"],
+                        TORSO_ARM_TABLE["NEUTRAL"],
+                        "handshaking with the rigth hand (mid pos)"),
+
+
         # 7
         TORSO_SHAKE_UP:
         Torso_Position(TORSO_ARM_TABLE["HAND_SHAKE_UP"],
