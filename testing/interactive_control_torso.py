@@ -9,7 +9,7 @@ import Adafruit_PCA9685
 import numpy as np
 import cv2 as cv
 import time
-from robot_control.hex_walker_driver import *
+from hex_walker_driver import *
 
 
 def main():
@@ -17,9 +17,9 @@ def main():
     slider_names = ["Waist",
                     "Right Rotary Joint", "Right Mid Joint", "Right Tip Joint",
                     "Left Rotary Joint", "Left Mid Joint", "Left Tip Joint"]
-    slider_limits = [[45, 135],
-                     [0, 180], [0, 180], [0, 180],
-                     [0, 180], [0, 180], [0, 180]]
+    slider_limits = [[90, 135],
+                     [90, 180], [90, 180], [90, 180],
+                     [90, 180], [90, 180], [90, 180]]
     window_name = "Hexapod Torso Control"
     cv.namedWindow(window_name)
 
@@ -28,8 +28,8 @@ def main():
 
     user_inputs = fetch_trackbar_pos(window_name, slider_names)
 
-    torso[0].set_leg_position((user_inputs[1], user_inputs[2], user_inputs[3]))
-    torso[1].set_leg_position((user_inputs[1], user_inputs[2], user_inputs[3]))
+    torso[0].set_leg_position(Leg_Position(user_inputs[1], user_inputs[2], user_inputs[3]))
+    torso[1].set_leg_position(Leg_Position(user_inputs[4], user_inputs[5], user_inputs[6]))
     torso[2].set_angle(user_inputs[0])
     while True:
         previous_user_inputs = user_inputs
@@ -40,8 +40,8 @@ def main():
             break
         if not compare_lists(user_inputs, previous_user_inputs):
             print("Values changed")
-            torso[0].set_leg_position((user_inputs[1], user_inputs[2], user_inputs[3]))
-            torso[1].set_leg_position((user_inputs[1], user_inputs[2], user_inputs[3]))
+            torso[0].set_leg_position(Leg_Position(user_inputs[1], user_inputs[2], user_inputs[3]))
+            torso[1].set_leg_position(Leg_Position(user_inputs[1], user_inputs[2], user_inputs[3]))
             torso[2].set_angle(user_inputs[0])
     cv.destroyAllWindows()
 
@@ -58,11 +58,14 @@ def compare_lists(list1, list2):
 
 
 def fetch_trackbar_pos(window_name, slider_names):
-    leg_num = cv.getTrackbarPos(slider_names[0], window_name)
-    rot_angle = cv.getTrackbarPos(slider_names[1], window_name)
-    mid_angle = cv.getTrackbarPos(slider_names[2], window_name)
-    tip_angle = cv.getTrackbarPos(slider_names[3], window_name)
-    return [leg_num, rot_angle, mid_angle, tip_angle]
+    waist = cv.getTrackbarPos(slider_names[0], window_name)
+    rr = cv.getTrackbarPos(slider_names[1], window_name)
+    rm = cv.getTrackbarPos(slider_names[2], window_name)
+    rt = cv.getTrackbarPos(slider_names[3], window_name)
+    lr = cv.getTrackbarPos(slider_names[4], window_name)
+    lm = cv.getTrackbarPos(slider_names[5], window_name)
+    lt = cv.getTrackbarPos(slider_names[6], window_name)
+    return [waist, rr, rm, rt, lr, lm, lt]
 
 
 def dummy(x):
