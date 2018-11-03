@@ -101,11 +101,11 @@ def detect_color(image):
                 elif center[0] >= RIGHT:
                     object_location = "right"
                 detected_object = MyObject(key, object_size, object_location)
-                cv2.imshow("Frame", frame)
+     #           cv2.imshow("Frame", frame)
                 return detected_object
 
     no_image = MyObject("none", "none", "none")
-    cv2.imshow("Frame", frame)
+    # cv2.imshow("Frame", frame)
     return no_image
 
 def detect_face(image):
@@ -139,18 +139,19 @@ def raspi_camera():
     """
     Use this function when running this on the pi
     """
+    item = MyObject()
     # camera = cv2.VideoCapture(0)
     camera = PiCamera()
-    camera.resolution = RESOLUTION
-    camera.framerate = FRAME_RATE
-    raw_capture = PiRGBArray(camera, size=RESOLUTION)
+    camera.resolution = item.RESOLUTION
+    camera.framerate = item.FRAME_RATE
+    raw_capture = PiRGBArray(camera, size=item.RESOLUTION)
 
     time.sleep(0.1)
 
     counter = 1
     for frame in camera.capture_continuous(raw_capture, format="bgr", use_video_port=True):
         image = frame.array
-        color = detect_color(image)
+        color = item.detect_color(image)
         counter += 1
         # face = detect_face(image)
         # cv2.imshow("Face", face)
@@ -185,4 +186,4 @@ def laptop_camera():
 
 
 # laptop_camera()
-raspi_camera()
+# raspi_camera()
