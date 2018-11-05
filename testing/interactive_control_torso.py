@@ -15,8 +15,8 @@ from hex_walker_driver import *
 def main():
     torso = initialize_torso()
     slider_names = ["Waist",
-                    "Right Rotary Joint", "Right Mid Joint", "Right Tip Joint",
-                    "Left Rotary Joint", "Left Mid Joint", "Left Tip Joint"]
+                    "Right Tip Joint", "Right Mid Joint", "Right Rotary Joint",
+                    "Left Tip Joint", "Left Mid Joint", "Left Rotary Joint"]
     slider_limits = [[90, 135],
                      [90, 180], [90, 180], [90, 180],
                      [90, 180], [90, 180], [90, 180]]
