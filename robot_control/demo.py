@@ -43,7 +43,12 @@ while(cmd != 0):
     print("10 - rotate left 4 steps")
     print("11 - rotate right 1 step")
     print("12 - rotate right 4 steps")
-    
+    print("13 - hand shake")
+    print("14 - king kong")
+    print("15 - leg wave left")
+    print("16 - leg wave right")
+    print("17 - bounce down")
+
     cmd = input("Choose an option:")
 
     if(cmd == 1):
@@ -82,3 +87,18 @@ while(cmd != 0):
     elif(cmd == 12):
         print("roate right 4 step")
         hex_walker.rotate(4, RIGHT)
+    elif(cmd == 13):
+        print("hand shake")
+        torso.hand_shake(90, 4)
+    elif(cmd == 14):
+        print("king kong")
+        torso.king_kong(90, 4)
+    elif(cmd == 15):
+        print("leg wave left")
+        hex_walker.leg_wave(LEFT, .1, 4)
+    elif(cmd == 16):
+        print("leg wave right")
+        hex_walker.leg_wave(RIGHT, .1, 4)
+    elif(cmd == 17):
+        print("bounce down")
+        hex_walker.bounce(.3, 4)

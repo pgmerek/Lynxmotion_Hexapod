@@ -144,3 +144,13 @@ TALL_TRI_SIDE_MOVEMENT_TABLE = {
          
         "CENTER_UP_OUT": Leg_Position(100, 70, 90),
         }
+
+
+# misc table
+MISC_TABLE = {
+        "BOUNCE"            : Leg_Position(90, 75, 90),
+        "PULL_UP"           : Leg_Position(60, 75, 90)
+
+   }
+
+
