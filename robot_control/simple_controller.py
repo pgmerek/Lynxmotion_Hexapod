@@ -76,17 +76,17 @@ for frame in camera.capture_continuous(raw_capture, format="bgr", use_video_port
     leg_args = []
     torso_cmd = "none"
     torso_args = []
-    if color == "pink":
+    if color == "blue":
         leg_cmd = "bounce"
         leg_args = [.5, 4]
         torso_cmd = "king_kong"
         torso_args = [90, 4]
-    elif color == "blue":
+    elif color == "yellow":
         leg_cmd = "leg_wave"
         leg_args = [LEFT, .1, 5]
         torso_cmd = "monkey"
         torso_args = [3]
-    elif color == "yellow":
+    elif color == "pink":
         if size == "small":
             leg_cmd = "walk"
             leg_args = [1, 0]
@@ -111,7 +111,3 @@ for frame in camera.capture_continuous(raw_capture, format="bgr", use_video_port
     leg_thread.join()
     torso_thread.join()
     raw_capture.truncate(0)
-
-
-
-
