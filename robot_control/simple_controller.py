@@ -26,7 +26,7 @@ def walker_command(hex_walker, command, args):
         hex_walker.bounce(args[0], args[1])
     elif(command == "leg_wave"):
         logging.warning("leg_wave")
-        hex_walker.leg_wave(args[0], args[1], args[2])
+        hex_walker.leg_wave(1, .1, 4)
     elif(command == "walk"):
         logging.warning("walk")
         hex_walker.walk(args[0], args[1])
@@ -43,8 +43,8 @@ rf = Leg(0, pwm_40, 0, 1, 2, 0)
 rm = Leg(0, pwm_40, 3, 4, 5, 1)
 rr = Leg(0, pwm_40, 6, 7, 8, 2)
 lr = Leg(0, pwm_41, 0, 1, 2, 3)
-lm = Leg(0, pwm_41, 3, 4, 5, 4)
-lf = Leg(0, pwm_41, 6, 7, 8, 5)
+lm = Leg(0, pwm_41, 6, 4, 5, 4)
+lf = Leg(0, pwm_41, 3, 7, 8, 5)
 
 # create the hex walker
 hex_walker = Hex_Walker(rf, rm, rr, lr, lm, lf)
