@@ -582,6 +582,28 @@ class Hex_Walker(object):
         #cleanup
         self.set_hex_walker_position(TALL_NEUTRAL)
 
+    def leg_wave(self, direction, speed, repetitions):
+        for i in range(0, repetitions):
+            if(direction == RIGHT):
+                for leg in self.all_legs:
+                    leg.set_leg_position(MISC_TABLE["PULL_UP"])
+                    time.sleep(speed)
+                    leg.set_leg_position(TALL_TRI_MOVEMENT_TABLE["NEUTRAL"])
+            if(direction == LEFT):
+                for i in range(len(self.all_legs)-1, -1, -1):
+                    self.all_legs[i].set_leg_position(MISC_TABLE["PULL_UP"])
+                    time.sleep(speed)
+                    self.all_legs[i].set_leg_position(TALL_TRI_MOVEMENT_TABLE["NEUTRAL"])
+
+    def bounce(self, wait, repetitions):
+        for i in range(0, repetitions):
+            self.set_hex_walker_position(TALL_TRI_BOUNCE_DOWN)
+            time.sleep(wait)
+            self.set_hex_walker_position(TALL_NEUTRAL)
+            time.sleep(wait)
+
+    def do_nothing(self):
+        self.set_hex_walker_position(TALL_NEUTRAL)
 
 # NOTE: the functinos set_hex_walker_position and do_set_hex_walker_position are similar but one takes in a raw position and the other uses the defined table AND updates the current position. Using the do
 # version skips this state-updating and so it can be useful for testing
@@ -677,7 +699,28 @@ class Robot_Torso(object):
         rotations = [45, 45, 45, 45, 45, 45, 45, 45, 135, 135, 135, 135, 135, 135, 135,135]
         sleeps =    [.1, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1]
         self.do_moveset(moves, rotations, sleeps, repetitions)
-
+        self.set_torso_position(TORSO_NEUTRAL, 90)
+    
+    def king_kong(self, rotation, repetitions):
+        moves = []
+        moves.append(TORSO_DANCE_FRONT_LEFT_OUT)
+        moves.append(TORSO_DANCE_FRONT_RIGHT_OUT)
+        rotations = [rotation, rotation]
+        sleeps = [.4, .4]
+        self.do_moveset(moves, rotations, sleeps, repetitions)
+        self.set_torso_position(TORSO_NEUTRAL, 90)
+    
+    def hand_shake(self, rotation, repetitions):
+        moves = []
+        moves.append(TORSO_SHAKE_DOWN)
+        moves.append(TORSO_SHAKE_MID)
+        moves.append(TORSO_SHAKE_UP)
+        moves.append(TORSO_SHAKE_MID)
+        rotations = [rotation, rotation, rotation, rotation]
+        sleeps = [.1, .1, .1, .1]
+        self.do_moveset(moves, rotations, sleeps, repetitions)
+        self.set_torso_position(TORSO_NEUTRAL, 90)
+    
     def wave(self, rotation, repetitions):
         moves = []
         moves.append(TORSO_WAVE_DOWN)
@@ -685,3 +728,8 @@ class Robot_Torso(object):
         rotations = [rotation, rotation]
         sleeps = [.4, .4]
         self.do_moveset(moves, rotations, sleeps, repetitions)
+        self.set_torso_position(TORSO_NEUTRAL, 90)
+
+
+    def do_nothing(self):
+        self.set_torso_position(TORSO_NEUTRAL, 90)
