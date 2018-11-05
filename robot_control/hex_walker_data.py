@@ -130,6 +130,9 @@ TALL_TRI_FRONT_UP_NEUTRAL_BACK_BACKWARDS = 51
 TALL_TRI_FRONT_NEUTRAL_BACK_BACKWARDS = 52
 TALL_TRI_FRONT_NEUTRAL_BACK_UP_NEUTRAL = 53
 
+# bounce position
+TALL_TRI_BOUNCE_DOWN = 54
+
 # testing positions
 FRONT_LEGS_UP = 1001
 
@@ -593,9 +596,10 @@ HEX_WALKER_POSITIONS = {
                             [TALL_NEUTRAL, NORMAL_NEUTRAL,
                              TALL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL,
                              TALL_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL,
-                             TALL_TRI_FRONT_CENTER_UP_OUT_BACK_NEUTRAL
+                             TALL_TRI_FRONT_CENTER_UP_OUT_BACK_NEUTRAL,
+                             TALL_TRI_BOUNCE_DOWN
                              ],
-                            "crouch neutral position",
+                            "tall neutral position",
                             ),
 
         # 32
@@ -905,6 +909,19 @@ HEX_WALKER_POSITIONS = {
                             [TALL_NEUTRAL
                             ],
                             "front legs neutral, all others up neutral",
+                            ),
+
+        # 54
+        TALL_TRI_BOUNCE_DOWN:
+        Hex_Walker_Position(MISC_TABLE["BOUNCE"],
+                            MISC_TABLE["BOUNCE"],
+                            MISC_TABLE["BOUNCE"],
+                            MISC_TABLE["BOUNCE"],
+                            MISC_TABLE["BOUNCE"],
+                            MISC_TABLE["BOUNCE"],
+                            [TALL_NEUTRAL
+                            ],
+                            "crouched down from tall height",
                             ),
 
         # past here are just positions that are used for testing.
