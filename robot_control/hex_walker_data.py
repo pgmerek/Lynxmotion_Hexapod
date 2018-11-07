@@ -69,6 +69,70 @@ NORMAL_TRI_RIGHT_LEFT_LEFT_RIGHT = 14
 NORMAL_TRI_RIGHT_LEFT_LEFT_UP_RIGHT = 15
 # NORMAL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL
 
+# possible hex_walker positions during a tripod "walk" cycle
+CROUCH_NEUTRAL = 16
+CROUCH_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL = 17
+CROUCH_TRI_RIGHT_BACK_LEFT_UP_FORWARD = 18
+CROUCH_TRI_RIGHT_BACK_LEFT_FORWARD = 19
+CROUCH_TRI_RIGHT_UP_BACK_LEFT_FORWARD = 20
+CROUCH_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL = 21
+CROUCH_TRI_RIGHT_UP_FORWARD_LEFT_BACK = 22
+CROUCH_TRI_RIGHT_FORWARD_LEFT_BACK = 23
+CROUCH_TRI_RIGHT_FORWARD_LEFT_UP_BACK = 24
+# CROUCH_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL
+
+# possible hex_walker positions during a tripod "rotate" cycle
+# CROUCH_NEUTRAL
+# CROUCH_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL
+CROUCH_TRI_RIGHT_RIGHT_LEFT_UP_LEFT = 25
+CROUCH_TRI_RIGHT_RIGHT_LEFT_LEFT = 26
+CROUCH_TRI_RIGHT_UP_RIGHT_LEFT_LEFT = 27
+# CROUCH_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL
+CROUCH_TRI_RIGHT_UP_LEFT_LEFT_RIGHT = 28
+CROUCH_TRI_RIGHT_LEFT_LEFT_RIGHT = 29
+CROUCH_TRI_RIGHT_LEFT_LEFT_UP_RIGHT = 30
+# CROUCH_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL
+
+# possible hex_walker positions during a tripod "walk" cycle
+TALL_NEUTRAL = 31
+TALL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL = 32
+TALL_TRI_RIGHT_BACK_LEFT_UP_FORWARD = 33
+TALL_TRI_RIGHT_BACK_LEFT_FORWARD = 34
+TALL_TRI_RIGHT_UP_BACK_LEFT_FORWARD = 35
+TALL_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL = 36
+TALL_TRI_RIGHT_UP_FORWARD_LEFT_BACK = 37
+TALL_TRI_RIGHT_FORWARD_LEFT_BACK = 38
+TALL_TRI_RIGHT_FORWARD_LEFT_UP_BACK = 39
+# TALL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL
+
+# possible hex_walker positions during a tripod "rotate" cycle
+# TALL_NEUTRAL
+# TALL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL
+TALL_TRI_RIGHT_RIGHT_LEFT_UP_LEFT = 40
+TALL_TRI_RIGHT_RIGHT_LEFT_LEFT = 41
+TALL_TRI_RIGHT_UP_RIGHT_LEFT_LEFT = 42
+# TALL_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL
+TALL_TRI_RIGHT_UP_LEFT_LEFT_RIGHT = 43
+TALL_TRI_RIGHT_LEFT_LEFT_RIGHT = 44
+TALL_TRI_RIGHT_LEFT_LEFT_UP_RIGHT = 45
+# TALL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL
+
+# possible hex_walker positions during a tripod "side walk" cycle
+# "front" doesn't refer to the label on the robot. The front is just the side that the robot is moving towards.
+
+# TALL_NEUTRAL = 46
+TALL_TRI_FRONT_CENTER_UP_OUT_BACK_NEUTRAL = 46
+TALL_TRI_FRONT_CENTER_OUT_BACK_UP_NEUTRAL = 47
+TALL_TRI_FRONT_BACKWARDS_BACK_UP_NEUTRAL= 48
+TALL_TRI_FRONT_BACKWARDS_BACK_NEUTRAL= 49
+TALL_TRI_FRONT_UP_NEUTRAL_BACK_NEUTRAL = 50 
+TALL_TRI_FRONT_UP_NEUTRAL_BACK_BACKWARDS = 51
+TALL_TRI_FRONT_NEUTRAL_BACK_BACKWARDS = 52
+TALL_TRI_FRONT_NEUTRAL_BACK_UP_NEUTRAL = 53
+
+# bounce position
+TALL_TRI_BOUNCE_DOWN = 54
+
 # testing positions
 FRONT_LEGS_UP = 1001
 
@@ -83,9 +147,10 @@ HEX_WALKER_POSITIONS = {
                             NORMAL_TRI_MOVEMENT_TABLE["NEUTRAL"],
                             NORMAL_TRI_MOVEMENT_TABLE["NEUTRAL"],
                             NORMAL_TRI_MOVEMENT_TABLE["NEUTRAL"],
-                            [NORMAL_NEUTRAL,
+                            [NORMAL_NEUTRAL, CROUCH_NEUTRAL,
                              NORMAL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL,
-                             NORMAL_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL
+                             NORMAL_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL,
+                             TALL_NEUTRAL
                              ],
                             "normal neutral position",
                             ),
@@ -297,6 +362,569 @@ HEX_WALKER_POSITIONS = {
                             ],
                             "right is left, left is up",
                             ),
+        # Crouch (low height) walking positions the order that they need to execute
+        # 16
+        CROUCH_NEUTRAL:
+        Hex_Walker_Position(CROUCH_TRI_MOVEMENT_TABLE["NEUTRAL"],
+                            CROUCH_TRI_MOVEMENT_TABLE["NEUTRAL"],
+                            CROUCH_TRI_MOVEMENT_TABLE["NEUTRAL"],
+                            CROUCH_TRI_MOVEMENT_TABLE["NEUTRAL"],
+                            CROUCH_TRI_MOVEMENT_TABLE["NEUTRAL"],
+                            CROUCH_TRI_MOVEMENT_TABLE["NEUTRAL"],
+                            [CROUCH_NEUTRAL, NORMAL_NEUTRAL,
+                             CROUCH_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL,
+                             CROUCH_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL
+                             ],
+                            "crouch neutral position",
+                            ),
+
+        # 17
+        CROUCH_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL:
+        Hex_Walker_Position(CROUCH_TRI_MOVEMENT_TABLE["NEUTRAL"],
+                            CROUCH_TRI_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            CROUCH_TRI_MOVEMENT_TABLE["NEUTRAL"],
+                            CROUCH_TRI_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            CROUCH_TRI_MOVEMENT_TABLE["NEUTRAL"],
+                            CROUCH_TRI_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            [CROUCH_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL,
+                             CROUCH_TRI_RIGHT_RIGHT_LEFT_UP_LEFT,
+                             CROUCH_TRI_RIGHT_LEFT_LEFT_UP_RIGHT,
+                             CROUCH_TRI_RIGHT_BACK_LEFT_UP_FORWARD,
+                             CROUCH_TRI_RIGHT_FORWARD_LEFT_UP_BACK,
+                             CROUCH_NEUTRAL
+                             ],
+                            "right is neutral, left is up",
+                            ),
+        # 18
+        CROUCH_TRI_RIGHT_BACK_LEFT_UP_FORWARD:
+        Hex_Walker_Position(CROUCH_TRI_MOVEMENT_TABLE["NEUTRAL"],
+                            CROUCH_TRI_MOVEMENT_TABLE["SIDE_UP_LEFT"],
+                            CROUCH_TRI_MOVEMENT_TABLE["CORN_OUT_RIGHT"],
+                            CROUCH_TRI_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            CROUCH_TRI_MOVEMENT_TABLE["NEUTRAL"],
+                            CROUCH_TRI_MOVEMENT_TABLE["CORN_UP_OUT_RIGHT"],
+                            [CROUCH_TRI_RIGHT_BACK_LEFT_UP_FORWARD,
+                             CROUCH_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL,
+                             CROUCH_TRI_RIGHT_FORWARD_LEFT_UP_BACK,
+                             CROUCH_TRI_RIGHT_BACK_LEFT_FORWARD
+                             ],
+                            "right neutral, left up",
+                            ),
+        # 19
+        CROUCH_TRI_RIGHT_BACK_LEFT_FORWARD:
+        Hex_Walker_Position(CROUCH_TRI_MOVEMENT_TABLE["NEUTRAL"],
+                            CROUCH_TRI_MOVEMENT_TABLE["SIDE_LEFT"],
+                            CROUCH_TRI_MOVEMENT_TABLE["CORN_OUT_RIGHT"],
+                            CROUCH_TRI_MOVEMENT_TABLE["NEUTRAL"],
+                            CROUCH_TRI_MOVEMENT_TABLE["NEUTRAL"],
+                            CROUCH_TRI_MOVEMENT_TABLE["CORN_OUT_RIGHT"],
+                            [CROUCH_TRI_RIGHT_BACK_LEFT_FORWARD,
+                             CROUCH_TRI_RIGHT_UP_BACK_LEFT_FORWARD,
+                             CROUCH_TRI_RIGHT_BACK_LEFT_UP_FORWARD
+                             ],
+                            "right is neutral, left is forward",
+                            ),
+        # 20
+        CROUCH_TRI_RIGHT_UP_BACK_LEFT_FORWARD:
+        Hex_Walker_Position(CROUCH_TRI_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            CROUCH_TRI_MOVEMENT_TABLE["SIDE_LEFT"],
+                            CROUCH_TRI_MOVEMENT_TABLE["CORN_UP_OUT_RIGHT"],
+                            CROUCH_TRI_MOVEMENT_TABLE["NEUTRAL"],
+                            CROUCH_TRI_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            CROUCH_TRI_MOVEMENT_TABLE["CORN_OUT_RIGHT"],
+                            [CROUCH_TRI_RIGHT_UP_BACK_LEFT_FORWARD,
+                             CROUCH_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL,
+                             CROUCH_TRI_RIGHT_BACK_LEFT_FORWARD,
+                             ],
+                            "right is up, left is forward",
+                            ),
+        # 21
+        CROUCH_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL:
+        Hex_Walker_Position(CROUCH_TRI_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            CROUCH_TRI_MOVEMENT_TABLE["NEUTRAL"],
+                            CROUCH_TRI_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            CROUCH_TRI_MOVEMENT_TABLE["NEUTRAL"],
+                            CROUCH_TRI_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            CROUCH_TRI_MOVEMENT_TABLE["NEUTRAL"],
+                            [CROUCH_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL,
+                             CROUCH_TRI_RIGHT_UP_LEFT_LEFT_RIGHT,
+                             CROUCH_TRI_RIGHT_UP_RIGHT_LEFT_LEFT,
+                             CROUCH_TRI_RIGHT_UP_FORWARD_LEFT_BACK,
+                             CROUCH_TRI_RIGHT_UP_BACK_LEFT_FORWARD,
+                             CROUCH_NEUTRAL
+                             ],
+                            "right is up, left is neutral",
+                            ),
+        # 22
+        CROUCH_TRI_RIGHT_UP_FORWARD_LEFT_BACK:
+        Hex_Walker_Position(CROUCH_TRI_MOVEMENT_TABLE["CORN_UP_OUT_LEFT"],
+                            CROUCH_TRI_MOVEMENT_TABLE["NEUTRAL"],
+                            CROUCH_TRI_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            CROUCH_TRI_MOVEMENT_TABLE["CORN_OUT_LEFT"],
+                            CROUCH_TRI_MOVEMENT_TABLE["SIDE_UP_RIGHT"],
+                            CROUCH_TRI_MOVEMENT_TABLE["NEUTRAL"],
+                            [CROUCH_TRI_RIGHT_UP_FORWARD_LEFT_BACK,
+                             CROUCH_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL,
+                             CROUCH_TRI_RIGHT_FORWARD_LEFT_BACK
+                             ],
+                            "right is up, left is neutral",
+                            ),
+        # 23
+        CROUCH_TRI_RIGHT_FORWARD_LEFT_BACK:
+        Hex_Walker_Position(CROUCH_TRI_MOVEMENT_TABLE["CORN_OUT_LEFT"],
+                            CROUCH_TRI_MOVEMENT_TABLE["NEUTRAL"],
+                            CROUCH_TRI_MOVEMENT_TABLE["NEUTRAL"],
+                            CROUCH_TRI_MOVEMENT_TABLE["CORN_OUT_LEFT"],
+                            CROUCH_TRI_MOVEMENT_TABLE["SIDE_RIGHT"],
+                            CROUCH_TRI_MOVEMENT_TABLE["NEUTRAL"],
+                            [CROUCH_TRI_RIGHT_FORWARD_LEFT_BACK,
+                             CROUCH_TRI_RIGHT_UP_FORWARD_LEFT_BACK,
+                             CROUCH_TRI_RIGHT_FORWARD_LEFT_UP_BACK
+                             ],
+                            "right is forward, left is neutral",
+                            ),
+        # 24
+        CROUCH_TRI_RIGHT_FORWARD_LEFT_UP_BACK:
+        Hex_Walker_Position(CROUCH_TRI_MOVEMENT_TABLE["CORN_OUT_LEFT"],
+                            CROUCH_TRI_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            CROUCH_TRI_MOVEMENT_TABLE["NEUTRAL"],
+                            CROUCH_TRI_MOVEMENT_TABLE["CORN_UP_OUT_LEFT"],
+                            CROUCH_TRI_MOVEMENT_TABLE["SIDE_RIGHT"],
+                            CROUCH_TRI_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            [CROUCH_TRI_RIGHT_FORWARD_LEFT_UP_BACK,
+                             CROUCH_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL,
+                             CROUCH_TRI_RIGHT_FORWARD_LEFT_BACK
+                             ],
+                            "right is forward, left is up",
+                            ),
+        
+        # crouch rotation movements
+        # 25
+        CROUCH_TRI_RIGHT_RIGHT_LEFT_UP_LEFT:
+        Hex_Walker_Position(CROUCH_TRI_ROTATION_TABLE["RIGHT"],
+                            CROUCH_TRI_ROTATION_TABLE["UP_LEFT"],
+                            CROUCH_TRI_ROTATION_TABLE["RIGHT"],
+                            CROUCH_TRI_ROTATION_TABLE["UP_LEFT"],
+                            CROUCH_TRI_ROTATION_TABLE["RIGHT"],
+                            CROUCH_TRI_ROTATION_TABLE["UP_LEFT"],
+                            [CROUCH_TRI_RIGHT_RIGHT_LEFT_UP_LEFT,
+                            CROUCH_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL,
+                            CROUCH_TRI_RIGHT_RIGHT_LEFT_LEFT
+                            ],
+                            "right is right, left is up",
+                            ),
+        # 26
+        CROUCH_TRI_RIGHT_RIGHT_LEFT_LEFT:
+        Hex_Walker_Position(CROUCH_TRI_ROTATION_TABLE["RIGHT"],
+                            CROUCH_TRI_ROTATION_TABLE["LEFT"],
+                            CROUCH_TRI_ROTATION_TABLE["RIGHT"],
+                            CROUCH_TRI_ROTATION_TABLE["LEFT"],
+                            CROUCH_TRI_ROTATION_TABLE["RIGHT"],
+                            CROUCH_TRI_ROTATION_TABLE["LEFT"],
+                            [CROUCH_TRI_RIGHT_RIGHT_LEFT_LEFT,
+                            CROUCH_TRI_RIGHT_UP_RIGHT_LEFT_LEFT,
+                            CROUCH_TRI_RIGHT_RIGHT_LEFT_UP_LEFT
+                            ],
+                            "right is right, left is left",
+                            ),
+        # 27
+        CROUCH_TRI_RIGHT_UP_RIGHT_LEFT_LEFT:
+        Hex_Walker_Position(CROUCH_TRI_ROTATION_TABLE["UP_RIGHT"],
+                            CROUCH_TRI_ROTATION_TABLE["LEFT"],
+                            CROUCH_TRI_ROTATION_TABLE["UP_RIGHT"],
+                            CROUCH_TRI_ROTATION_TABLE["LEFT"],
+                            CROUCH_TRI_ROTATION_TABLE["UP_RIGHT"],
+                            CROUCH_TRI_ROTATION_TABLE["LEFT"],
+                            [CROUCH_TRI_RIGHT_UP_RIGHT_LEFT_LEFT,
+                            CROUCH_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL,
+                            CROUCH_TRI_RIGHT_RIGHT_LEFT_LEFT,
+                            ],
+                            "right is up, left is left",
+                            ),
+        # 28
+        CROUCH_TRI_RIGHT_UP_LEFT_LEFT_RIGHT:
+        Hex_Walker_Position(CROUCH_TRI_ROTATION_TABLE["UP_LEFT"],
+                            CROUCH_TRI_ROTATION_TABLE["RIGHT"],
+                            CROUCH_TRI_ROTATION_TABLE["UP_LEFT"],
+                            CROUCH_TRI_ROTATION_TABLE["RIGHT"],
+                            CROUCH_TRI_ROTATION_TABLE["UP_LEFT"],
+                            CROUCH_TRI_ROTATION_TABLE["RIGHT"],
+                            [CROUCH_TRI_RIGHT_UP_LEFT_LEFT_RIGHT,
+                            CROUCH_TRI_RIGHT_LEFT_LEFT_RIGHT,
+                            CROUCH_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL
+                            ],
+                            "right is up, left is right",
+                            ),
+        # 29
+        CROUCH_TRI_RIGHT_LEFT_LEFT_RIGHT:
+        Hex_Walker_Position(CROUCH_TRI_ROTATION_TABLE["LEFT"],
+                            CROUCH_TRI_ROTATION_TABLE["RIGHT"],
+                            CROUCH_TRI_ROTATION_TABLE["LEFT"],
+                            CROUCH_TRI_ROTATION_TABLE["RIGHT"],
+                            CROUCH_TRI_ROTATION_TABLE["LEFT"],
+                            CROUCH_TRI_ROTATION_TABLE["RIGHT"],
+                            [CROUCH_TRI_RIGHT_LEFT_LEFT_RIGHT,
+                            CROUCH_TRI_RIGHT_LEFT_LEFT_UP_RIGHT,
+                            CROUCH_TRI_RIGHT_UP_LEFT_LEFT_RIGHT
+                            ],
+                            "Right is left, left is right",
+                            ),
+        # 30
+        CROUCH_TRI_RIGHT_LEFT_LEFT_UP_RIGHT:
+        Hex_Walker_Position(CROUCH_TRI_ROTATION_TABLE["LEFT"],
+                            CROUCH_TRI_ROTATION_TABLE["UP_RIGHT"],
+                            CROUCH_TRI_ROTATION_TABLE["LEFT"],
+                            CROUCH_TRI_ROTATION_TABLE["UP_RIGHT"],
+                            CROUCH_TRI_ROTATION_TABLE["LEFT"],
+                            CROUCH_TRI_ROTATION_TABLE["UP_RIGHT"],
+                            [CROUCH_TRI_RIGHT_LEFT_LEFT_UP_RIGHT,
+                            CROUCH_TRI_RIGHT_LEFT_LEFT_RIGHT,
+                            CROUCH_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL
+                            ],
+                            "right is left, left is up",
+                            ),
+
+        # Tall (tall height) walking positions the order that they need to execute
+        # 31
+        TALL_NEUTRAL:
+        Hex_Walker_Position(TALL_TRI_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_MOVEMENT_TABLE["NEUTRAL"],
+                            [TALL_NEUTRAL, NORMAL_NEUTRAL,
+                             TALL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL,
+                             TALL_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL,
+                             TALL_TRI_FRONT_CENTER_UP_OUT_BACK_NEUTRAL,
+                             TALL_TRI_BOUNCE_DOWN
+                             ],
+                            "tall neutral position",
+                            ),
+
+        # 32
+        TALL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL:
+        Hex_Walker_Position(TALL_TRI_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            TALL_TRI_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            TALL_TRI_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            [TALL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL,
+                             TALL_TRI_RIGHT_RIGHT_LEFT_UP_LEFT,
+                             TALL_TRI_RIGHT_LEFT_LEFT_UP_RIGHT,
+                             TALL_TRI_RIGHT_BACK_LEFT_UP_FORWARD,
+                             TALL_TRI_RIGHT_FORWARD_LEFT_UP_BACK,
+                             TALL_NEUTRAL
+                             ],
+                            "right is neutral, left is up",
+                            ),
+        # 33
+        TALL_TRI_RIGHT_BACK_LEFT_UP_FORWARD:
+        Hex_Walker_Position(TALL_TRI_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_MOVEMENT_TABLE["SIDE_UP_LEFT"],
+                            TALL_TRI_MOVEMENT_TABLE["CORN_OUT_RIGHT"],
+                            TALL_TRI_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            TALL_TRI_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_MOVEMENT_TABLE["CORN_UP_OUT_RIGHT"],
+                            [TALL_TRI_RIGHT_BACK_LEFT_UP_FORWARD,
+                             TALL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL,
+                             TALL_TRI_RIGHT_FORWARD_LEFT_UP_BACK,
+                             TALL_TRI_RIGHT_BACK_LEFT_FORWARD
+                             ],
+                            "right neutral, left up",
+                            ),
+        # 34
+        TALL_TRI_RIGHT_BACK_LEFT_FORWARD:
+        Hex_Walker_Position(TALL_TRI_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_MOVEMENT_TABLE["SIDE_LEFT"],
+                            TALL_TRI_MOVEMENT_TABLE["CORN_OUT_RIGHT"],
+                            TALL_TRI_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_MOVEMENT_TABLE["CORN_OUT_RIGHT"],
+                            [TALL_TRI_RIGHT_BACK_LEFT_FORWARD,
+                             TALL_TRI_RIGHT_UP_BACK_LEFT_FORWARD,
+                             TALL_TRI_RIGHT_BACK_LEFT_UP_FORWARD
+                             ],
+                            "right is neutral, left is forward",
+                            ),
+        # 35
+        TALL_TRI_RIGHT_UP_BACK_LEFT_FORWARD:
+        Hex_Walker_Position(TALL_TRI_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            TALL_TRI_MOVEMENT_TABLE["SIDE_LEFT"],
+                            TALL_TRI_MOVEMENT_TABLE["CORN_UP_OUT_RIGHT"],
+                            TALL_TRI_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            TALL_TRI_MOVEMENT_TABLE["CORN_OUT_RIGHT"],
+                            [TALL_TRI_RIGHT_UP_BACK_LEFT_FORWARD,
+                             TALL_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL,
+                             TALL_TRI_RIGHT_BACK_LEFT_FORWARD,
+                             ],
+                            "right is up, left is forward",
+                            ),
+        # 36
+        TALL_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL:
+        Hex_Walker_Position(TALL_TRI_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            TALL_TRI_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            TALL_TRI_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            TALL_TRI_MOVEMENT_TABLE["NEUTRAL"],
+                            [TALL_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL,
+                             TALL_TRI_RIGHT_UP_LEFT_LEFT_RIGHT,
+                             TALL_TRI_RIGHT_UP_RIGHT_LEFT_LEFT,
+                             TALL_TRI_RIGHT_UP_FORWARD_LEFT_BACK,
+                             TALL_TRI_RIGHT_UP_BACK_LEFT_FORWARD,
+                             TALL_NEUTRAL
+                             ],
+                            "right is up, left is neutral",
+                            ),
+        # 37
+        TALL_TRI_RIGHT_UP_FORWARD_LEFT_BACK:
+        Hex_Walker_Position(TALL_TRI_MOVEMENT_TABLE["CORN_UP_OUT_LEFT"],
+                            TALL_TRI_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            TALL_TRI_MOVEMENT_TABLE["CORN_OUT_LEFT"],
+                            TALL_TRI_MOVEMENT_TABLE["SIDE_UP_RIGHT"],
+                            TALL_TRI_MOVEMENT_TABLE["NEUTRAL"],
+                            [TALL_TRI_RIGHT_UP_FORWARD_LEFT_BACK,
+                             TALL_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL,
+                             TALL_TRI_RIGHT_FORWARD_LEFT_BACK
+                             ],
+                            "right is up, left is neutral",
+                            ),
+        # 38
+        TALL_TRI_RIGHT_FORWARD_LEFT_BACK:
+        Hex_Walker_Position(TALL_TRI_MOVEMENT_TABLE["CORN_OUT_LEFT"],
+                            TALL_TRI_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_MOVEMENT_TABLE["CORN_OUT_LEFT"],
+                            TALL_TRI_MOVEMENT_TABLE["SIDE_RIGHT"],
+                            TALL_TRI_MOVEMENT_TABLE["NEUTRAL"],
+                            [TALL_TRI_RIGHT_FORWARD_LEFT_BACK,
+                             TALL_TRI_RIGHT_UP_FORWARD_LEFT_BACK,
+                             TALL_TRI_RIGHT_FORWARD_LEFT_UP_BACK
+                             ],
+                            "right is forward, left is neutral",
+                            ),
+        # 39
+        TALL_TRI_RIGHT_FORWARD_LEFT_UP_BACK:
+        Hex_Walker_Position(TALL_TRI_MOVEMENT_TABLE["CORN_OUT_LEFT"],
+                            TALL_TRI_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            TALL_TRI_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_MOVEMENT_TABLE["CORN_UP_OUT_LEFT"],
+                            TALL_TRI_MOVEMENT_TABLE["SIDE_RIGHT"],
+                            TALL_TRI_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            [TALL_TRI_RIGHT_FORWARD_LEFT_UP_BACK,
+                             TALL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL,
+                             TALL_TRI_RIGHT_FORWARD_LEFT_BACK
+                             ],
+                            "right is forward, left is up",
+                            ),
+        
+        # crouch rotation movements
+        # 40
+        TALL_TRI_RIGHT_RIGHT_LEFT_UP_LEFT:
+        Hex_Walker_Position(TALL_TRI_ROTATION_TABLE["RIGHT"],
+                            TALL_TRI_ROTATION_TABLE["UP_LEFT"],
+                            TALL_TRI_ROTATION_TABLE["RIGHT"],
+                            TALL_TRI_ROTATION_TABLE["UP_LEFT"],
+                            TALL_TRI_ROTATION_TABLE["RIGHT"],
+                            TALL_TRI_ROTATION_TABLE["UP_LEFT"],
+                            [TALL_TRI_RIGHT_RIGHT_LEFT_UP_LEFT,
+                            TALL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL,
+                            TALL_TRI_RIGHT_RIGHT_LEFT_LEFT
+                            ],
+                            "right is right, left is up",
+                            ),
+        # 41
+        TALL_TRI_RIGHT_RIGHT_LEFT_LEFT:
+        Hex_Walker_Position(TALL_TRI_ROTATION_TABLE["RIGHT"],
+                            TALL_TRI_ROTATION_TABLE["LEFT"],
+                            TALL_TRI_ROTATION_TABLE["RIGHT"],
+                            TALL_TRI_ROTATION_TABLE["LEFT"],
+                            TALL_TRI_ROTATION_TABLE["RIGHT"],
+                            TALL_TRI_ROTATION_TABLE["LEFT"],
+                            [TALL_TRI_RIGHT_RIGHT_LEFT_LEFT,
+                            TALL_TRI_RIGHT_UP_RIGHT_LEFT_LEFT,
+                            TALL_TRI_RIGHT_RIGHT_LEFT_UP_LEFT
+                            ],
+                            "right is right, left is left",
+                            ),
+        # 42
+        TALL_TRI_RIGHT_UP_RIGHT_LEFT_LEFT:
+        Hex_Walker_Position(TALL_TRI_ROTATION_TABLE["UP_RIGHT"],
+                            TALL_TRI_ROTATION_TABLE["LEFT"],
+                            TALL_TRI_ROTATION_TABLE["UP_RIGHT"],
+                            TALL_TRI_ROTATION_TABLE["LEFT"],
+                            TALL_TRI_ROTATION_TABLE["UP_RIGHT"],
+                            TALL_TRI_ROTATION_TABLE["LEFT"],
+                            [TALL_TRI_RIGHT_UP_RIGHT_LEFT_LEFT,
+                            TALL_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL,
+                            TALL_TRI_RIGHT_RIGHT_LEFT_LEFT,
+                            ],
+                            "right is up, left is left",
+                            ),
+        # 43
+        TALL_TRI_RIGHT_UP_LEFT_LEFT_RIGHT:
+        Hex_Walker_Position(TALL_TRI_ROTATION_TABLE["UP_LEFT"],
+                            TALL_TRI_ROTATION_TABLE["RIGHT"],
+                            TALL_TRI_ROTATION_TABLE["UP_LEFT"],
+                            TALL_TRI_ROTATION_TABLE["RIGHT"],
+                            TALL_TRI_ROTATION_TABLE["UP_LEFT"],
+                            TALL_TRI_ROTATION_TABLE["RIGHT"],
+                            [TALL_TRI_RIGHT_UP_LEFT_LEFT_RIGHT,
+                            TALL_TRI_RIGHT_LEFT_LEFT_RIGHT,
+                            TALL_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL
+                            ],
+                            "right is up, left is right",
+                            ),
+        # 44
+        TALL_TRI_RIGHT_LEFT_LEFT_RIGHT:
+        Hex_Walker_Position(TALL_TRI_ROTATION_TABLE["LEFT"],
+                            TALL_TRI_ROTATION_TABLE["RIGHT"],
+                            TALL_TRI_ROTATION_TABLE["LEFT"],
+                            TALL_TRI_ROTATION_TABLE["RIGHT"],
+                            TALL_TRI_ROTATION_TABLE["LEFT"],
+                            TALL_TRI_ROTATION_TABLE["RIGHT"],
+                            [TALL_TRI_RIGHT_LEFT_LEFT_RIGHT,
+                            TALL_TRI_RIGHT_LEFT_LEFT_UP_RIGHT,
+                            TALL_TRI_RIGHT_UP_LEFT_LEFT_RIGHT
+                            ],
+                            "Right is left, left is right",
+                            ),
+        # 45
+        TALL_TRI_RIGHT_LEFT_LEFT_UP_RIGHT:
+        Hex_Walker_Position(TALL_TRI_ROTATION_TABLE["LEFT"],
+                            TALL_TRI_ROTATION_TABLE["UP_RIGHT"],
+                            TALL_TRI_ROTATION_TABLE["LEFT"],
+                            TALL_TRI_ROTATION_TABLE["UP_RIGHT"],
+                            TALL_TRI_ROTATION_TABLE["LEFT"],
+                            TALL_TRI_ROTATION_TABLE["UP_RIGHT"],
+                            [TALL_TRI_RIGHT_LEFT_LEFT_UP_RIGHT,
+                            TALL_TRI_RIGHT_LEFT_LEFT_RIGHT,
+                            TALL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL
+                            ],
+                            "right is left, left is up",
+                            ),
+
+        # 46
+        TALL_TRI_FRONT_CENTER_UP_OUT_BACK_NEUTRAL:
+        Hex_Walker_Position(TALL_TRI_SIDE_MOVEMENT_TABLE["CENTER_UP_OUT"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["NEUTRAL"],
+                            [TALL_TRI_FRONT_CENTER_OUT_BACK_UP_NEUTRAL
+                            ],
+                            "front leg up-out, all others neutral",
+                            ),
+
+
+        # 47
+        TALL_TRI_FRONT_CENTER_OUT_BACK_UP_NEUTRAL:
+        Hex_Walker_Position(TALL_TRI_SIDE_MOVEMENT_TABLE["CENTER_OUT"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            [TALL_TRI_FRONT_BACKWARDS_BACK_UP_NEUTRAL
+                            ],
+                            "front leg out, all others neutral",
+                            ),
+
+        # 48
+        TALL_TRI_FRONT_BACKWARDS_BACK_UP_NEUTRAL:
+        Hex_Walker_Position(TALL_TRI_SIDE_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["SIDE_OUT_RIGHT"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["SIDE_OUT_LEFT"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            [TALL_TRI_FRONT_BACKWARDS_BACK_NEUTRAL
+                            ],
+                            "front legs back, all others up neutral",
+                            ),
+
+        # 49
+        TALL_TRI_FRONT_BACKWARDS_BACK_NEUTRAL:
+        Hex_Walker_Position(TALL_TRI_SIDE_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["SIDE_OUT_RIGHT"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["SIDE_OUT_LEFT"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["NEUTRAL"],
+                            [TALL_TRI_FRONT_UP_NEUTRAL_BACK_NEUTRAL
+                            ],
+                            "front legs back, all others neutral",
+                            ),
+        # 50
+        TALL_TRI_FRONT_UP_NEUTRAL_BACK_NEUTRAL: 
+        Hex_Walker_Position(TALL_TRI_SIDE_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["NEUTRAL"],
+                            [TALL_TRI_FRONT_UP_NEUTRAL_BACK_BACKWARDS
+                            ],
+                            "front legs up neutral, all others neutral",
+                            ),
+        
+        # 51
+        TALL_TRI_FRONT_UP_NEUTRAL_BACK_BACKWARDS:
+        Hex_Walker_Position(TALL_TRI_SIDE_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["SIDE_OUT_RIGHT"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["CENTER_OUT"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["SIDE_OUT_LEFT"],
+                            [TALL_TRI_FRONT_NEUTRAL_BACK_BACKWARDS
+                            ],
+                            "front legs up neutral, all others back",
+                            ),
+
+        # 52
+        TALL_TRI_FRONT_NEUTRAL_BACK_BACKWARDS:
+        Hex_Walker_Position(TALL_TRI_SIDE_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["SIDE_OUT_RIGHT"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["CENTER_OUT"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["SIDE_OUT_LEFT"],
+                            [TALL_TRI_FRONT_NEUTRAL_BACK_UP_NEUTRAL
+                            ],
+                            "front legs neutral, all others back",
+                            ),
+        # 53
+        TALL_TRI_FRONT_NEUTRAL_BACK_UP_NEUTRAL:
+        Hex_Walker_Position(TALL_TRI_SIDE_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["NEUTRAL"],
+                            TALL_TRI_SIDE_MOVEMENT_TABLE["UP_NEUTRAL"],
+                            [TALL_NEUTRAL
+                            ],
+                            "front legs neutral, all others up neutral",
+                            ),
+
+        # 54
+        TALL_TRI_BOUNCE_DOWN:
+        Hex_Walker_Position(MISC_TABLE["BOUNCE"],
+                            MISC_TABLE["BOUNCE"],
+                            MISC_TABLE["BOUNCE"],
+                            MISC_TABLE["BOUNCE"],
+                            MISC_TABLE["BOUNCE"],
+                            MISC_TABLE["BOUNCE"],
+                            [TALL_NEUTRAL
+                            ],
+                            "crouched down from tall height",
+                            ),
+
+        # past here are just positions that are used for testing.
         # past here are just positions that are used for testing.
         # They can only be reached by __set_hex_walker_position direct calls
         FRONT_LEGS_UP:
@@ -310,3 +938,5 @@ HEX_WALKER_POSITIONS = {
                             "front two legs are raised",
                             )
         }
+
+

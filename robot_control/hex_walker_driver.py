@@ -2,8 +2,10 @@ from __future__ import division
 import time
 from hex_walker_data import *
 from leg_data import *
+from torso_data import *
+
 # uncomment if working with the actual robot
-import Adafruit_PCA9685
+#import Adafruit_PCA9685
 
 #Extraneous
 HW_MOVE_DEBUG = 1 #toggle 0/1 to turn debug prints on/off
@@ -51,6 +53,22 @@ c_5_MID_MOTOR_DOWN = 482
 c_5_ROT_MOTOR_RIGHT = 155
 c_5_ROT_MOTOR_LEFT = 614
 
+c_L_ARM_TIP_MOTOR_OUT = 609
+c_L_ARM_TIP_MOTOR_IN = 153
+c_L_ARM_MID_MOTOR_OUT = 92
+c_L_ARM_MID_MOTOR_IN = 544
+c_L_ARM_ROT_MOTOR_UP = 118
+c_L_ARM_ROT_MOTOR_DOWN = 574
+
+c_R_ARM_TIP_MOTOR_OUT = 146
+c_R_ARM_TIP_MOTOR_IN = 603
+c_R_ARM_MID_MOTOR_OUT = 569
+c_R_ARM_MID_MOTOR_IN = 135
+c_R_ARM_ROT_MOTOR_UP = 628
+c_R_ARM_ROT_MOTOR_DOWN = 110
+
+
+
 # same regardless of side so no need to l/r differentiate
 TIP_MOTOR_OUT_ANGLE = 180
 TIP_MOTOR_IN_ANGLE = 60
@@ -58,6 +76,19 @@ MID_MOTOR_UP_ANGLE = 180
 MID_MOTOR_DOWN_ANGLE = 45
 ROT_MOTOR_RIGHT_ANGLE = 180
 ROT_MOTOR_LEFT_ANGLE = 0
+
+ARM_TIP_MOTOR_OUT_ANGLE = 180
+ARM_TIP_MOTOR_IN_ANGLE = 0
+ARM_MID_MOTOR_OUT_ANGLE = 180
+ARM_MID_MOTOR_IN_ANGLE = 0
+ARM_ROT_MOTOR_UP_ANGLE = 180
+ARM_ROT_MOTOR_DOWN_ANGLE = 0
+
+# rotation motor constants
+ROTATOR_MOTOR_LEFT = 424
+ROTATOR_MOTOR_RIGHT = 217
+ROTATOR_LEFT_ANGLE = 45
+ROTATOR_RIGHT_ANGLE = 135
 
 TIP_MOTOR = 1
 MID_MOTOR = 2
@@ -70,6 +101,16 @@ RIGHT = 2
 SUCCESS = 0
 INV_PARAM = -1
 ILLEGAL_MOVE = -2
+
+LEG_0 = 0
+LEG_1 = 1
+LEG_2 = 2
+LEG_3 = 3
+LEG_4 = 4
+LEG_5 = 5
+
+ARM_L = 6
+ARM_R = 7
 
 # helper functions
 # returns slope given two points
@@ -85,6 +126,22 @@ def linear_map(x1, y1, x2, y2, x_in_val):
     m = slope(x1, y1, x2, y2)
     b = intercept(x2, y2, m)
     return x_in_val * m + b
+
+def get_front_from_direction(direction):
+    if(direction == 0):
+        return "5-0"
+    elif(direction == 60):
+        return "0-1"
+    elif(direction == 120):
+        return "1-2"
+    elif(direction == 180):
+        return "2-3"
+    elif(direction == 240):
+        return "3-4"
+    elif(direction == 300):
+        return "4-5"
+    else:
+        return "5-0"
 
 # NOTE: these values are ANGLES not raw pwms
 class Leg_Position(object):
@@ -108,64 +165,89 @@ class Leg(object):
         self.mid_channel = mid_channel
         self.rot_channel = rot_channel
         # now, assign the correct constants
-        if leg_num == 0:
+        if leg_num == LEG_0:
             self.TIP_MOTOR_OUT      = c_0_TIP_MOTOR_OUT
             self.TIP_MOTOR_IN       = c_0_TIP_MOTOR_IN
             self.MID_MOTOR_UP       = c_0_MID_MOTOR_UP
             self.MID_MOTOR_DOWN     = c_0_MID_MOTOR_DOWN
             self.ROT_MOTOR_RIGHT    = c_0_ROT_MOTOR_RIGHT
             self.ROT_MOTOR_LEFT     = c_0_ROT_MOTOR_LEFT
-        elif leg_num == 1:
+        elif leg_num == LEG_1:
             self.TIP_MOTOR_OUT      = c_1_TIP_MOTOR_OUT
             self.TIP_MOTOR_IN       = c_1_TIP_MOTOR_IN
             self.MID_MOTOR_UP       = c_1_MID_MOTOR_UP
             self.MID_MOTOR_DOWN     = c_1_MID_MOTOR_DOWN
             self.ROT_MOTOR_RIGHT    = c_1_ROT_MOTOR_RIGHT
             self.ROT_MOTOR_LEFT     = c_1_ROT_MOTOR_LEFT
-        elif leg_num == 2:
+        elif leg_num == LEG_2:
             self.TIP_MOTOR_OUT      = c_2_TIP_MOTOR_OUT
             self.TIP_MOTOR_IN       = c_2_TIP_MOTOR_IN
             self.MID_MOTOR_UP       = c_2_MID_MOTOR_UP
             self.MID_MOTOR_DOWN     = c_2_MID_MOTOR_DOWN
             self.ROT_MOTOR_RIGHT    = c_2_ROT_MOTOR_RIGHT
             self.ROT_MOTOR_LEFT     = c_2_ROT_MOTOR_LEFT
-        elif leg_num == 3:
+        elif leg_num == LEG_3:
             self.TIP_MOTOR_OUT      = c_3_TIP_MOTOR_OUT
             self.TIP_MOTOR_IN       = c_3_TIP_MOTOR_IN
             self.MID_MOTOR_UP       = c_3_MID_MOTOR_UP
             self.MID_MOTOR_DOWN     = c_3_MID_MOTOR_DOWN
             self.ROT_MOTOR_RIGHT    = c_3_ROT_MOTOR_RIGHT
             self.ROT_MOTOR_LEFT     = c_3_ROT_MOTOR_LEFT
-        elif leg_num == 4:
+        elif leg_num == LEG_4:
             self.TIP_MOTOR_OUT      = c_4_TIP_MOTOR_OUT
             self.TIP_MOTOR_IN       = c_4_TIP_MOTOR_IN
             self.MID_MOTOR_UP       = c_4_MID_MOTOR_UP
             self.MID_MOTOR_DOWN     = c_4_MID_MOTOR_DOWN
             self.ROT_MOTOR_RIGHT    = c_4_ROT_MOTOR_RIGHT
             self.ROT_MOTOR_LEFT     = c_4_ROT_MOTOR_LEFT
-        elif leg_num == 5:
+        elif leg_num == LEG_5:
             self.TIP_MOTOR_OUT      = c_5_TIP_MOTOR_OUT
             self.TIP_MOTOR_IN       = c_5_TIP_MOTOR_IN
             self.MID_MOTOR_UP       = c_5_MID_MOTOR_UP
             self.MID_MOTOR_DOWN     = c_5_MID_MOTOR_DOWN
             self.ROT_MOTOR_RIGHT    = c_5_ROT_MOTOR_RIGHT
             self.ROT_MOTOR_LEFT     = c_5_ROT_MOTOR_LEFT
+        elif leg_num == ARM_R:
+            self.TIP_MOTOR_OUT      = c_R_ARM_TIP_MOTOR_OUT
+            self.TIP_MOTOR_IN       = c_R_ARM_TIP_MOTOR_IN
+            self.MID_MOTOR_UP       = c_R_ARM_MID_MOTOR_OUT
+            self.MID_MOTOR_DOWN     = c_R_ARM_MID_MOTOR_IN
+            self.ROT_MOTOR_RIGHT    = c_R_ARM_ROT_MOTOR_UP
+            self.ROT_MOTOR_LEFT     = c_R_ARM_ROT_MOTOR_DOWN
+        elif leg_num == ARM_L:
+            self.TIP_MOTOR_OUT      = c_L_ARM_TIP_MOTOR_OUT
+            self.TIP_MOTOR_IN       = c_L_ARM_TIP_MOTOR_IN
+            self.MID_MOTOR_UP       = c_L_ARM_MID_MOTOR_OUT
+            self.MID_MOTOR_DOWN     = c_L_ARM_MID_MOTOR_IN
+            self.ROT_MOTOR_RIGHT    = c_L_ARM_ROT_MOTOR_UP
+            self.ROT_MOTOR_LEFT     = c_L_ARM_ROT_MOTOR_DOWN
 
-        # these could just be left global, but make them self.consts for continuity
-        self.TIP_MOTOR_IN_ANGLE = TIP_MOTOR_IN_ANGLE
-        self.TIP_MOTOR_OUT_ANGLE = TIP_MOTOR_OUT_ANGLE
-        self.MID_MOTOR_UP_ANGLE = MID_MOTOR_UP_ANGLE
-        self.MID_MOTOR_DOWN_ANGLE = MID_MOTOR_DOWN_ANGLE
-        self.ROT_MOTOR_RIGHT_ANGLE = ROT_MOTOR_RIGHT_ANGLE
-        self.ROT_MOTOR_LEFT_ANGLE = ROT_MOTOR_LEFT_ANGLE
+        if(leg_num == ARM_L or leg_num == ARM_R):
+            self.TIP_MOTOR_OUT_ANGLE = ARM_TIP_MOTOR_OUT_ANGLE
+            self.TIP_MOTOR_IN_ANGLE = ARM_TIP_MOTOR_IN_ANGLE
+            self.MID_MOTOR_UP_ANGLE = ARM_MID_MOTOR_OUT_ANGLE
+            self.MID_MOTOR_DOWN_ANGLE = ARM_MID_MOTOR_IN_ANGLE
+            self.ROT_MOTOR_RIGHT_ANGLE = ARM_ROT_MOTOR_UP_ANGLE
+            self.ROT_MOTOR_LEFT_ANGLE = ARM_ROT_MOTOR_DOWN_ANGLE
+        else:
+            self.TIP_MOTOR_OUT_ANGLE = TIP_MOTOR_OUT_ANGLE
+            self.TIP_MOTOR_IN_ANGLE = TIP_MOTOR_IN_ANGLE
+            self.MID_MOTOR_UP_ANGLE = MID_MOTOR_UP_ANGLE
+            self.MID_MOTOR_DOWN_ANGLE = MID_MOTOR_DOWN_ANGLE
+            self.ROT_MOTOR_RIGHT_ANGLE = ROT_MOTOR_RIGHT_ANGLE
+            self.ROT_MOTOR_LEFT_ANGLE = ROT_MOTOR_LEFT_ANGLE
+
 
         # set initial values that are not given
         self.tip_motor = -1
         self.mid_motor = -1
         self.rot_motor = -1
-        self.set_angle(45, TIP_MOTOR)
-        self.set_angle(180, MID_MOTOR)
-        self.set_angle(90, ROT_MOTOR)
+        if(leg_num == ARM_L or leg_num == ARM_R):
+            self.set_leg_position(TORSO_ARM_TABLE["NEUTRAL"])
+        else:
+            self.set_angle(45, TIP_MOTOR)
+            self.set_angle(180, MID_MOTOR)
+            self.set_angle(90, ROT_MOTOR)
 
 
     def print_self(self):
@@ -177,12 +259,6 @@ class Leg(object):
         # mock function useful for testing when not in the lab. change all instances
         # of pwm.set_pwm to pwm.set_pwm to use the real function
         # Use the pwm.pwn for real, robot usage
-
-
-    def pwm_set_pwm(self, channel, unknown, value):
-        x = 3
-        # returns the angle on success. INV_PARAM otherwise
-
 
     def angle_to_pwm(self, angle, motor):
         if motor == TIP_MOTOR:
@@ -293,13 +369,9 @@ class Leg(object):
 
 # speed options: this is just the time it waits betweeen moves
 PLAID_SPEED = .1
-ULTRA = .3
-FAST = .5
-NORMAL = 1
-SAFE = 2
-SLOW = 3
-SLOOOOOOOOOOW = 5
-SLOOOOOOOOOOOOOOOOOOW = 10
+NORMAL = .2
+SLOW = .4
+DEBUG = 5
 
 class Hex_Walker(object):
     def __init__(self, rf_leg, rm_leg, rr_leg, lr_leg, lm_leg, lf_leg):
@@ -335,8 +407,7 @@ class Hex_Walker(object):
         self.speed = NORMAL
         self.front = "5-0"
         # set all legs to neutral
-        for leg in self.all_legs:
-            leg.set_leg_position(NORMAL_TRI_ROTATION_TABLE["NEUTRAL"])
+        self.set_hex_walker_position(TALL_NEUTRAL)
 
     def print_self(self):
         print("speed: " + str(self.speed) + " || self.current_pos: " + str(self.current_pos) + " || self.front: " + self.front)
@@ -349,7 +420,8 @@ class Hex_Walker(object):
 # this function will change the front from being between the "5-0" legs to being
 # between any two legs. The key is "(leg on left)-(leg on right)"
     def set_new_front(self, new_front):
-        if(self.current_pos != NORMAL_NEUTRAL):
+        cp = self.current_pos
+        if(cp != TALL_NEUTRAL and cp != NORMAL_NEUTRAL and cp != CROUCH_NEUTRAL):
             print("Cannot change front while not in the neutral position")
             return ILLEGAL_MOVE
         
@@ -423,13 +495,115 @@ class Hex_Walker(object):
         for next_pos in hex_walker_position_list:
             if next_pos in HEX_WALKER_POSITIONS[self.current_pos].safe_moves:
                 self.set_hex_walker_position(next_pos)
-                if(HW_MOVE_DEBUG):
-                    self.print_self()
                 time.sleep(self.speed)
             else:
                 print("invalid move set")
                 return ILLEGAL_MOVE
         return SUCCESS
+    
+    # torso movement functions
+    def walk(self, num_steps, direction):
+        
+        self.set_new_front(get_front_from_direction(direction))
+        print("dir: " + get_front_from_direction(direction))
+        
+        # start walk by lifting legs
+        self.set_hex_walker_position(TALL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL)
+        # define positions to go through to get steps from a neutral legs up
+        left_step = [
+        TALL_TRI_RIGHT_BACK_LEFT_UP_FORWARD,
+        TALL_TRI_RIGHT_BACK_LEFT_FORWARD,
+        TALL_TRI_RIGHT_UP_BACK_LEFT_FORWARD,
+        TALL_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL ]
+        
+        right_step = [
+        TALL_TRI_RIGHT_UP_FORWARD_LEFT_BACK,
+        TALL_TRI_RIGHT_FORWARD_LEFT_BACK,
+        TALL_TRI_RIGHT_FORWARD_LEFT_UP_BACK,
+        TALL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL ]
+        
+        last_step = "right"
+
+        for i in range (0, num_steps):
+            if(last_step == "right"):
+                self.do_move_set(left_step)
+                last_step = "left"
+            elif(last_step == "left"):
+                self.do_move_set(right_step)
+                last_step = "right"
+        #cleanup
+        self.set_hex_walker_position(TALL_NEUTRAL)
+        self.set_new_front("5-0")
+
+    def rotate(self, num_steps, direction):
+        
+        # start rotate by lifting legs
+        self.set_hex_walker_position(TALL_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL)
+        # define positions to go through to get steps from neutral legs up
+        go_left_right_step = [
+        TALL_TRI_RIGHT_RIGHT_LEFT_UP_LEFT,
+        TALL_TRI_RIGHT_RIGHT_LEFT_LEFT,
+        TALL_TRI_RIGHT_UP_RIGHT_LEFT_LEFT,
+        TALL_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL]
+
+        go_left_left_step = [
+        TALL_TRI_RIGHT_UP_LEFT_LEFT_RIGHT,
+        TALL_TRI_RIGHT_LEFT_LEFT_RIGHT,
+        TALL_TRI_RIGHT_LEFT_LEFT_UP_RIGHT,
+        TALL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL]
+
+        go_right_right_step = [
+        TALL_TRI_RIGHT_LEFT_LEFT_UP_RIGHT,
+        TALL_TRI_RIGHT_LEFT_LEFT_RIGHT,
+        TALL_TRI_RIGHT_UP_LEFT_LEFT_RIGHT,
+        TALL_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL]
+
+        go_right_left_step = [
+        TALL_TRI_RIGHT_UP_RIGHT_LEFT_LEFT,
+        TALL_TRI_RIGHT_RIGHT_LEFT_LEFT,
+        TALL_TRI_RIGHT_RIGHT_LEFT_UP_LEFT,
+        TALL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL]
+
+        if(direction == RIGHT):
+            left_step = go_right_left_step
+            right_step = go_right_right_step
+        if(direction == LEFT):
+            left_step = go_left_left_step
+            right_step = go_left_right_step
+
+        last_step = "right"
+        for i in range (0, num_steps):
+            if(last_step == "right"):
+                self.do_move_set(left_step)
+                last_step = "left"
+            elif(last_step == "left"):
+                self.do_move_set(right_step)
+                last_step = "right"
+        #cleanup
+        self.set_hex_walker_position(TALL_NEUTRAL)
+
+    def leg_wave(self, direction, speed, repetitions):
+        for i in range(0, repetitions):
+            if(direction == RIGHT):
+                for leg in self.all_legs:
+                    leg.set_leg_position(MISC_TABLE["PULL_UP"])
+                    time.sleep(speed)
+                    leg.set_leg_position(TALL_TRI_MOVEMENT_TABLE["NEUTRAL"])
+            if(direction == LEFT):
+                for i in range(len(self.all_legs)-1, -1, -1):
+                    self.all_legs[i].set_leg_position(MISC_TABLE["PULL_UP"])
+                    time.sleep(speed)
+                    self.all_legs[i].set_leg_position(TALL_TRI_MOVEMENT_TABLE["NEUTRAL"])
+
+    def bounce(self, wait, repetitions):
+        for i in range(0, repetitions):
+            self.set_hex_walker_position(TALL_TRI_BOUNCE_DOWN)
+            time.sleep(wait)
+            self.set_hex_walker_position(TALL_NEUTRAL)
+            time.sleep(wait)
+
+    def do_nothing(self):
+        self.set_hex_walker_position(TALL_NEUTRAL)
 
 # NOTE: the functinos set_hex_walker_position and do_set_hex_walker_position are similar but one takes in a raw position and the other uses the defined table AND updates the current position. Using the do
 # version skips this state-updating and so it can be useful for testing
@@ -450,4 +624,112 @@ class Hex_Walker(object):
         self.lm_leg.set_leg_position(hex_walker_position.lm_pos)
         self.lf_leg.set_leg_position(hex_walker_position.lf_pos)
 
+class Rotator(object):
+    def __init__(self, uid, pwm, channel):
+        self.uid = uid
+        self.pwm = pwm
+        self.channel = channel
+        self.pwm_val = -1
+        self.ROTATOR_MOTOR_LEFT  = ROTATOR_MOTOR_LEFT
+        self.ROTATOR_MOTOR_RIGHT = ROTATOR_MOTOR_RIGHT
+        self.ROTATOR_LEFT_ANGLE = ROTATOR_LEFT_ANGLE
+        self.ROTATOR_RIGHT_ANGLE = ROTATOR_RIGHT_ANGLE
+        self.set_angle(90)
+
+    def angle_to_pwm(self, angle):
+        return linear_map(self.ROTATOR_LEFT_ANGLE, self.ROTATOR_MOTOR_LEFT, self.ROTATOR_RIGHT_ANGLE, self.ROTATOR_MOTOR_RIGHT, angle)
+
+    def set_angle(self, angle):
+        pwm_val = int(self.angle_to_pwm(angle))
+        # safety check
+        upper = max(self.ROTATOR_MOTOR_LEFT, self.ROTATOR_MOTOR_RIGHT)
+        lower = min(self.ROTATOR_MOTOR_LEFT, self.ROTATOR_MOTOR_RIGHT)
+
+        if pwm_val < lower:
+            pwm_val = lower
+
+        elif pwm_val > upper:
+            pwm_val = upper
+
+        self.pwm_val = pwm_val
+        self.pwm.set_pwm(self.channel, 0, pwm_val)
+
+class Robot_Torso(object):
+    def __init__(self, right_arm, left_arm, rotator):
+        self.right_arm = right_arm
+        self.left_arm = left_arm
+        self.rotator = rotator
+        self.current_position = TORSO_NEUTRAL
+        self.set_torso_position(TORSO_NEUTRAL, 90)
+
+    def set_torso_position(self, torso_position_number, rotation):
+        self.current_position = torso_position_number
+        self.do_set_torso_position(TORSO_POSITIONS[torso_position_number], rotation)
+
+    def do_set_torso_position(self, torso_position, rotation):
+        self.right_arm.set_leg_position(torso_position.right_arm)
+        self.left_arm.set_leg_position(torso_position.left_arm)
+        self.rotator.set_angle(rotation)
+
+    def do_moveset(self, positions, rotations, sleeps, repetitions):
+        for j in range(0, repetitions):
+            for i in range(0, len(positions)):
+                self.set_torso_position(positions[i], rotations[i])
+                time.sleep(sleeps[i])
+
+    # torso movement functions
+    def monkey(self, repetitions):
+        moves = []
+        moves.append(TORSO_MONKEY_RIGHT_UP)
+        moves.append(TORSO_MONKEY_LEFT_UP)
+        moves.append(TORSO_MONKEY_RIGHT_UP)
+        moves.append(TORSO_MONKEY_LEFT_UP)
+        moves.append(TORSO_MONKEY_RIGHT_UP)
+        moves.append(TORSO_MONKEY_LEFT_UP)
+        moves.append(TORSO_MONKEY_RIGHT_UP)
+        moves.append(TORSO_MONKEY_LEFT_UP)
+        moves.append(TORSO_MONKEY_RIGHT_UP)
+        moves.append(TORSO_MONKEY_LEFT_UP)
+        moves.append(TORSO_MONKEY_RIGHT_UP)
+        moves.append(TORSO_MONKEY_LEFT_UP)
+        moves.append(TORSO_MONKEY_RIGHT_UP)
+        moves.append(TORSO_MONKEY_LEFT_UP)
+        moves.append(TORSO_MONKEY_RIGHT_UP)
+        moves.append(TORSO_MONKEY_LEFT_UP)
+        rotations = [45, 45, 45, 45, 45, 45, 45, 45, 135, 135, 135, 135, 135, 135, 135,135]
+        sleeps =    [.1, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1, .1]
+        self.do_moveset(moves, rotations, sleeps, repetitions)
+        self.set_torso_position(TORSO_NEUTRAL, 90)
     
+    def king_kong(self, rotation, repetitions):
+        moves = []
+        moves.append(TORSO_DANCE_FRONT_LEFT_OUT)
+        moves.append(TORSO_DANCE_FRONT_RIGHT_OUT)
+        rotations = [rotation, rotation]
+        sleeps = [.4, .4]
+        self.do_moveset(moves, rotations, sleeps, repetitions)
+        self.set_torso_position(TORSO_NEUTRAL, 90)
+    
+    def hand_shake(self, rotation, repetitions):
+        moves = []
+        moves.append(TORSO_SHAKE_DOWN)
+        moves.append(TORSO_SHAKE_MID)
+        moves.append(TORSO_SHAKE_UP)
+        moves.append(TORSO_SHAKE_MID)
+        rotations = [rotation, rotation, rotation, rotation]
+        sleeps = [.1, .1, .1, .1]
+        self.do_moveset(moves, rotations, sleeps, repetitions)
+        self.set_torso_position(TORSO_NEUTRAL, 90)
+    
+    def wave(self, rotation, repetitions):
+        moves = []
+        moves.append(TORSO_WAVE_DOWN)
+        moves.append(TORSO_WAVE_UP)
+        rotations = [rotation, rotation]
+        sleeps = [.4, .4]
+        self.do_moveset(moves, rotations, sleeps, repetitions)
+        self.set_torso_position(TORSO_NEUTRAL, 90)
+
+
+    def do_nothing(self):
+        self.set_torso_position(TORSO_NEUTRAL, 90)
