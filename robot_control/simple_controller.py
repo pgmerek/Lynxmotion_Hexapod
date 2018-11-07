@@ -26,7 +26,7 @@ def walker_command(hex_walker, command, args):
         hex_walker.bounce(args[0], args[1])
     elif(command == "leg_wave"):
         logging.warning("leg_wave")
-        hex_walker.leg_wave(args[0], args[1], args[2])
+        hex_walker.leg_wave(1, .1, 4)
     elif(command == "walk"):
         logging.warning("walk")
         hex_walker.walk(args[0], args[1])
@@ -43,8 +43,8 @@ rf = Leg(0, pwm_40, 0, 1, 2, 0)
 rm = Leg(0, pwm_40, 3, 4, 5, 1)
 rr = Leg(0, pwm_40, 6, 7, 8, 2)
 lr = Leg(0, pwm_41, 0, 1, 2, 3)
-lm = Leg(0, pwm_41, 3, 4, 5, 4)
-lf = Leg(0, pwm_41, 6, 7, 8, 5)
+lm = Leg(0, pwm_41, 6, 4, 5, 4)
+lf = Leg(0, pwm_41, 3, 7, 8, 5)
 
 # create the hex walker
 hex_walker = Hex_Walker(rf, rm, rr, lr, lm, lf)
@@ -76,17 +76,17 @@ for frame in camera.capture_continuous(raw_capture, format="bgr", use_video_port
     leg_args = []
     torso_cmd = "none"
     torso_args = []
-    if color == "pink":
+    if color == "blue":
         leg_cmd = "bounce"
         leg_args = [.5, 4]
         torso_cmd = "king_kong"
         torso_args = [90, 4]
-    elif color == "blue":
+    elif color == "yellow":
         leg_cmd = "leg_wave"
         leg_args = [LEFT, .1, 5]
         torso_cmd = "monkey"
         torso_args = [3]
-    elif color == "yellow":
+    elif color == "pink":
         if size == "small":
             leg_cmd = "walk"
             leg_args = [1, 0]
@@ -111,7 +111,3 @@ for frame in camera.capture_continuous(raw_capture, format="bgr", use_video_port
     leg_thread.join()
     torso_thread.join()
     raw_capture.truncate(0)
-
-
-
-
