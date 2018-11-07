@@ -1,3 +1,6 @@
+import sys
+sys.path.append("../robot_drivers/")
+
 import Adafruit_PCA9685
 import time
 from hex_walker_driver import *

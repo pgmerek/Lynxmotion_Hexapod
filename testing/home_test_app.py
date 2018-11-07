@@ -1,4 +1,6 @@
-import time
+import sys
+sys.path.append("../robot_drivers/")
+
 from hex_walker_driver import *
 
 def leg_driver_test(leg):
