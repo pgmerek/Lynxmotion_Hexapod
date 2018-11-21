@@ -134,13 +134,13 @@ TALL_TRI_SIDE_MOVEMENT_TABLE = {
         "NEUTRAL": Leg_Position(120, 45, 90),
         "UP_NEUTRAL": Leg_Position(45, 90, 90),
 
-        "SIDE_OUT_LEFT": Leg_Position(140, 48, 83),
-        "SIDE_OUT_RIGHT": Leg_Position(120, 50, 125),
+        "SIDE_OUT_LEFT": Leg_Position(120, 50, 65),
+        "SIDE_OUT_RIGHT": Leg_Position(120, 50, 115),
 
-        "SIDE_UP_OUT_LEFT": Leg_Position(110, 68, 83),
-        "SIDE_UP_OUT_RIGHT": Leg_Position(90, 70, 125),
+        "SIDE_UP_OUT_LEFT": Leg_Position(90, 70, 65),
+        "SIDE_UP_OUT_RIGHT": Leg_Position(90, 70, 115),
 
-        "CENTER_OUT": Leg_Position(130, 50, 90),
+        "CENTER_OUT": Leg_Position(120, 45, 90),
          
         "CENTER_UP_OUT": Leg_Position(100, 70, 90),
         }

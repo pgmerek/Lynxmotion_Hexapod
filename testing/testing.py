@@ -1,3 +1,6 @@
+import sys
+sys.path.append("../robot_drivers/")
+
 import Adafruit_PCA9685
 import time
 from hex_walker_driver import *
@@ -118,7 +121,7 @@ def crouch_walk_test(hw):
     hw.do_move_set(moves)
 
 def tall_side_walk_test(hw):
-    hw.speed = 1
+    hw.speed = 0.07
     moves = [
     TALL_NEUTRAL,
     TALL_TRI_FRONT_CENTER_UP_OUT_BACK_NEUTRAL,
@@ -194,19 +197,19 @@ def tall_rotate_test(hw):
     hw.do_move_set(reverse_moves)
 
 #init the pwm stuffs and run selected tests
-right_side= Adafruit_PCA9685.PCA9685(address=0x40)
-left_side= Adafruit_PCA9685.PCA9685(address=0x41)
+pwm_40= Adafruit_PCA9685.PCA9685(address=0x40)
+pwm_41= Adafruit_PCA9685.PCA9685(address=0x41)
 
-# create some legs
-right_side.set_pwm_freq(60)
-left_side.set_pwm_freq(60)
-sleep_time = 1
-rf = Leg(0, right_side, 0, 1, 2, 0)
-rm = Leg(1, right_side, 3, 4, 5, 1)
-rr = Leg(2, right_side, 6, 7, 8, 2)
-lr = Leg(3, left_side, 0, 1, 2, 3)
-lm = Leg(4, left_side, 3, 4, 5, 4)
-lf = Leg(5, left_side, 6, 7, 8, 5)
+pwm_40.set_pwm_freq(60)
+pwm_41.set_pwm_freq(60)
+
+# create somee legs
+rf = Leg(0, pwm_40, 0, 1, 2, 0)
+rm = Leg(0, pwm_40, 3, 4, 5, 1)
+rr = Leg(0, pwm_40, 6, 7, 8, 2)
+lr = Leg(0, pwm_41, 0, 1, 2, 3)
+lm = Leg(0, pwm_41, 6, 4, 5, 4)
+lf = Leg(0, pwm_41, 3, 7, 8, 5)
 right_legs = [rf, rm, rr]
 left_legs = [lf, lm, lr]
 all_legs = right_legs + left_legs

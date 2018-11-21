@@ -3,10 +3,9 @@ Simple way to control each leg through a ui
 Author: Patrick Gmerek
 """
 import sys
-sys.path.append("../robot_control/")
+sys.path.append("../robot_drivers/")
 
 import Adafruit_PCA9685
-import numpy as np
 import cv2 as cv
 import time
 from hex_walker_driver import *
