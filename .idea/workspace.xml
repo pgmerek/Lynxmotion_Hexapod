@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="58ca0b25-56e8-4a6f-9e90-3b30ff8e09f3" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/project_files/robot_drivers/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/project_files/robot_vision/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/project_files/testing/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bom/BOM.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/deprecated/exercises/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/project_files/deprecated/exercises/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deprecated/exercises/cat.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/project_files/deprecated/exercises/cat.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deprecated/exercises/deep-learning-face-detection/deploy.prototxt.txt" beforeDir="false" afterPath="$PROJECT_DIR$/project_files/deprecated/exercises/deep-learning-face-detection/deploy.prototxt.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deprecated/exercises/deep-learning-face-detection/detect_faces.py" beforeDir="false" afterPath="$PROJECT_DIR$/project_files/deprecated/exercises/deep-learning-face-detection/detect_faces.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deprecated/exercises/deep-learning-face-detection/detect_faces_video.py" beforeDir="false" afterPath="$PROJECT_DIR$/project_files/deprecated/exercises/deep-learning-face-detection/detect_faces_video.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deprecated/exercises/deep-learning-face-detection/iron_chic.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/project_files/deprecated/exercises/deep-learning-face-detection/iron_chic.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deprecated/exercises/deep-learning-face-detection/res10_300x300_ssd_iter_140000.caffemodel" beforeDir="false" afterPath="$PROJECT_DIR$/project_files/deprecated/exercises/deep-learning-face-detection/res10_300x300_ssd_iter_140000.caffemodel" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deprecated/exercises/deep-learning-face-detection/rooster.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/project_files/deprecated/exercises/deep-learning-face-detection/rooster.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deprecated/exercises/opencv.py" beforeDir="false" afterPath="$PROJECT_DIR$/project_files/deprecated/exercises/opencv.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deprecated/robot_threads/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/project_files/deprecated/robot_threads/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deprecated/robot_threads/open_cv_thread.py" beforeDir="false" afterPath="$PROJECT_DIR$/project_files/deprecated/robot_threads/open_cv_thread.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deprecated/robot_threads/robot_control_threads.py" beforeDir="false" afterPath="$PROJECT_DIR$/project_files/deprecated/robot_threads/robot_control_threads.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deprecated/robot_threads/shared_thread_library.py" beforeDir="false" afterPath="$PROJECT_DIR$/project_files/deprecated/robot_threads/shared_thread_library.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deprecated/robot_threads/thread_example.py" beforeDir="false" afterPath="$PROJECT_DIR$/project_files/deprecated/robot_threads/thread_example.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/deprecated/robot_threads/threading_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/project_files/deprecated/robot_threads/threading_model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/robot_drivers/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/project_files/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/robot_drivers/hex_walker_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/project_files/robot_drivers/hex_walker_data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/robot_drivers/hex_walker_driver.py" beforeDir="false" afterPath="$PROJECT_DIR$/project_files/robot_drivers/hex_walker_driver.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/robot_drivers/leg_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/project_files/robot_drivers/leg_data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/robot_drivers/stop.py" beforeDir="false" afterPath="$PROJECT_DIR$/project_files/robot_drivers/stop.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/robot_drivers/torso_data.py" beforeDir="false" afterPath="$PROJECT_DIR$/project_files/robot_drivers/torso_data.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/robot_vision/object_detection.py" beforeDir="false" afterPath="$PROJECT_DIR$/project_files/robot_vision/object_detection.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpi_instructions.txt" beforeDir="false" afterPath="$PROJECT_DIR$/documentation/rpi_instructions.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/home_test_app.py" beforeDir="false" afterPath="$PROJECT_DIR$/project_files/testing/home_test_app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/interactive_control_legs.py" beforeDir="false" afterPath="$PROJECT_DIR$/project_files/testing/interactive_control_legs.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/interactive_control_torso.py" beforeDir="false" afterPath="$PROJECT_DIR$/project_files/testing/interactive_control_torso.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/manual_control.py" beforeDir="false" afterPath="$PROJECT_DIR$/project_files/testing/manual_control.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/project1_demo.py" beforeDir="false" afterPath="$PROJECT_DIR$/project_files/testing/project1_demo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/simple_controller.py" beforeDir="false" afterPath="$PROJECT_DIR$/project_files/testing/simple_controller.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/simpletest.py" beforeDir="false" afterPath="$PROJECT_DIR$/project_files/testing/simpletest.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/testing.py" beforeDir="false" afterPath="$PROJECT_DIR$/project_files/testing/testing.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/testing/torso_testing.py" beforeDir="false" afterPath="$PROJECT_DIR$/project_files/testing/torso_testing.py" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FUSProjectUsageTrigger">
+    <session id="-1936015571">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.open.time.0" value="1" />
+          <entry key="project.opened" value="1" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.vcs.git.usages">
+        <counts>
+          <entry key="git.branch.checkout.remote" value="1" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="md" value="1" />
+          <entry key="py" value="6" />
+          <entry key="txt" value="1" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="Markdown" value="1" />
+          <entry key="PLAIN_TEXT" value="1" />
+          <entry key="Python" value="6" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="md" value="2937" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="Markdown" value="2937" />
+        </counts>
+      </usages-collector>
+    </session>
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="485">
+                <caret line="38" column="8" selection-start-line="38" selection-start-column="8" selection-end-line="38" selection-end-column="8" />
+              </first_editor>
+              <second_editor />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/README.md" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="15" />
+    <option name="y" value="30" />
+    <option name="width" value="1890" />
+    <option name="height" value="951" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="Lynxmotion_Hexapod" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Lynxmotion_Hexapod" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Lynxmotion_Hexapod" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Lynxmotion_Hexapod" type="462c0819:PsiDirectoryNode" />
+              <item name="project_files" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Lynxmotion_Hexapod" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Lynxmotion_Hexapod" type="462c0819:PsiDirectoryNode" />
+              <item name="project_files" type="462c0819:PsiDirectoryNode" />
+              <item name="testing" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\patri\PycharmProjects\Lynxmotion_Hexapod\documentation" />
+      <recent name="C:\Users\patri\PycharmProjects\Lynxmotion_Hexapod\project_files" />
+      <recent name="C:\Users\patri\PycharmProjects\Lynxmotion_Hexapod\bom" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="58ca0b25-56e8-4a6f-9e90-3b30ff8e09f3" name="Default Changelist" comment="" />
+      <created>1542783260999</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1542783260999</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-7" y="-7" width="1295" height="704" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Favorites" side_tool="true" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.24939272" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Python Console" />
+      <window_info anchor="bottom" id="Terminal" />
+      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="right" id="SciView" />
+      <window_info anchor="right" id="Database" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout>
+    <layout-to-restore>
+      <window_info id="Favorites" order="0" side_tool="true" />
+      <window_info active="true" content_ui="combo" id="Project" order="1" visible="true" weight="0.24939272" />
+      <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Docker" order="0" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Terminal" order="1" />
+      <window_info anchor="bottom" id="Event Log" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Database Changes" order="3" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="4" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Python Console" order="5" />
+      <window_info anchor="bottom" id="Message" order="6" />
+      <window_info anchor="bottom" id="Find" order="7" />
+      <window_info anchor="bottom" id="Run" order="8" />
+      <window_info anchor="bottom" id="Debug" order="9" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="10" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="11" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="12" />
+      <window_info anchor="right" id="Database" order="0" />
+      <window_info anchor="right" id="SciView" order="1" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="2" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="3" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="4" weight="0.25" />
+    </layout-to-restore>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/documentation/rpi_instructions.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project_files/robot_drivers/hex_walker_data.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project_files/robot_drivers/hex_walker_driver.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project_files/robot_drivers/torso_data.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#22#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project_files/robot_drivers/leg_data.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/project_files/testing/interactive_control_torso.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="485">
+            <caret line="38" column="8" selection-start-line="38" selection-start-column="8" selection-end-line="38" selection-end-column="8" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

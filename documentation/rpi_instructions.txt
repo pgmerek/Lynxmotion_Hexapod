@@ -1,0 +1,56 @@
+Step 1: Physical Setup
+
+-power up rpi
+-plug computer into rpi using ethernet cable
+
+Step 2: host ip address
+
+open a command prompt and type
+
+ip addr
+
+once you see that the cable you just plugged in has an associated ip address
+(should be something like 169.254.x.x/16) then move onto the next step. just
+check ip addr every coupld of seconds until you see it. You can even do 
+
+ip addr | grep 169.254
+
+in order to just look for what you want.
+
+Step 3: ssh power
+
+type in
+
+ssh pi@169.254.80.62
+
+and, when prompted for a password, enter: pi
+
+congrats!! you are now sshed into the rpi
+
+Step 4: (optional) install vnc server
+
+download vnc viewer from realvnc.com: https://www.realvnc.com/en/connect/download/viewer/
+
+and install it. You may need to reboot at this point.
+
+Step 5: getting a visual desktop
+
+start vncviewer
+
+go file->new connection
+
+and enter the rpi's ip of 169.254.80.62 into the "ip address hostname"
+
+fill in the credentials of
+username: pi
+password: pi
+
+when prompted. Now hit "ok" or "accept" or whatever and you should now have
+a new possible connection show up in your vnc viewer window. Double click it.
+
+Congrats! you are now looking at a low resolution rpi desktop!
+
+Step 6: do something useful
+
+Now, use your new found power to do something useful and get our project done
+:D
