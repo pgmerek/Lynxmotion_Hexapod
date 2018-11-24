@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 
-# Import Libraries 
 
+# Import Libraries 
 import cv2 
 import rospy
 from std_msgs.msg import Int32
 from std_msgs.msg import String
 import time
-from picamera.array import PiRGBArray
-from picamera import PiCamera
+# from picamera.array import PiRGBArray
+# from picamera import PiCamera
 import imutils
 import numpy as np
 
@@ -16,8 +16,8 @@ class detected_object:
     """
     Generic object
     """
-    def __init__(self, type, size, location):
-        self.type = type
+    def __init__(self, color, size, location):
+        self.color = color 
         self.size = size
         self.location = location
 
@@ -47,10 +47,13 @@ colors = {'red': (0, 0, 255), 'green': (0, 255, 0), 'blue': (255, 0, 0), 'yellow
 
 # global
 global vision
+global pi
+
+vision = 1
+pi = 1
 
 #node to pulish
-publish_node = '/vision'
-vision_publisher = rospy.Publisher(publish_node, String, queue_size=1)
+vision_publisher = rospy.Publisher('vision_return', String, queue_size=1)
 
 def detect_color(image):
     """
@@ -116,35 +119,9 @@ def detect_color(image):
     # cv2.imshow("Frame", frame)
     return no_image
 
-def detect_face(image):
-    """
-    detects faces in the image
-    :param image: 
-    :return: returns object
-    """
-    face_cascade = cv2.CascadeClassifier('//home//pi//opencv//opencv//data//haarcascades//haarcascade_frontal_face_default.xml')
-
-    eye_cascade = cv2.CascadeClassifier('//home//pi//opencv//opencv//data//haarcascades//haarcascade_eye.xml')
-
-    print (face_cascade)
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    faces = face_cascade.detectMultiScale(gray, 1.3, 5)
-
-    for (x, y, w, h) in faces:
-        cv2.rectangle(image, (x, y), (x + w, y + h), (255, 0, 0), 2)
-        roi_gray = gray[y:y + h, x:x + w]
-        roi_color = image[y:y + h, x:x + w]
-        eyes = eye_cascade.detectMultiScale(roi_gray)
-        for (ex, ey, ew, eh) in eyes:
-            cv2.rectangle(roi_color, (ex, ey), (ex + ew, ey + eh), (0, 255, 0), 2)
-    cv2.imshow("Test", image)
-
-    return image
-
 def vision_callback(data):
     global vision
     vision = data.data
-
 
 
 def raspi_camera():
@@ -153,13 +130,14 @@ def raspi_camera():
     """
     # ROS
     global vision 
+    global pi
     rospy.init_node("eyes", anonymous=True)
     rate = rospy.Rate(10) # publish 10 times a second
 
     # This should run on its own thread and update  
-    rospy.Subscriber('/vision_listener', Int32, vision_callback)
+    rospy.Subscriber('vision_command', Int32, vision_callback)
     
-    if vision:
+    if vision and pi:
         # Initialize Camera and start grabbing frames
         camera = PiCamera()
         camera.resolution = RESOLUTION
@@ -171,12 +149,17 @@ def raspi_camera():
         for frame in camera.capture_continuous(raw_capture, format="bgr", use_video_port=True):
             if vision:
                 image = frame.array
-                color = detect_color(image)
-                vision_publisher.publish(color.type, color.location, color.size)
+                item = detect_color(image)
+                published_data = "{0} {1} {2}".format(item.color, item.location, item.size)
+                vision_publisher.publish(published_data)
                 raw_capture.truncate(0)
             else:
                 break
         time.sleep(1)
+    elif vison and not pi:
+        published_data = "test test test"
+        vision_publisher.published(published_data)
+
     else:
         time.sleep(1)
 
