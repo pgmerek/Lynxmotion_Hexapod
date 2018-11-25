@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-
 # Import Libraries 
 import cv2 
 import rospy
@@ -48,12 +47,15 @@ colors = {'red': (0, 0, 255), 'green': (0, 255, 0), 'blue': (255, 0, 0), 'yellow
 # global
 global vision
 global pi
+global done
 
 vision = 1
-pi = 1
+pi = 0 
+done = 0
 
 #node to pulish
 vision_publisher = rospy.Publisher('vision_return', String, queue_size=1)
+vision_publisher_finisher = rospy.Publisher('vision_finished', Int32, queue_size=1)
 
 def detect_color(image):
     """
@@ -129,14 +131,17 @@ def raspi_camera():
     Use this function when running this on the pi
     """
     # ROS
+
     global vision 
     global pi
+    global done
     rospy.init_node("eyes", anonymous=True)
     rate = rospy.Rate(10) # publish 10 times a second
 
     # This should run on its own thread and update  
     rospy.Subscriber('vision_command', Int32, vision_callback)
     
+
     if vision and pi:
         # Initialize Camera and start grabbing frames
         camera = PiCamera()
@@ -155,44 +160,27 @@ def raspi_camera():
                 raw_capture.truncate(0)
             else:
                 break
+        done += 1
+        vision_publisher_finished.publish(done)
         time.sleep(1)
-    elif vison and not pi:
-        published_data = "test test test"
-        vision_publisher.published(published_data)
-
+    elif vision and not pi:
+        print("test")
+        while not rospy.is_shutdown() and vision:
+            published_data = "test test test"
+            vision_publisher.publish(published_data)
+            done += 1
+            vision_publisher_finisher.publish(done)
+            time.sleep(1)
     else:
         time.sleep(1)
 
 
-
-def laptop_camera():
-    """
-    Use this function when running on a laptop
-    :return: nothing
-    """
-    counter = 1
-    camera = cv2.VideoCapture(0)
-    # Grab frame and process until user presses "q"
-    while True:
-        (grabbed, frame) = camera.read()
-        color = detect_color(frame)
-        print(counter, "I see a ", color.type, "object, that is ", color.size, " in size and is located at ", color.location)
-        counter += 1
-        cv2.imshow("Frame", color.frame)
-        key = cv2.waitKey(1) & 0xFF
-        if key == ord("q"):
-            break
-    camera.release()
-    cv2.destroyAllWindows()
-
 if __name__ == '__main__':
     print("My eyes are working")
     try:
-        laptop_camera()
+        raspi_camera()
     except rospy.ROSInterruptException():
         pass
 
-# laptop_camera()
-# raspi_camera()
 
 
