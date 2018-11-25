@@ -104,11 +104,11 @@ TALL_TRI_ROTATION_TABLE = {
         "NEUTRAL"           : Leg_Position(120, 45, 90),
         "UP_NEUTRAL"        : Leg_Position(45, 90, 90),
         
-        "RIGHT"             : Leg_Position(50, 130, 120),
-        "UP_RIGHT"          : Leg_Position(50, 180, 120),
+        "RIGHT"             : Leg_Position(120, 45, 120),
+        "UP_RIGHT"          : Leg_Position(45, 90, 120),
         
-        "LEFT"              : Leg_Position(50, 130, 60),
-        "UP_LEFT"           : Leg_Position(50, 180, 60)
+        "LEFT"              : Leg_Position(120, 45, 60),
+        "UP_LEFT"           : Leg_Position(45, 90, 60)
 
 }
 
@@ -134,13 +134,23 @@ TALL_TRI_SIDE_MOVEMENT_TABLE = {
         "NEUTRAL": Leg_Position(120, 45, 90),
         "UP_NEUTRAL": Leg_Position(45, 90, 90),
 
-        "SIDE_OUT_LEFT": Leg_Position(140, 48, 83),
-        "SIDE_OUT_RIGHT": Leg_Position(120, 50, 125),
+        "SIDE_OUT_LEFT": Leg_Position(120, 50, 65),
+        "SIDE_OUT_RIGHT": Leg_Position(120, 50, 115),
 
-        "SIDE_UP_OUT_LEFT": Leg_Position(110, 68, 83),
-        "SIDE_UP_OUT_RIGHT": Leg_Position(90, 70, 125),
+        "SIDE_UP_OUT_LEFT": Leg_Position(90, 70, 65),
+        "SIDE_UP_OUT_RIGHT": Leg_Position(90, 70, 115),
 
-        "CENTER_OUT": Leg_Position(130, 50, 90),
+        "CENTER_OUT": Leg_Position(120, 45, 90),
          
         "CENTER_UP_OUT": Leg_Position(100, 70, 90),
         }
+
+
+# misc table
+MISC_TABLE = {
+        "BOUNCE"            : Leg_Position(90, 75, 90),
+        "PULL_UP"           : Leg_Position(60, 75, 90)
+
+   }
+
+
