@@ -4,7 +4,7 @@ from hex_walker_driver import *
 import logging
 import threading
 import sys
-sys.path.append('../robot_vision')
+sys.path.append("../project_files/robot_drivers/")
 from object_detection import *
 
 
