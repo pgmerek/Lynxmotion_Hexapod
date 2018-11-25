@@ -121,6 +121,7 @@ def detect_color(image):
     # cv2.imshow("Frame", frame)
     return no_image
 
+
 def vision_callback(data):
     global vision
     vision = data.data
@@ -150,19 +151,19 @@ def raspi_camera():
         raw_capture = PiRGBArray(camera, size=RESOLUTION)
         time.sleep(0.1) # time to grab a frame
 
-        # Process each frame and publish data
-        for frame in camera.capture_continuous(raw_capture, format="bgr", use_video_port=True):
-            if vision:
+        while not rospy.is_shutdown() and vision:
+            # Process each frame and publish data
+            for frame in camera.capture_continuous(raw_capture, format="bgr", use_video_port=True):
                 image = frame.array
                 item = detect_color(image)
                 published_data = "{0} {1} {2}".format(item.color, item.location, item.size)
                 vision_publisher.publish(published_data)
                 raw_capture.truncate(0)
-            else:
-                break
+                rate.sleep()
         done += 1
         vision_publisher_finished.publish(done)
         time.sleep(1)
+        rospy.spin()
     elif vision and not pi:
         print("test")
         while not rospy.is_shutdown() and vision:
@@ -171,8 +172,11 @@ def raspi_camera():
             done += 1
             vision_publisher_finisher.publish(done)
             time.sleep(1)
+        rospy.spin()
     else:
         time.sleep(1)
+        rospy.spin()
+
 
 
 if __name__ == '__main__':
@@ -181,6 +185,4 @@ if __name__ == '__main__':
         raspi_camera()
     except rospy.ROSInterruptException():
         pass
-
-
 
