@@ -26,8 +26,6 @@ pub_talk_done = rospy.Publisher("talk_done", Int32, queue_size=1)
 
 def talk_callback(data):
 	
-	string text
-
 	polly = boto3.client('polly')
 
 	text = data.data
@@ -69,7 +67,7 @@ def talk_node_setup():
 	while not rospy.is_shutdown():
             robot_main()
             talk_done = talk_done + 1
-            pub_talk_command.publish(talk_done)
+            pub_talk_done.publish(talk_done)
             rate.sleep()
 	rospy.spin()
 	
