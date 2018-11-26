@@ -22,7 +22,7 @@ talk_done = 0
 
 global talk_command
 
-pub_talk_done = rospy.Publisher("talk_done", int32, 1)
+pub_talk_done = rospy.Publisher("talk_done", Int32, queue_size=1)
 
 def talk_callback(data):
 	
@@ -48,6 +48,10 @@ def talk_callback(data):
 	os.remove('output.mp3')
 
 
+def robot_main():
+    pass
+
+
 def talk_node_setup():
 
 	global talk_done
@@ -63,10 +67,11 @@ def talk_node_setup():
 
 	# publish command of the text and int
 	while not rospy.is_shutdown():
-		robot_main()
-		talk_done = talk_done + 1
-		pub_talk_command.publish(talk_done)
-		rospy.spin()
+            robot_main()
+            talk_done = talk_done + 1
+            pub_talk_command.publish(talk_done)
+            rate.sleep()
+	rospy.spin()
 	
 if __name__ == '__main__':
 	try:
