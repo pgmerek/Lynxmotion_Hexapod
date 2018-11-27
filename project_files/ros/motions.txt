@@ -1,0 +1,14 @@
+
+raise_hand_to_head
+rotate 2 left
+rotate 2 right
+lower_hand
+WAIT_FOR_TURING
+
+WAIT_FOR_TURING
+bounce 1 1.5
+point right arm forward
+
+
+WAIT_FOR_TURING
+
