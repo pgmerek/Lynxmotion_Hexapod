@@ -55,7 +55,7 @@ done = 0
 
 #node to pulish
 vision_publisher = rospy.Publisher('vision_return', String, queue_size=1)
-vision_publisher_finisher = rospy.Publisher('vision_finished', Int32, queue_size=1)
+vision_publisher_finished = rospy.Publisher('vision_finished', Int32, queue_size=1)
 
 def detect_color(image):
     """
@@ -126,67 +126,72 @@ def vision_callback(data):
     print ("I received a ")
     print (data.data)
     vision = data.data
+    if vision and pi:
+        raspi_camera()
+    elif vision and not pi:
+        test_loop()
+    else:
+        time.sleep(1)
 
-
-def raspi_camera():
-    """
-    Use this function when running this on the pi
-    """
-    # ROS
-
+def eyes_main():
     global vision 
     global pi
     global done
     rospy.init_node("eyes", anonymous=True)
     rate = rospy.Rate(10) # publish 10 times a second
 
-    # This should run on its own thread and update  
     rospy.Subscriber('vision_command', Int32, vision_callback)
-    
+        
+    rospy.spin()
 
-    if vision and pi:
-        # Initialize Camera and start grabbing frames
-        camera = PiCamera()
-        camera.resolution = RESOLUTION
-        camera.framerate = FRAME_RATE
-        raw_capture = PiRGBArray(camera, size=RESOLUTION)
-        time.sleep(0.1) # time to grab a frame
 
-        # Process each frame and publish data
-        while not rospy.is_shutdown() and vision:
-            for frame in camera.capture_continuous(raw_capture, format="bgr", use_video_port=True):
-                if vision:
-                    image = frame.array
-                    item = detect_color(image)
-                    published_data = "{0} {1} {2}".format(item.color, item.location, item.size)
-                    vision_publisher.publish(published_data)
-                    raw_capture.truncate(0)
-                else:
-                    break
-            rate.sleep()
-        done += 1
-        vision_publisher_finished.publish(done)
-        rospy.spin()
-    elif vision and not pi:
-        print("test")
-        while not rospy.is_shutdown() and vision:
-            published_data = "test test test"
+def test_loop():
+    global done
+    global vision
+    count = 0
+    while count <= 10:
+        vision_publisher.publish("test test test")
+        count += 1
+    done += 1
+    vision_publisher_finished.publish(done)
+
+
+def raspi_camera():
+    """
+    Use this function when running this on the pi
+    """
+    global pi
+    global vision
+    counter = 0
+
+    # Initialize Camera and start grabbing frames
+    camera = PiCamera()
+    camera.resolution = RESOLUTION
+    camera.framerate = FRAME_RATE
+    raw_capture = PiRGBArray(camera, size=RESOLUTION)
+    time.sleep(0.1) # time to grab a frame
+
+    # Process 5 frames and publish data
+    while counter < 5:
+        with camera.capture_continuous(raw_capture, format="bgr", use_video_port=True) as frame:
+            image = frame.array
+            item = detect_color(image)
+            # publish string in "{color} {location} {size}}" format
+            published_data = "{0} {1} {2}".format(item.color, item.location, item.size)
             vision_publisher.publish(published_data)
-            done += 1
-            vision_publisher_finisher.publish(done)
-            time.sleep(1)
-        rospy.spin()
-    else:
-        time.sleep(1)
-        rospy.spin()
-
-
+            raw_capture.truncate(0)
+            # may not need this. time to grab frame
+            time.sleep(0.05)
+            counter += 1
+    # done processing frames. Will wait for next vision request
+    done += 1
+    camera.close()
+    vision_publisher_finished.publish(done)
+    
 if __name__ == '__main__':
     print("My eyes are working")
     try:
-        raspi_camera()
+        eyes_main()
     except rospy.ROSInterruptException():
         pass
-
-
 
