@@ -25,7 +25,10 @@ global talk_command
 pub_talk_done = rospy.Publisher("talk_done", Int32, queue_size=1)
 
 def talk_callback(data):
-	
+
+	global pub_talk_done	
+	global talk_done
+
 	polly = boto3.client('polly')
 
 	text = data.data
@@ -45,30 +48,24 @@ def talk_callback(data):
 	mixer.quit()
 	os.remove('output.mp3')
 
-
-def robot_main():
-    pass
-
+	talk_done = talk_done + 1
+        pub_talk_done.publish(talk_done)
+	
 
 def talk_node_setup():
-
-	global talk_done
+	
+	global pub_talk_done
 	
 	# initialize the node
-	rospy.init_node("talk_node_setup", anonymous = True)
+	rospy.init_node("talk_node_setup")
 
-	# set the publishing rate
-	rate = rospy.Rate(10) #10Hz
 
 	# create a subscriber
 	rospy.Subscriber("talk_command", String, talk_callback)
 
-	# publish command of the text and int
-	while not rospy.is_shutdown():
-            robot_main()
-            talk_done = talk_done + 1
-            pub_talk_done.publish(talk_done)
-            rate.sleep()
+	pub_talk_done = rospy.Publisher("talk_done", Int32, queue_size=1)
+	pub_talk_done.Publish(0)
+
 	rospy.spin()
 	
 if __name__ == '__main__':
