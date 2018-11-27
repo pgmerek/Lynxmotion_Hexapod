@@ -39,7 +39,7 @@ torso_command_publisher = rospy.Publisher('torso_command', String, queue_size=1)
 motion_command_publisher = rospy.Publisher('torso_command', String, queue_size=1)
 vision_command_publisher = rospy.Publisher('vision_command', Int32, queue_size=1)
 tts_command_publisher = rospy.Publisher('talk_command', String, queue_size=1)
-sst_command_publisher = rospy.Publisher('record_command', Int32, queue_size=1)
+tts_command_publisher = rospy.Publisher('record_command', Int32, queue_size=1)
 feynman_command_publisher = rospy.Publisher('feynman_command', Int32, queue_size=1)
 
 
@@ -64,7 +64,7 @@ def main():
     global tts_command
     global record_command
     global record_done
-    global stt_done     # sst is speech to text
+    global stt_done     # tts is speech to text
     global stt_command
     
     # Initialize variables
@@ -171,6 +171,10 @@ def orchestrator():
                 tts_command = ""   # Reset sentence
                 send_sentence = 0
 
+            # If we hear something and we shouldn't ignore it, process the string for small-talk responses
+            if tts_command and sst_done:
+                small_talk()
+
             # Vision is blocking
             vision_command_publisher.publish(enable_vision)
 
@@ -178,6 +182,34 @@ def orchestrator():
 
     # Keep python running until node is stopped
     rospy.spin()
+
+
+# Function for small talk
+def small_talk():
+    global tts_command
+    global stt_command
+    global stt_done
+
+    if stt_command == "Hello":
+        tts_command = "Hello."
+    elif tts_command == "Hi":
+        tts_command = "Howdy."
+    elif tts_command == "How are you?":
+        tts_command = "Excellent."
+    elif tts_command == "Is it raining outside?":
+        tts_command = "Why don't you go outside and check?"
+    elif tts_command == "Goodbye":
+        tts_command = "See you later alligator."
+    elif tts_command == "Bye":
+        tts_command = "Goodbye."
+    elif tts_command == "What are you?":
+        tts_command = "I am nothing short of an abomination."
+    elif tts_command == "What's up?":
+        tts_command = "Not much. Just having a smoke."
+    elif tts_command == "You seem sad":
+        tts_command = "I suppose I could use a leg up."
+    else:
+        tts_command = "I don't understand what you said."
 
 
 # Function to execute the play
@@ -228,14 +260,15 @@ def turing_done_callback(data):
         turing_done = data.data
         print("Turing said he's done with his part.")
 
+
 # Callback function for speech 
 def speech_command_finished_callback(data):
-    global sst_done
+    global tts_done
 
-    if data.data == sst_done:
+    if data.data == tts_done:
         pass
     else:
-        sst_done = data.data
+        tts_done = data.data
         print("Done converting speech to text.")
 
 
