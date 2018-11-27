@@ -132,8 +132,36 @@ def do_torso_command(data):
         num_times = int(commandlist[1])
         direction = int(commandlist[2])
         torso.hand_shake(direction, num_times) 
+   
+    if commandlist[0] == "point":
+        if len(commandlist) != 3:
+            assert "incorrect number of arguments for pointing"
+        if commandlist[1] == "right":
+            direction = RIGHT
+        else:
+            direction = LEFT
+        wait_time = float(commandlist[2])
+        torso.point(direction, wait_time)
+
+    if commandlist[0] == "look":
+        if len(commandlist) != 1:
+            assert "incorrect number of arguments for looking"
+        torso.look()
+
+    if commandlist[0] == "neutral":
+        if len(commandlist) != 2:
+            assert "incorrect number of arguments for returning to neutral"
+        direction = int(commandlist[1])
+        torso.neutral_rotate(direction)
+
+    if commandlist[0] == "turn":
+        if len(commandlist) != 2:
+            assert "incorrect number of arguments for looking"
+        direction = int(commandlist[1])
+        torso.set_torso_rotation(direction)
     
-        
+    # make sure we don't set done too fast. probably unnecessary but it is safer
+    sleep(.1)
     torso_done = torso_done + 1
     finish_torso_pub.publish(torso_done)    
 
