@@ -36,6 +36,7 @@ rot = Rotator(0, pwm_40, 9)
 torso = Robot_Torso(r, l, rot)
 
 global finish_hex_pub
+global finish_torso_pub
 global torso_done
 global hex_done
 torso_done = 0
@@ -139,6 +140,7 @@ def do_torso_command(data):
 
 def node_setup():
     global finish_hex_pub
+    global finish_torso_pub
     rospy.init_node('hexapod_motion_controller')
     rospy.Subscriber('motion_command', String, do_hex_walker_command)
     rospy.Subscriber('torso_command', String, do_torso_command)
