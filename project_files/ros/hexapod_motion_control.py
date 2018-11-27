@@ -85,7 +85,7 @@ def do_hex_walker_command(data):
     if commandlist[0] == "bounce":
         if len(commandlist) != 3:
             assert "incorrect number of arguments for bounce"
-        num_times = commandlist[1]
+        num_times = int(commandlist[1])
         wait_time = float(commandlist[2])
         hex_walker.bounce(wait_time, num_times)
 
@@ -114,7 +114,7 @@ def do_torso_command(data):
             assert "incorrect number of arguments for king_kong"
         num_times = int(commandlist[1])
         direction = int(commandlist[2])
-        print("king_kong-ing " + str(num_times) " times in direction " + str(direction)
+        print("king_kong-ing " + str(num_times) + " times in direction " + str(direction))
         torso.king_kong(direction, num_times)
     
         
@@ -122,7 +122,7 @@ def do_torso_command(data):
         if len(commandlist) != 2:
             assert "incorrect number of arguments for monkey"
         num_times = int(commandlist[1])
-        print("monkeying " + str(num_times) + " times"
+        print("monkeying " + str(num_times) + " times")
         torso.monkey(num_times)
     
         
