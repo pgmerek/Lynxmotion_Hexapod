@@ -32,7 +32,8 @@ global vision_return    # Stores what the eyes node saw
 global tts_done    # Increments as more sentences are said
 global tts_command # Stores the talk command that will be published
 global stt_done    # Increments as more sentences are heard
-global stt_command 
+global stt_command # Hold the string of what was heard
+global listen   # Lets us know that we have a valid sentence
 
 # Initialize publishers
 torso_command_publisher = rospy.Publisher('torso_command', String, queue_size=1)
@@ -66,6 +67,7 @@ def main():
     global record_done
     global stt_done     # tts is speech to text
     global stt_command
+    global listen
     
     # Initialize variables
     play_started = 0
@@ -89,6 +91,7 @@ def main():
     tts_command = ""
     stt_done = 0
     stt_command = ""
+    listen = 0
     record_command = ""
     record_command_done = 0
 
@@ -146,6 +149,7 @@ def orchestrator():
     rospy.Subscriber('talk_command_finished', Int32, talk_command_finished_callback)
     rospy.Subscriber('record_command_finished', Int32, record_command_finished_callback)
     rospy.Subscriber('speech_command_finished', Int32, speech_command_finished_callback)
+    rospy.Subscriber('speech_command', String, speech_command_callback)
     rospy.Subscriber('turing_done', Int32, turing_done_callback)
 
 
@@ -172,8 +176,10 @@ def orchestrator():
                 send_sentence = 0
 
             # If we hear something and we shouldn't ignore it, process the string for small-talk responses
-            if tts_command and sst_done:
+            if stt_command and listen:
                 small_talk()
+                stt_command = ""
+                listen = 0
 
             # Vision is blocking
             vision_command_publisher.publish(enable_vision)
@@ -261,14 +267,26 @@ def turing_done_callback(data):
         print("Turing said he's done with his part.")
 
 
-# Callback function for speech 
-def speech_command_finished_callback(data):
-    global tts_done
+# Callback function for speech command
+def speech_command_callback(data):
+    global stt_command
+    global listen
 
-    if data.data == tts_done:
+    if listen:
+        stt_command = data.data
+        print("Retrieved string for speech to text.")
+
+
+# Callback function for speech command finished
+def speech_command_finished_callback(data):
+    global stt_done
+    global listen
+
+    if data.data == stt_done:
         pass
     else:
-        tts_done = data.data
+        stt_done = data.data
+        listen = 1
         print("Done converting speech to text.")
 
 
