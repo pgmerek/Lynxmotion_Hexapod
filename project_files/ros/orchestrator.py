@@ -20,122 +20,99 @@ global play_lines
 global play_motions
 global our_turn
 global turing_done
-# Globals for sending commands
+# Torso
 global torso_command   # Stores the torso command that will be published
-global motion_command   # Stores the walker command that will be published
 global torso_done      # Increments as more motions are completed
-global motion_done      # Increments as more motions are completed
 global send_torso_command  # Determines whether we should send the torso command 
+# Legs
+global motion_command   # Stores the walker command that will be published
+global motion_done      # Increments as more motions are completed
 global send_motion_command  # Determines whether we should send the walker command 
-global enable_vision    # Determines whether the vision node should be running
+# Vision
 global vision_return    # Stores what the eyes node saw
-global tts_done    # Increments as more sentences are said
-global tts_command # Stores the talk command that will be published
-global stt_done    # Increments as more sentences are heard
-global stt_command # Hold the string of what was heard
-global listen   # Lets us know that we have a valid sentence
+global vision_done      # Increments as more objects are seen
+global look     # Determines whether the vision node should be running
+# Text to speech
+global talk_command # Stores a string of what we want to convert to speech
+global talk_done    # Increments as more sentences are said
+global talk     # Lets us know we are allowed to speak
+# Speech to text
+global speech_command # Hold the string of what was heard
+global speech_done    # Increments as more sentences are processed 
+global respond  # Lets us know that we have a valid sentence
+global get_speech   # Lets use know that we should get the speech now that it's processed
+# Record
+global record_return    # Return the file path of the recording file
+global record_done  # Increments as more commands are recorded
+global listen   # Lets us know that we should be listening
+global get_recording    # Lets us know that we should get the file path of the recording
+
+# Initialize variables starting with play variables
+play_started = 0
+play_counter = 0
+play_lines = []
+play_motions = []
+our_turn = 0
+turing_done = 0
+# Torso section
+torso_command = ""
+torso_done = 0
+send_torso_command = 0
+# Legs section
+motion_command = ""
+motion_done= 0
+send_motion_command = 0
+# Visual section
+vision_return = ["", "", ""]    # Color, size, location
+vision_done = 0
+look = 0
+# Text to Speech section
+talk_command = ""
+talk_done = 0
+talk = 0
+# Speech to text section
+speech_return = ""
+speech_done = 0
+respond = 0
+# Record section
+record_return = ""
+record_done = 0
+listen = 0
 
 # Initialize publishers
 torso_command_publisher = rospy.Publisher('torso_command', String, queue_size=1)
 motion_command_publisher = rospy.Publisher('torso_command', String, queue_size=1)
 vision_command_publisher = rospy.Publisher('vision_command', Int32, queue_size=1)
-tts_command_publisher = rospy.Publisher('talk_command', String, queue_size=1)
-tts_command_publisher = rospy.Publisher('record_command', Int32, queue_size=1)
+talk_command_publisher = rospy.Publisher('talk_command', String, queue_size=1)
+speech_command_publisher = rospy.Publisher('speech_command', String, queue_size=1)
+record_command_publisher = rospy.Publisher('record_command', Int32, queue_size=1)
 feynman_command_publisher = rospy.Publisher('feynman_command', Int32, queue_size=1)
 
+# Get the lines, text files must be in same directory as orchestrator.py
+with open(getcwd() + '/lines.txt', 'r') as file:
+    line = file.read()
+    play_lines.append(line)
+# Get the motions
+with open(getcwd() + '/motions.txt', 'r') as file:
+    motion = file.read()
+    play_motions.append(motion)
 
-# main has intialization values and function calls
-def main():
-    # Declare that variables are globals
-    global torso_command
-    global motion_command
-    global torso_done
-    global motion_done
-    global send_torso_command
-    global send_motion_command
-    global our_turn
-    global play_started
-    global play_counter
-    global play_motions
-    global play_lines
-    global turing_done
-    global enable_vision
-    global vision_return
-    global tts_done     # tts is text to speech
-    global tts_command
-    global record_command
-    global record_done
-    global stt_done     # tts is speech to text
-    global stt_command
-    global listen
-    
-    # Initialize variables
-    play_started = 0
-    play_counter = 0
-    play_lines = []
-    play_motions = []
-    our_turn = 0
-    turing_done = 0
-    # Motion section
-    torso_command = ""  # Empty strings evaluate False in Python
-    motion_command = ""
-    torso_done = 0
-    motion_done= 0
-    send_torso_command = 0
-    send_motion_command = 0
-    # Visual section
-    enable_vision = 0
-    vision_return = ["", "", ""]    # Color, size, location
-    # Aural section
-    tts_done = 0
-    tts_command = ""
-    stt_done = 0
-    stt_command = ""
-    listen = 0
-    record_command = ""
-    record_command_done = 0
-
-    # Get the lines, text files must be in same directory as orchestrator.py
-    with open(getcwd() + '/lines.txt', 'r') as file:
-        line = file.read()
-        play_lines.append(line)
-    # Get the motions
-    with open(getcwd() + '/motions.txt', 'r') as file:
-        motion = file.read()
-        play_motions.append(motion)
-    
-    # Call orchestrator but capture exception if thrown
-    try:
-        print("Starting orchestrator")
-        orchestrator()
-    except rospy.ROSInterruptException as e:
-        print(e)
 
 
 # Collection of publisher and subscribers
 def orchestrator():
-    global torso_command
-    global motion_command
-    global torso_done
-    global motion_done
-    global send_torso_command
-    global send_motion_command
     global play_started
-    global play_counter
-    global play_motions
-    global play_lines
-    global our_turn
-    global enable_vision
+    global send_torso_command
+    global torso_command
+    global send_motion_command
+    global motion_command
+    global look
     global vision_return
-    global talk_done
+    global talk 
     global talk_command
-    global tts_done
-    global tts_command
-    global stt_done
-    global stt_command
-    global record_command
-    global record_command_done
-
+    global respond  # Respond to small talk 
+    global speech_command
+    
     # Intitialize node
     rospy.init_node('orchestrator', anonymous=True)
     # Refresh 10 times per second for now
@@ -157,32 +134,26 @@ def orchestrator():
         if play_started:    # If play is started, go to an entirely different function
             execute_play()
         else:
-            # If we have a motion command and we are cleared to send it, send it
-            if motion_command and send_motion_command:
-                motion_command_publisher.publish(motion_command)
-                motion_command = "" # Reset flag and motion command
-                send_motion_command = 0
-
-            # If we have a torso command and we are cleared to send it, send it
-            if torso_command and send_torso_command:  
+            # If we are allowed to send a torso command, send it
+            if send_torso_command:  
                 torso_command_publisher.publish(torso_command)
-                torso_command = "" # Reset flag and torso command
                 send_torso_command = 0
-
-            # If we have a sentence to say and we are allowed to say it, send it
-            if tts_command and send_sentence:
-                talk_command_publisher.publish(tts_command)
-                tts_command = ""   # Reset sentence
-                send_sentence = 0
-
-            # If we hear something and we shouldn't ignore it, process the string for small-talk responses
-            if stt_command and listen:
-                small_talk()
-                stt_command = ""
-                listen = 0
-
-            # Vision is blocking
-            vision_command_publisher.publish(enable_vision)
+            # If we are allowed to send a motion command, send it
+            if send_motion_command:
+                motion_command_publisher.publish(motion_command)
+                send_motion_command = 0
+            # If we should be looking, look
+            if look:
+                vision_command_publisher.publish(look)
+                look = 0
+            # If we are allowed to say something, send it
+            if talk:
+                speech_command_publisher.publish(talk_command)
+                speak = 0
+            # If there is something we heard that should be acted on, act on it
+            if respond:
+                small_talk(talk_return)
+                respond = 0
 
         refresh_rate.sleep()
 
@@ -191,31 +162,32 @@ def orchestrator():
 
 
 # Function for small talk
-def small_talk():
-    global tts_command
-    global stt_command
-    global stt_done
+def small_talk(user_sentence):
+    global talk_command
+    global talk
 
-    if stt_command == "Hello":
-        tts_command = "Hello."
-    elif tts_command == "Hi":
-        tts_command = "Howdy."
-    elif tts_command == "How are you?":
-        tts_command = "Excellent."
-    elif tts_command == "Is it raining outside?":
-        tts_command = "Why don't you go outside and check?"
-    elif tts_command == "Goodbye":
-        tts_command = "See you later alligator."
-    elif tts_command == "Bye":
-        tts_command = "Goodbye."
-    elif tts_command == "What are you?":
-        tts_command = "I am nothing short of an abomination."
-    elif tts_command == "What's up?":
-        tts_command = "Not much. Just having a smoke."
-    elif tts_command == "You seem sad":
-        tts_command = "I suppose I could use a leg up."
+    if user_sentence == "Hello":
+        talk_command = "Hello."
+    elif user_sentence == "Hi":
+        talk_command = "Howdy."
+    elif user_sentence == "How are you?":
+        talk_command = "Excellent."
+    elif user_sentence == "Is it raining outside?":
+        talk_command = "Why don't you go outside and check?"
+    elif user_sentence == "Goodbye":
+        talk_command = "See you later alligator."
+    elif user_sentence == "Bye":
+        talk_command = "Goodbye."
+    elif user_sentence == "What are you?":
+        talk_command = "I am nothing short of an abomination."
+    elif user_sentence == "What's up?":
+        talk_command = "Not much. Just having a smoke."
+    elif user_sentence == "You seem sad":
+        talk_command = "I suppose I could use a leg up."
     else:
-        tts_command = "I don't understand what you said."
+        talk_command = "I don't understand what you said."
+
+    talk = 1
 
 
 # Function to execute the play
@@ -226,18 +198,18 @@ def execute_play():
     global play_lines
     global our_turn # True if it's our turn to speak, move, or both
     global send_motion_command
-    global send_sentence
+    global talk
 
     # If it's our turn 
     if our_turn:
         # If we can talk and move
-        if send_sentence and send_motion_command:
+        if talk and send_motion_command:
             if play_lines[play_counter] != "WAIT_FOR_TURING":   # Speak as long as the line isn't "WAIT_FOR_TURING" 
                 talk_command_publisher.publish(play_lines[play_counter])    # Publish the line
                 motion_command_publisher.publish(play_motions[play_counter])    # Publish the motion
                 print("Sending the line \"{0}\" and the motion \"{1}\".".format(play_lines[play_counter], play_motions[play_counter]))
                 play_counter += 1 # Increment counter
-                send_sentence = 0   # Reset the flags for tts and motion
+                talk = 0   # Reset the flags for tts and motion
                 send_motion_command = 0
                 if play_counter > 13:   # At end of play, stop and reset for next play
                     our_turn = 0
@@ -269,48 +241,62 @@ def turing_done_callback(data):
 
 # Callback function for speech command
 def speech_command_callback(data):
-    global stt_command
+    global speech_command
     global listen
 
-    if listen:
-        stt_command = data.data
+    if get_speech:
+        speech_command = data.data
+        get_speech = 0
         print("Retrieved string for speech to text.")
 
 
 # Callback function for speech command finished
 def speech_command_finished_callback(data):
-    global stt_done
-    global listen
+    global speech_done
+    global get_speech
 
-    if data.data == stt_done:
+    if data.data == speech_done:
         pass
     else:
-        stt_done = data.data
-        listen = 1
+        speech_done = data.data
+        get_speech = 1
         print("Done converting speech to text.")
+
+
+# Callback function for file_recorded
+def file_recorded_callback(data):
+    global record_return
+    global get_recording
+
+    if get_recording:
+        record_return = data.data
+        get_recording = 0
+        printf("Retrieved the file path to the recording.")
 
 
 # Callback function for record done
 def record_command_finished_callback(data):
-    global record_command_done
+    global record_done
+    global get_recording
 
-    if data.data == record_command_done:  # Do nothing unless record_done increments from the talk node
+    if data.data == record_done:  # Do nothing unless record_done increments from the talk node
         pass
     else:
-        record_command_done = data.data
-        print("Record is finished.")
+        record_done = data.data
+        get_recording = 1
+        print("Done recording.")
 
 
 # Callback function for talk done
 def talk_command_finished_callback(data):
-    global tts_done
-    global send_sentence
+    global talk_done
+    global talk
 
-    if data.data == tts_done:  # Do nothing unless talk_done increments from the talk node
+    if data.data == talk_done:  # Do nothing unless talk_done increments from the talk node
         pass
     else:
-        send_sentence = 1
-        tts_done = data.data
+        talk_done = data.data
+        talk = 1
         print("Done converting text to speech.")
 
 
@@ -367,5 +353,10 @@ def motion_command_finished_callback(data):
         
 
 if __name__ == "__main__":
-    main()
+    # Call orchestrator but capture exception if thrown
+    try:
+        print("Starting orchestrator")
+        orchestrator()
+    except rospy.ROSInterruptException as e:
+        print(e)
 
