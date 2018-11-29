@@ -48,7 +48,7 @@ global listen   # Lets us know that we should be listening
 global get_recording    # Lets us know that we should get the file path of the recording
 
 # Initialize variables starting with play variables
-play_started = 0
+play_started = 1
 play_counter = 0
 play_lines = []
 play_motions = []
@@ -90,13 +90,16 @@ feynman_command_publisher = rospy.Publisher('feynman_command', Int32, queue_size
 
 # Get the lines, text files must be in same directory as orchestrator.py
 with open(getcwd() + '/lines.txt', 'r') as file:
-    line = file.read()
-    play_lines.append(line)
+    line = file.readline()
+    while line:
+        play_lines.append(line)
+        line = file.readline()
 # Get the motions
 with open(getcwd() + '/motions.txt', 'r') as file:
-    motion = file.read()
-    play_motions.append(motion)
-
+    motion = file.readline()
+    while motion:
+        play_motions.append(motion)
+        motion = file.readline()
 
 
 # Collection of publisher and subscribers
@@ -244,7 +247,7 @@ def speech_command_callback(data):
     global speech_command
     global listen
 
-    if get_speech:
+    if listen:
         speech_command = data.data
         get_speech = 0
         print("Retrieved string for speech to text.")
