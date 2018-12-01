@@ -77,7 +77,7 @@ motion_command_publisher = rospy.Publisher('torso_command', String, queue_size=1
 talk_command_publisher = rospy.Publisher('talk_command', String, queue_size=1)
 speech_command_publisher = rospy.Publisher('speech_command', String, queue_size=1)
 record_command_publisher = rospy.Publisher('record_command', Int32, queue_size=1)
-feynman_command_publisher = rospy.Publisher('feynman_command', Int32, queue_size=1)
+feynman_done_publisher = rospy.Publisher('feynman_done', Int32, queue_size=1)
 
 # Get the lines, text files must be in same directory as orchestrator.py
 with open(getcwd() + '/lines.txt', 'r') as file:
@@ -210,7 +210,7 @@ def execute_play():
                 feynman_command_publisher.publish(1)    # Publish a one to tell Turing it's his turn                
                 print("Done talking and moving for now. Waiting for Turing.")
     else:
-        feynman_command_publisher.publish(1)    # Publish a one to tell Turing it's his turn                
+        feynman_done_publisher.publish(play_counter)    # Publish a one to tell Turing it's his turn                
         print("Waiting for Turing")
 
 
