@@ -28,10 +28,6 @@ global send_torso_command  # Determines whether we should send the torso command
 global motion_command   # Stores the walker command that will be published
 global motion_done      # Increments as more motions are completed
 global send_motion_command  # Determines whether we should send the walker command 
-# Vision
-global vision_return    # Stores what the eyes node saw
-global vision_done      # Increments as more objects are seen
-global look     # Determines whether the vision node should be running
 # Text to speech
 global talk_command # Stores a string of what we want to convert to speech
 global talk_done    # Increments as more sentences are said
@@ -62,10 +58,6 @@ send_torso_command = 0
 motion_command = ""
 motion_done= 0
 send_motion_command = 0
-# Visual section
-vision_return = ["", "", ""]    # Color, size, location
-vision_done = 0
-look = 0
 # Text to Speech section
 talk_command = ""
 talk_done = 0
@@ -82,7 +74,6 @@ listen = 0
 # Initialize publishers
 torso_command_publisher = rospy.Publisher('torso_command', String, queue_size=1)
 motion_command_publisher = rospy.Publisher('torso_command', String, queue_size=1)
-vision_command_publisher = rospy.Publisher('vision_command', Int32, queue_size=1)
 talk_command_publisher = rospy.Publisher('talk_command', String, queue_size=1)
 speech_command_publisher = rospy.Publisher('speech_command', String, queue_size=1)
 record_command_publisher = rospy.Publisher('record_command', Int32, queue_size=1)
@@ -109,8 +100,6 @@ def orchestrator():
     global torso_command
     global send_motion_command
     global motion_command
-    global look
-    global vision_return
     global talk 
     global talk_command
     global respond  # Respond to small talk 
@@ -124,8 +113,6 @@ def orchestrator():
     # Subscribe to all input nodes 
     rospy.Subscriber('motion_command_finished', Int32, motion_command_finished_callback)
     rospy.Subscriber('torso_command_finished', Int32, torso_command_finished_callback)
-    rospy.Subscriber('vision_finished', Int32, vision_finished_callback)
-    rospy.Subscriber('vision_return', String, vision_return_callback)
     rospy.Subscriber('talk_command_finished', Int32, talk_command_finished_callback)
     rospy.Subscriber('record_command_finished', Int32, record_command_finished_callback)
     rospy.Subscriber('speech_command_finished', Int32, speech_command_finished_callback)
@@ -145,10 +132,6 @@ def orchestrator():
             if send_motion_command:
                 motion_command_publisher.publish(motion_command)
                 send_motion_command = 0
-            # If we should be looking, look
-            if look:
-                vision_command_publisher.publish(look)
-                look = 0
             # If we are allowed to say something, send it
             if talk:
                 speech_command_publisher.publish(talk_command)
@@ -205,12 +188,14 @@ def execute_play():
 
     # If it's our turn 
     if our_turn:
+        current_line = play_lines[play_counter].rstrip('\n')
+        current_motion = play_motions[play_counter].rstrip('\n')
         # If we can talk and move
         if talk and send_motion_command:
-            if play_lines[play_counter] != "WAIT_FOR_TURING":   # Speak as long as the line isn't "WAIT_FOR_TURING" 
-                talk_command_publisher.publish(play_lines[play_counter])    # Publish the line
-                motion_command_publisher.publish(play_motions[play_counter])    # Publish the motion
-                print("Sending the line \"{0}\" and the motion \"{1}\".".format(play_lines[play_counter], play_motions[play_counter]))
+            if current_line != "WAIT_FOR_TURING":   # Speak as long as the line isn't "WAIT_FOR_TURING" 
+                talk_command_publisher.publish(current_line)    # Publish the line
+                motion_command_publisher.publish(current_motion)    # Publish the motion
+                print("Sending the line \"{0}\" and the motion \"{1}\".".format(current_line, current_motion))
                 play_counter += 1 # Increment counter
                 talk = 0   # Reset the flags for tts and motion
                 send_motion_command = 0
@@ -301,32 +286,6 @@ def talk_command_finished_callback(data):
         talk_done = data.data
         talk = 1
         print("Done converting text to speech.")
-
-
-# Callback function for vision return
-def vision_return_callback(data):
-    global vision_return
-    temp_string = data.data.split()
-
-    if len(temp_string) == 3:   # If we received a valid return from eyes
-        vision_return[0] = temp_string[0]
-        vision_return[1] = temp_string[1]
-        vision_return[2] = temp_string[2]
-        print("Eyes saw {0} colored object of {1} size and {2} location."
-                .format(vision_return[0], vision_return[1], vision_return[2]))
-
-
-# Callback function for vision finished 
-def vision_finished_callback(data):
-    global vision_done
-    global enable_vision
-
-    if data.data == vision_done:  # Do nothing unless the vision_done increments
-        pass
-    else:
-        enable_vision = 0
-        vision_done = data.data
-        print("Vision is finished.")
 
 
 # Callback function for torso command finished 
