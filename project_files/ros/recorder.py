@@ -14,7 +14,7 @@ import os
 
 
 def record(file_name, seconds):
-    bash_command = "arecord -D plughw:1,0 -d " + str(seconds) + " " + file_name
+    bash_command = "arecord -D plughw:1,0 -c1 -r44100 -d " + str(seconds) + " " + file_name
     os.system(bash_command)
 
 global path
@@ -28,7 +28,7 @@ def do_record(data):
     global finish_hex_pub
     global file_path_pub
      
-    path = "/home/pi/catkin_ws/src/lynxmotion_hexapod/wavs/"
+    path = "/home/pi/catkin_ws/src/lynxmotion_package/wavs/"
     file_name = path + "microphone" + str(record_done) + ".wav"
 
     rospy.loginfo(rospy.get_caller_id() + ' I heard %s', data.data)
@@ -43,6 +43,7 @@ def do_record(data):
 def node_setup():
     global finish_record_pub
     global finish_path_pub 
+    global file_path_pub
     rospy.init_node('recorder')
     rospy.Subscriber('record_command', Int32, do_record)
     finish_record_pub = rospy.Publisher('record_command_finished', Int32, queue_size = 1)
