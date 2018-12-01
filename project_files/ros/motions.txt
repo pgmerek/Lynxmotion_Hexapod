@@ -1,0 +1,14 @@
+
+look
+rotate 2 left
+rotate 2 right
+neutral 90
+WAIT_FOR_TURING
+
+WAIT_FOR_TURING
+bounce 1 1.5
+point right
+
+
+WAIT_FOR_TURING
+

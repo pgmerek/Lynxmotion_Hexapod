@@ -19,7 +19,9 @@ TORSO_ARM_TABLE = {
         "JOHNNY_BRAVO_MONKEY_UP"  : Leg_Position(90,0,100),
 
         "BLOCKING_UP"              : Leg_Position(30, 0, 180),
-        "BLOCKING_FRONT"           : Leg_Position(30, 0, 90)
+        "BLOCKING_FRONT"           : Leg_Position(30, 0, 90),
+
+        "LOOKING"                  : Leg_Position(20, 5, 155)
 
    }
 
@@ -65,6 +67,13 @@ TORSO_MONKEY_LEFT_UP = 13
 # finish hand shake
 TORSO_SHAKE_MID = 14
 
+# looking
+TORSO_LOOKING = 15
+
+# pointing
+TORSO_POINTING_LEFT = 16
+TORSO_POINTING_RIGHT= 17
+
 TORSO_POSITIONS = {
         # 1
         TORSO_NEUTRAL:
@@ -103,8 +112,6 @@ TORSO_POSITIONS = {
         Torso_Position(TORSO_ARM_TABLE["HAND_SHAKE_MID"],
                         TORSO_ARM_TABLE["NEUTRAL"],
                         "handshaking with the rigth hand (mid pos)"),
-
-
         # 7
         TORSO_SHAKE_UP:
         Torso_Position(TORSO_ARM_TABLE["HAND_SHAKE_UP"],
@@ -141,8 +148,25 @@ TORSO_POSITIONS = {
         TORSO_MONKEY_LEFT_UP:
         Torso_Position(TORSO_ARM_TABLE["JOHNNY_BRAVO_MONKEY_DOWN"],
                         TORSO_ARM_TABLE["JOHNNY_BRAVO_MONKEY_UP"],
-                        "finishing johnny bravo's monkey dance")
+                        "finishing johnny bravo's monkey dance"),
 
+        # 15
+        TORSO_LOOKING:
+        Torso_Position(TORSO_ARM_TABLE["NEUTRAL"],
+                        TORSO_ARM_TABLE["LOOKING"],
+                        "raising hand to act like it is looking around"),
+
+        # 16
+        TORSO_POINTING_LEFT:
+        Torso_Position(TORSO_ARM_TABLE["NEUTRAL"],
+                        TORSO_ARM_TABLE["STRAIGHT_OUT"],
+                        "pointing left arm out"),
+
+        # 17
+        TORSO_POINTING_RIGHT:
+        Torso_Position(TORSO_ARM_TABLE["STRAIGHT_OUT"],
+                        TORSO_ARM_TABLE["NEUTRAL"],
+                        "pointing right arm out")
 
         }
 

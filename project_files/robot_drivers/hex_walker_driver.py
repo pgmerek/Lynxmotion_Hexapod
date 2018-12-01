@@ -677,6 +677,9 @@ class Robot_Torso(object):
                 self.set_torso_position(positions[i], rotations[i])
                 time.sleep(sleeps[i])
 
+    def set_torso_rotation(self, rotation):
+        self.rotator.set_angle(rotation)
+
     # torso movement functions
     def monkey(self, repetitions):
         moves = []
@@ -701,6 +704,17 @@ class Robot_Torso(object):
         self.do_moveset(moves, rotations, sleeps, repetitions)
         self.set_torso_position(TORSO_NEUTRAL, 90)
     
+    def look(self):
+        self.set_torso_position(TORSO_LOOKING, 90)
+
+    def point(self, direction, duration):
+        if(direction == RIGHT):
+            self.set_torso_position(TORSO_POINTING_RIGHT, 90)
+        else:
+            self.set_torso_position(TORSO_POINTING_LEFT, 90)
+        time.sleep(duration)
+        self.set_torso_position(TORSO_NEUTRAL, 90)
+
     def king_kong(self, rotation, repetitions):
         moves = []
         moves.append(TORSO_DANCE_FRONT_LEFT_OUT)
@@ -730,6 +744,8 @@ class Robot_Torso(object):
         self.do_moveset(moves, rotations, sleeps, repetitions)
         self.set_torso_position(TORSO_NEUTRAL, 90)
 
+    def neutral_rotate(self, direction):
+        self.set_torso_position(TORSO_NEUTRAL, direction)
 
     def do_nothing(self):
         self.set_torso_position(TORSO_NEUTRAL, 90)
