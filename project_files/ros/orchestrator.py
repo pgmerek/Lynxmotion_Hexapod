@@ -210,7 +210,7 @@ def execute_play():
                 feynman_command_publisher.publish(1)    # Publish a one to tell Turing it's his turn                
                 print("Done talking and moving for now. Waiting for Turing.")
     else:
-        feynman_done_publisher.publish(play_counter)    # Publish a one to tell Turing it's his turn                
+        feynman_done_publisher.publish(play_counter)    # Publish a new integer to tell Turing it's his turn                
         print("Waiting for Turing")
 
 
