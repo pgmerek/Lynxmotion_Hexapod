@@ -53,15 +53,15 @@ turing_done = 0
 # Torso section
 torso_command = ""
 torso_done = 0
-send_torso_command = 0
+send_torso_command = 1
 # Legs section
 motion_command = ""
 motion_done= 0
-send_motion_command = 0
+send_motion_command = 1
 # Text to Speech section
 talk_command = ""
 talk_done = 0
-talk = 0
+talk = 1
 # Speech to text section
 speech_return = ""
 speech_done = 0
@@ -73,7 +73,7 @@ listen = 0
 
 # Initialize publishers
 torso_command_publisher = rospy.Publisher('torso_command', String, queue_size=1)
-motion_command_publisher = rospy.Publisher('torso_command', String, queue_size=1)
+motion_command_publisher = rospy.Publisher('motion_command', String, queue_size=1)
 talk_command_publisher = rospy.Publisher('talk_command', String, queue_size=1)
 speech_command_publisher = rospy.Publisher('speech_command', String, queue_size=1)
 record_command_publisher = rospy.Publisher('record_command', Int32, queue_size=1)
@@ -191,10 +191,11 @@ def execute_play():
         current_line = play_lines[play_counter].rstrip('\n')
         current_motion = play_motions[play_counter].rstrip('\n')
         # If we can talk and move
-        if talk and send_motion_command:
+        if talk and send_motion_command and send_torso_command:
             if current_line != "WAIT_FOR_TURING":   # Speak as long as the line isn't "WAIT_FOR_TURING" 
                 talk_command_publisher.publish(current_line)    # Publish the line
                 motion_command_publisher.publish(current_motion)    # Publish the motion
+                torso_command_publisher.publish(current_motion)    # Publish the motion
                 print("Sending the line \"{0}\" and the motion \"{1}\".".format(current_line, current_motion))
                 play_counter += 1 # Increment counter
                 talk = 0   # Reset the flags for tts and motion
@@ -210,7 +211,7 @@ def execute_play():
                 feynman_command_publisher.publish(1)    # Publish a one to tell Turing it's his turn                
                 print("Done talking and moving for now. Waiting for Turing.")
     else:
-        feynman_done_publisher.publish(play_counter)    # Publish a new integer to tell Turing it's his turn                
+       # feynman_done_publisher.publish(play_counter)    # Publish a new integer to tell Turing it's his turn                
         print("Waiting for Turing")
 
 
@@ -294,6 +295,7 @@ def torso_command_finished_callback(data):
     global send_torso_command
 
     if data.data == torso_done:  # Do nothing unless the torso_done increments
+        print("ToCoFi received {}.".format(data.data))
         pass
     else:
         send_torso_command = 1
@@ -307,6 +309,7 @@ def motion_command_finished_callback(data):
     global send_motion_command
 
     if data.data == motion_done:  # Do nothing unless the motion_done increments
+        print("MoCoFi received {}.".format(data.data))
         pass
     else:
         send_motion_command = 1
