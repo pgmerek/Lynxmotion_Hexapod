@@ -55,6 +55,8 @@ def detect_intent_texts(project_id, session_id, texts, language_code):
 
 
 current_directory = os.getcwd()
+credentials = os.path.join(current_directory, 'Feelings-0b93d9f44df2.json')
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = credentials
 user_input = os.path.join(current_directory, 'weather-mono.wav')
 result = detect_intent_audio("feelings-a1c4f", "1-1-1-1-1", user_input, 'en-US')
 print result
