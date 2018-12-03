@@ -12,3 +12,6 @@ point right
 
 WAIT_FOR_TURING
 
+WAIT_FOR_TURING
+walk 2 0
+bounce 5 0.1
