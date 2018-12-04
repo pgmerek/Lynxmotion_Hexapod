@@ -33,12 +33,11 @@ global talk_command # Stores a string of what we want to convert to speech
 global talk_done    # Increments as more sentences are said
 global talk     # Lets us know we are allowed to speak
 # Speech to text
-global speech_command # Hold the string of what was heard
-global speech_done    # Increments as more sentences are processed 
+global dialog_finished  # Increments as more sentences are processed 
 global respond  # Lets us know that we have a valid sentence
-global get_speech   # Lets use know that we should get the speech now that it's processed
+global dialog_response   # Lets use know that we should get the speech now that it's processed
 # Record
-global record_return    # Return the file path of the recording file
+global file_path    # Return the file path of the recording file
 global record_done  # Increments as more commands are recorded
 global listen   # Lets us know that we should be listening
 global get_recording    # Lets us know that we should get the file path of the recording
@@ -63,11 +62,11 @@ talk_command = ""
 talk_done = 0
 talk = 1
 # Speech to text section
-speech_return = ""
-speech_done = 0
+dialog_response = ""
+dialog_finished = 0
 respond = 0
 # Record section
-record_return = ""
+file_path = ""
 record_done = 0
 listen = 0
 
@@ -78,6 +77,8 @@ talk_command_publisher = rospy.Publisher('talk_command', String, queue_size=1)
 speech_command_publisher = rospy.Publisher('speech_command', String, queue_size=1)
 record_command_publisher = rospy.Publisher('record_command', Int32, queue_size=1)
 feynman_done_publisher = rospy.Publisher('feynman_done', Int32, queue_size=1)
+dialog_command_publisher = rospy.Publisher('dialog_command', String, queue_size=1)
+
 
 # Get the lines, text files must be in same directory as orchestrator.py
 with open(getcwd() + '/lines.txt', 'r') as file:
@@ -113,17 +114,24 @@ def orchestrator():
     # Subscribe to all input nodes 
     rospy.Subscriber('motion_command_finished', Int32, motion_command_finished_callback)
     rospy.Subscriber('torso_command_finished', Int32, torso_command_finished_callback)
-    rospy.Subscriber('talk_command_finished', Int32, talk_command_finished_callback)
+    #rospy.Subscriber('talk_command_finished', Int32, talk_command_finished_callback)
     rospy.Subscriber('record_command_finished', Int32, record_command_finished_callback)
+    rospy.Subscriber('file_recorded', String, file_recorded_callback)
     rospy.Subscriber('speech_command_finished', Int32, speech_command_finished_callback)
     rospy.Subscriber('speech_command', String, speech_command_callback)
     rospy.Subscriber('turing_done', Int32, turing_done_callback)
+    rospy.Subscriber('dialog_finished', Int32, dialog_finished_callback)
+    rospy.Subscriber('dialog_response', String, dialog_response_callback)
 
 
     while not rospy.is_shutdown():
         if play_started:    # If play is started, go to an entirely different function
             execute_play()
         else:
+            # Get file path from Charles, send it to Emma
+            if recording_ready:
+                dialog_command_publisher.publish(file_path)
+                recording_ready = 0
             # If we are allowed to send a torso command, send it
             if send_torso_command:  
                 torso_command_publisher.publish(torso_command)
@@ -138,7 +146,7 @@ def orchestrator():
                 speak = 0
             # If there is something we heard that should be acted on, act on it
             if respond:
-                small_talk(talk_return)
+                small_talk(dialog_response)
                 respond = 0
 
         refresh_rate.sleep()
@@ -263,6 +271,27 @@ def file_recorded_callback(data):
         printf("Retrieved the file path to the recording.")
 
 
+# Callback function for dialog done
+def dialog_response_callback(data):
+    global dialog_response
+    global respond
+
+    if respond:  # If dialog said that it's done
+        dialog_response = data.data
+
+
+# Callback function for dialog done
+def dialog_finished_callback(data):
+    global dialog_finished
+    global respond
+
+    if data.data == dialog_finished:  # Do nothing unless dialog_finished increments from the dialog node
+        pass
+    else:
+        dialog_finished = data.data
+        respond = 1;
+
+
 # Callback function for record done
 def record_command_finished_callback(data):
     global record_done
@@ -274,6 +303,17 @@ def record_command_finished_callback(data):
         record_done = data.data
         get_recording = 1
         print("Done recording.")
+
+
+# Callback function for speech command
+def file_recorded_callback(data):
+    global file_path
+    global get_recording
+
+    if get_recording:
+        file_path = data.data
+        get_recording = 0
+        print("Retrieved file path for speech to text.")
 
 
 # Callback function for talk done
