@@ -208,7 +208,7 @@ def execute_play():
             else:
                 our_turn = 0    # Stop talking since now it's Turing's turn
                 play_counter += 1 # Increment counter past the wait line. We'll still be blocked because our_turn is False
-                feynman_command_publisher.publish(1)    # Publish a one to tell Turing it's his turn                
+                feynman_done_publisher.publish(play_counter)    # Publish a one to tell Turing it's his turn                
                 print("Done talking and moving for now. Waiting for Turing.")
     else:
        # feynman_done_publisher.publish(play_counter)    # Publish a new integer to tell Turing it's his turn                
