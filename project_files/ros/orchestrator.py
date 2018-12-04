@@ -49,7 +49,7 @@ play_counter = 0
 play_lines = []
 play_motions = []
 our_turn = 0
-turing_done = 0
+turing_done = -1
 # Torso section
 torso_command = ""
 torso_done = 0
