@@ -7,6 +7,7 @@ ECE 578
 Author: Patrick Gmerek
 """
 
+import time
 import rospy
 from std_msgs.msg import Int32
 from std_msgs.msg import String
@@ -41,6 +42,8 @@ global file_path    # Return the file path of the recording file
 global record_done  # Increments as more commands are recorded
 global listen   # Lets us know that we should be listening
 global get_recording    # Lets us know that we should get the file path of the recording
+global start_time   # Stores when we started the orchestrator
+global rec_len  # The number of seconds that we're recording
 
 # Initialize variables starting with play variables
 play_started = 1
@@ -69,6 +72,8 @@ respond = 0
 file_path = ""
 record_done = 0
 listen = 0
+get_recording = 0
+rec_len = time.time()
 
 # Initialize publishers
 torso_command_publisher = rospy.Publisher('torso_command', String, queue_size=1)
@@ -128,6 +133,9 @@ def orchestrator():
         if play_started:    # If play is started, go to an entirely different function
             execute_play()
         else:
+            if (time.time() - start_time) % rec_len == 0:   # If 5 seconds have elapsed
+                record_command_publisher.publish(rec_len)
+                print("tick")
             # Get file path from Charles, send it to Emma
             if recording_ready:
                 dialog_command_publisher.publish(file_path)
@@ -274,10 +282,8 @@ def file_recorded_callback(data):
 # Callback function for dialog done
 def dialog_response_callback(data):
     global dialog_response
-    global respond
 
-    if respond:  # If dialog said that it's done
-        dialog_response = data.data
+    dialog_response = data.data
 
 
 # Callback function for dialog done
