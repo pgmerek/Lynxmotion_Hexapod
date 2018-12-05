@@ -19,6 +19,7 @@ global play_started
 global play_counter
 global play_lines
 global play_motions
+global num_play_lines
 global our_turn
 global turing_done
 # Torso
@@ -49,6 +50,7 @@ global rec_len  # The number of seconds that we're recording
 # Initialize variables starting with play variables
 play_started = 0
 play_counter = 0
+num_play_lines = -1
 play_lines = []
 play_motions = []
 our_turn = 0
@@ -76,7 +78,7 @@ record_done = 0
 listen = 0
 recording_ready = 0
 start_time = int(time.time())
-rec_len = 5
+rec_len = 4
 
 # Initialize publishers
 torso_command_publisher = rospy.Publisher('torso_command', String, queue_size=1)
@@ -91,6 +93,7 @@ dialog_command_publisher = rospy.Publisher('dialog_command', String, queue_size=
 with open(getcwd() + '/lines.txt', 'r') as file:
     line = file.readline()
     while line:
+        num_play_lines += 1
         play_lines.append(line)
         line = file.readline()
 # Get the motions
@@ -148,6 +151,10 @@ def orchestrator():
                 print("Sending the file path \"{}\".".format(file_path))
                 dialog_command_publisher.publish(file_path)
                 recording_ready = 0
+            # If there is something we heard that should be acted on, act on it
+            if respond:
+                small_talk()
+                respond = 0
             # If we are allowed to send a torso command, send it
             if send_torso_command:  
                 torso_command_publisher.publish(torso_command)
@@ -160,10 +167,6 @@ def orchestrator():
             if talk:
                 talk_command_publisher.publish(talk_command)
                 talk = 0
-            # If there is something we heard that should be acted on, act on it
-            if respond:
-                small_talk()
-                respond = 0
 
         refresh_rate.sleep()
 
@@ -226,7 +229,7 @@ def execute_play():
                 play_counter += 1 # Increment counter
                 talk = 0   # Reset the flags for tts and motion
                 send_motion_command = 0
-                if play_counter > 13:   # At end of play, stop and reset for next play
+                if play_counter > num_play_lines:   # At end of play, stop and reset for next play
                     our_turn = 0
                     play_started = 0
                     play_counter = 0
