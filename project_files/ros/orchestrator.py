@@ -47,7 +47,7 @@ global start_time   # Stores when we started the orchestrator
 global rec_len  # The number of seconds that we're recording
 
 # Initialize variables starting with play variables
-play_started = 1
+play_started = 0
 play_counter = 0
 play_lines = []
 play_motions = []
@@ -182,23 +182,19 @@ def small_talk():
     talk_command = dialog_response
 
     if intent == "backward_walk":
-        motion_command_publisher.publish(current_motion)    # Publish the motion
+        motion_command_publisher.publish("walk 4 0")    # Publish the motion
         send_motion_command = 1
-    elif intent == "default":
-        pass
-    elif intent == "feeling":
-        pass
+    elif intent == "dance":
+        torso_command_publisher.publish("bounce 10 0.5")    # Publish the motion
+        motion_command_publisher.publish("monkey 30")    # Publish the motion
+        send_motion_command = 1
+        send_torso_command = 1
     elif intent == "forward_walk":
-        motion_command_publisher.publish(current_motion)    # Publish the motion
+        motion_command_publisher.publish("walk 4 180")    # Publish the motion
         send_motion_command = 1
-    elif intent == "greetings":
-        pass
     elif intent == "play":
         play_started = 1
-    elif intent == "robotics":
-        pass
-    elif intent == "weather":
-        pass
+
 
     talk = 1
 
