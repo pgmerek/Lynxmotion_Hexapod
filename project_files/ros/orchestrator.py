@@ -36,7 +36,8 @@ global talk     # Lets us know we are allowed to speak
 # Speech to text
 global dialog_finished  # Increments as more sentences are processed 
 global respond  # Lets us know that we have a valid sentence
-global dialog_response   # Lets use know that we should get the speech now that it's processed
+global dialog_response   # Lets us know that we should get the speech now that it's processed
+global dialog_intent    # Lets us know what the user intent was perceived to be
 # Record
 global file_path    # Return the file path of the recording file
 global record_done  # Increments as more commands are recorded
@@ -66,6 +67,7 @@ talk_done = 0
 talk = 0
 # Speech to text section
 dialog_response = ""
+dialog_intent = ""
 dialog_finished = 0
 respond = 0
 # Record section
@@ -129,6 +131,7 @@ def orchestrator():
     rospy.Subscriber('turing_done', Int32, turing_done_callback)
     rospy.Subscriber('dialog_finished', Int32, dialog_finished_callback)
     rospy.Subscriber('dialog_response', String, dialog_response_callback)
+    rospy.Subscriber('dialog_intent', String, dialog_intent_callback)
 
 
     while not rospy.is_shutdown():
@@ -158,7 +161,7 @@ def orchestrator():
                 talk = 0
             # If there is something we heard that should be acted on, act on it
             if respond:
-                small_talk(dialog_response)
+                small_talk()
                 respond = 0
 
         refresh_rate.sleep()
@@ -168,30 +171,34 @@ def orchestrator():
 
 
 # Function for small talk
-def small_talk(user_sentence):
+def small_talk():
+    global dialog_response
+    global dialog_intent
     global talk_command
     global talk
 
-    if user_sentence == "Hello":
-        talk_command = "Hello."
-    elif user_sentence == "Hi":
-        talk_command = "Howdy."
-    elif user_sentence == "How are you?":
-        talk_command = "Excellent."
-    elif user_sentence == "Is it raining outside?":
-        talk_command = "Why don't you go outside and check?"
-    elif user_sentence == "Goodbye":
-        talk_command = "See you later alligator."
-    elif user_sentence == "Bye":
-        talk_command = "Goodbye."
-    elif user_sentence == "What are you?":
-        talk_command = "I am nothing short of an abomination."
-    elif user_sentence == "What's up?":
-        talk_command = "Not much. Just having a smoke."
-    elif user_sentence == "You seem sad":
-        talk_command = "I suppose I could use a leg up."
-    else:
-        talk_command = "I don't understand what you said."
+    # Store as local variables so there's no chance this can be updated outside the scope of this function
+    intent = dialog_intent
+    talk_command = dialog_response
+
+    if intent == "backward_walk":
+        motion_command_publisher.publish(current_motion)    # Publish the motion
+        send_motion_command = 1
+    elif intent == "default":
+        pass
+    elif intent == "feeling":
+        pass
+    elif intent == "forward_walk":
+        motion_command_publisher.publish(current_motion)    # Publish the motion
+        send_motion_command = 1
+    elif intent == "greetings":
+        pass
+    elif intent == "play":
+        play_started = 1
+    elif intent == "robotics":
+        pass
+    elif intent == "weather":
+        pass
 
     talk = 1
 
@@ -247,6 +254,13 @@ def turing_done_callback(data):
         our_turn = 1
         turing_done = data.data
         print("Turing said he's done with his part.")
+
+
+# Callback function for dialog done
+def dialog_intent_callback(data):
+    global dialog_intent
+
+    dialog_intent = data.data
 
 
 # Callback function for dialog done
