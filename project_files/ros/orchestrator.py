@@ -137,7 +137,7 @@ def orchestrator():
         else:
             curr_time = int(time.time()) - start_time 
             if curr_time != prev_time and curr_time % rec_len == 0:   # If 5 seconds have elapsed
-                prev_time = curr_time
+                prev_time = curr_time   # Keep track of the time so we send just one record command
                 record_command_publisher.publish(rec_len)
                 print("tick")
             # Get file path from Charles, send it to Emma

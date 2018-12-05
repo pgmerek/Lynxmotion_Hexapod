@@ -21,7 +21,7 @@ global response_dialog
 # set globals
 # change this to your current machine
 # this needs to be the directory where the json file is located
-current_directory = '/home/emma/catkin_ws/src/robot_integration/src/scripts'
+current_directory = '/home/pi/catkin_ws/src/lynxmotion_package/scripts'
 print (current_directory)
 done = 0
 
@@ -60,7 +60,8 @@ def detect_intent_audio(project_id, session_id, audio_file_path, language_code):
 
     # Publish response and confirmation of completion
     finish_dialog.publish(done)
-    response_dialog.publish(response.query_result.intent.display_name  + " " + response.query_result.fulfillment_text)
+    response_dialog.publish(response.query_result.fulfillment_text)
+    intent_dialog.publish(response.query_result.intent.display_name)
     
     
 def detect_intent_texts(project_id, session_id, texts, language_code):
@@ -102,11 +103,12 @@ def node_setup():
     environment = os.path.join(current_directory, 'Feelings-0b93d9f44df2.json')
     os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = environment
 
-    # Initialize node, publishe, and subscriber
+    # Initialize node, publishers, and subscriber
     rospy.init_node('dialog', anonymous=True)
     rospy.Subscriber('dialog_command', String, dialog_command_callback)
     finish_dialog = rospy.Publisher('dialog_finished', Int32, queue_size=1)
     response_dialog = rospy.Publisher('dialog_response', String, queue_size=1)
+    intent_dialog = rospy.Publisher('dialog_intent', String, queue_size=1)
     print ("Dialog node has been initialized")
     rospy.spin()
 
