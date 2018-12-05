@@ -145,6 +145,7 @@ def orchestrator():
                 print("tick")
             # Get file path from Charles, send it to Emma
             if recording_ready:
+                print("Sending the file path \"{}\".".format(file_path))
                 dialog_command_publisher.publish(file_path)
                 recording_ready = 0
             # If we are allowed to send a torso command, send it
@@ -257,13 +258,16 @@ def dialog_intent_callback(data):
     global dialog_intent
 
     dialog_intent = data.data
-
+    if respond:
+        print("Dialog intent is \"{}\"".format(dialog_intent))
 
 # Callback function for dialog done
 def dialog_response_callback(data):
     global dialog_response
 
     dialog_response = data.data
+    if respond:
+        print("Dialog response is \"{}\"".format(dialog_response))
 
 
 # Callback function for dialog done
@@ -276,13 +280,14 @@ def dialog_finished_callback(data):
     else:
         dialog_finished = data.data
         respond = 1;
+        print("Dialog said it's done.")
 
 
 # Callback function for file_recorded
 def file_recorded_callback(data):
-    global record_return
+    global file_path
 
-    record_return = data.data
+    file_path = data.data
 
 
 # Callback function for record done

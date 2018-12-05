@@ -1,20 +1,15 @@
 #!/usr/bin/env python
 
-import sys
-sys.path.append("/home/pi/Lynxmotion_Hexapod/project_files/robot_drivers/")
-
 import rospy
 from std_msgs.msg import String
 from std_msgs.msg import Int32
 from time import sleep
-import Adafruit_PCA9685
-from hex_walker_driver import *
 import os
 
 
 
 def record(file_name, seconds):
-    bash_command = "arecord -D plughw:1,0 -c1 -r44100 -d " + str(seconds) + " " + file_name
+    bash_command = "arecord -D plughw:1,0 -f S16_LE -c1 -r44100 -d " + str(seconds) + " " + file_name
     os.system(bash_command)
 
 global path
