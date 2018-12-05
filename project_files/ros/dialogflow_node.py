@@ -22,7 +22,7 @@ global intent_dialog
 # set globals
 # change this to your current machine
 # this needs to be the directory where the json file is located
-current_directory = '/home/pi/catkin_ws/src/lynxmotion_package/src/scripts'
+current_directory = '/home/pi/catkin_ws/src/lynxmotion_package/scripts'
 print (current_directory)
 done = 0
 
