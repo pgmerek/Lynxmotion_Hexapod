@@ -8,7 +8,7 @@ from time import sleep
 global feynman_done
 global turing_done 
 feynman_done = 0
-turing_done = 0
+turing_done = 1
 
 turing_done_publisher = rospy.Publisher('turing_done', Int32, queue_size=1)
 

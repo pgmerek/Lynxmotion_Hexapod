@@ -7,7 +7,7 @@ WAIT_FOR_TURING
 
 WAIT_FOR_TURING
 bounce 1 1.5
-point right
+point right 2
 
 
 WAIT_FOR_TURING

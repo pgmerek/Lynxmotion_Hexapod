@@ -46,7 +46,7 @@ global start_time   # Stores when we started the orchestrator
 global rec_len  # The number of seconds that we're recording
 
 # Initialize variables starting with play variables
-play_started = 0
+play_started = 1
 play_counter = 0
 play_lines = []
 play_motions = []
@@ -55,11 +55,11 @@ turing_done = -1
 # Torso section
 torso_command = ""
 torso_done = 0
-send_torso_command = 0
+send_torso_command = 1
 # Legs section
 motion_command = ""
 motion_done= 0
-send_motion_command = 0
+send_motion_command = 1
 # Text to Speech section
 talk_command = ""
 talk_done = 0
@@ -206,6 +206,7 @@ def execute_play():
     global send_motion_command
     global talk
 
+    talk = 1
     # If it's our turn 
     if our_turn:
         current_line = play_lines[play_counter].rstrip('\n')
