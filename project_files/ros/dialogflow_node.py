@@ -2,7 +2,7 @@
 
 """
 Last updated by Emma Smith
-01 December 2018
+04 December 2018
 """
 
 import rospy
@@ -13,16 +13,14 @@ import os
 
 # define globals
 global current_directory
-global current_working_directory
 global done
 global finish_dialog
 global response_dialog
 
 
 # set globals
-current_working_directory = os.getcwd()
-print (current_working_directory)
-# current directory to script directory
+# change this to your current machine
+# this needs to be the directory where the json file is located
 current_directory = '/home/emma/catkin_ws/src/robot_integration/src/scripts'
 print (current_directory)
 done = 0
@@ -62,7 +60,7 @@ def detect_intent_audio(project_id, session_id, audio_file_path, language_code):
 
     # Publish response and confirmation of completion
     finish_dialog.publish(done)
-    response_dialog.publish(response.query_result.fulfillment_text)
+    response_dialog.publish(response.query_result.intent.display_name  + " " + response.query_result.fulfillment_text)
     
     
 def detect_intent_texts(project_id, session_id, texts, language_code):
@@ -91,11 +89,9 @@ def detect_intent_texts(project_id, session_id, texts, language_code):
 def dialog_command_callback (data):
     global current_directory
 
-    user_input = os.path.join(current_directory, 'weather-mono.wav')
-    if data.data is 1:
-        result = detect_intent_audio("feelings-a1c4f", "1-1-1-1-1", user_input, 'en-US')
-    else:
-        pass
+    user_input = data.data
+    result = detect_intent_audio("feelings-a1c4f", "1-1", user_input, 'en-US')
+
 
 def node_setup():
     # Sets current directory and environment
@@ -108,7 +104,7 @@ def node_setup():
 
     # Initialize node, publishe, and subscriber
     rospy.init_node('dialog', anonymous=True)
-    rospy.Subscriber('dialog_command', Int32, dialog_command_callback)
+    rospy.Subscriber('dialog_command', String, dialog_command_callback)
     finish_dialog = rospy.Publisher('dialog_finished', Int32, queue_size=1)
     response_dialog = rospy.Publisher('dialog_response', String, queue_size=1)
     print ("Dialog node has been initialized")
