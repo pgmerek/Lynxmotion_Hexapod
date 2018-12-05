@@ -37,8 +37,8 @@ def do_record(data):
     record(file_name, seconds)
 
     record_done = record_done + 1
-    finish_record_pub.publish(record_done)    
     file_path_pub.publish(file_name)
+    finish_record_pub.publish(record_done)    
 
 def node_setup():
     global finish_record_pub
