@@ -1,0 +1,14 @@
+monkey 5
+rotate 5 left
+rotate 5 right
+bounce 10 0.1
+king_kong 5 90
+monkey 3
+point left 3
+point right 2
+walk 2 180
+walk 2 0
+bounce 10 0.1
+neutral 90
+handshake 10 90
+wave 3 180

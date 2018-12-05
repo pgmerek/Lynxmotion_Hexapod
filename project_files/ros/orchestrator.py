@@ -26,10 +26,12 @@ global turing_done
 global torso_command   # Stores the torso command that will be published
 global torso_done      # Increments as more motions are completed
 global send_torso_command  # Determines whether we should send the torso command 
+global torso_command_ready  # Determines whether we should send the torso command 
 # Legs
 global motion_command   # Stores the walker command that will be published
 global motion_done      # Increments as more motions are completed
 global send_motion_command  # Determines whether we should send the walker command 
+global motion_command_ready  # Determines whether we should send the walker command 
 # Text to speech
 global talk_command # Stores a string of what we want to convert to speech
 global talk_done    # Increments as more sentences are said
@@ -58,11 +60,13 @@ turing_done = -1
 # Torso section
 torso_command = ""
 torso_done = 0
-send_torso_command = 1
+send_torso_command = 0
+torso_command_ready = 1
 # Legs section
 motion_command = ""
 motion_done= 0
-send_motion_command = 1
+send_motion_command = 0
+motion_command_ready = 1
 # Text to Speech section
 talk_command = ""
 talk_done = 0
@@ -108,8 +112,10 @@ with open(getcwd() + '/motions.txt', 'r') as file:
 def orchestrator():
     global play_started
     global send_torso_command
+    global torso_command_ready
     global torso_command
     global send_motion_command
+    global motion_command_ready
     global motion_command
     global talk 
     global talk_command
@@ -152,13 +158,21 @@ def orchestrator():
                 dialog_command_publisher.publish(file_path)
                 recording_ready = 0
             # If we are allowed to send a torso command, send it
-            if send_torso_command:  
+            if torso_command_ready and send_torso_command:  
+                print("Sending torso command \"{0}\"".format(torso_command))
                 torso_command_publisher.publish(torso_command)
+                torso_command_ready = 0
                 send_torso_command = 0
+            #else:
+            #    print("Didn't move torso because ready = {0} and send = {1}".format(torso_command_ready, send_torso_command))
             # If we are allowed to send a motion command, send it
-            if send_motion_command:
+            if motion_command_ready and send_motion_command:
+                print("Sending motion command \"{0}\"".format(motion_command))
                 motion_command_publisher.publish(motion_command)
+                motion_command_ready = 0
                 send_motion_command = 0
+            #else:
+            #    print("Didn't move legs because ready = {0} and send = {1}".format(motion_command_ready, send_motion_command))
             # If there is something we heard that should be acted on, act on it
             if respond:
                 small_talk()
@@ -183,26 +197,26 @@ def small_talk():
     global talk
     global send_motion_command
     global send_torso_command
+    global motion_command
+    global torso_command
 
     # Store as local variables so there's no chance this can be updated outside the scope of this function
     intent = dialog_intent
     talk_command = dialog_response
 
     if intent == "backward_walk":
-        motion_command_publisher.publish("walk 4 0")    # Publish the motion
+        motion_command = "walk 4 180"    # Publish the motion
         send_motion_command = 1
     elif intent == "dance":
-        torso_command_publisher.publish("bounce 10 0.5")    # Publish the motion
-        motion_command_publisher.publish("monkey 30")    # Publish the motion
+        motion_command = "bounce 10 0.5"    # Publish the motion
+        torso_command = "monkey 5"    # Publish the motion
         send_motion_command = 1
         send_torso_command = 1
     elif intent == "forward_walk":
-        motion_command_publisher.publish("walk 4 180")    # Publish the motion
+        motion_command = "walk 4 0"    # Publish the motion
         send_motion_command = 1
     elif intent == "play":
         play_started = 1
-        send_motion_command = 1
-        send_torso_command = 1
 
     talk = 1
 
@@ -214,15 +228,17 @@ def execute_play():
     global play_motions
     global play_lines
     global our_turn # True if it's our turn to speak, move, or both
-    global send_motion_command
+    global motion_command_ready
+    global torso_command_ready
     global talk
 
+    our_turn = 1    # We're saying a monolouge
     # If it's our turn 
     if our_turn:
         current_line = play_lines[play_counter].rstrip('\n')
         current_motion = play_motions[play_counter].rstrip('\n')
         # If we can talk and move
-        if talk and send_motion_command and send_torso_command:
+        if talk and motion_command_ready and torso_command_ready:
             if current_line != "WAIT_FOR_TURING":   # Speak as long as the line isn't "WAIT_FOR_TURING" 
                 talk_command_publisher.publish(current_line)    # Publish the line
                 motion_command_publisher.publish(current_motion)    # Publish the motion
@@ -230,8 +246,8 @@ def execute_play():
                 print("Sending the line \"{0}\" and the motion \"{1}\".".format(current_line, current_motion))
                 play_counter += 1 # Increment counter
                 talk = 0   # Reset the flags for tts and motion
-                send_motion_command = 0
-                send_torso_command = 0
+                motion_command_ready = 0
+                torso_command_ready = 0
                 if play_counter > num_play_lines:   # At end of play, stop and reset for next play
                     our_turn = 0
                     play_started = 0
@@ -243,8 +259,8 @@ def execute_play():
                 feynman_done_publisher.publish(play_counter)    # Publish a one to tell Turing it's his turn                
                 print("Done talking and moving for now. Waiting for Turing.")
         else:
-            print("Waiting on talk ({0}), send_motion_command({1}), or send_torso_command({2})."
-                    .format(talk, send_motion_command, send_torso_command))
+            print("Waiting on talk ({0}), motion_command_ready({1}), or torso_command_ready({2})."
+                    .format(talk, motion_command_ready, torso_command_ready))
     else:
        # feynman_done_publisher.publish(play_counter)    # Publish a new integer to tell Turing it's his turn                
         print("Waiting for Turing")
@@ -329,12 +345,12 @@ def talk_done_callback(data):
 # Callback function for torso command finished 
 def torso_command_finished_callback(data):
     global torso_done
-    global send_torso_command
+    global torso_command_ready
 
     if data.data == torso_done:  # Do nothing unless the torso_done increments
         pass
     else:
-        send_torso_command = 1
+        torso_command_ready = 1
         torso_done = data.data
         print("Torso command is finished.")
 
@@ -342,12 +358,12 @@ def torso_command_finished_callback(data):
 # Callback function for motion command finished 
 def motion_command_finished_callback(data):
     global motion_done
-    global send_motion_command
+    global motion_command_ready
 
     if data.data == motion_done:  # Do nothing unless the motion_done increments
         pass
     else:
-        send_motion_command = 1
+        motion_command_ready = 1
         motion_done = data.data
         print("Motion command is finished.")
         

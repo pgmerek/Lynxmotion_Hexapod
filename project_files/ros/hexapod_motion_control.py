@@ -47,6 +47,7 @@ def do_hex_walker_command(data):
     global finish_hex_pub
     rospy.loginfo(rospy.get_caller_id() + ' I heard %s', data.data)
     if not data.data:
+        print("Not doing anything since I heard nothing.")
         pass
     else:
         commandlist = data.data.split()
@@ -57,9 +58,7 @@ def do_hex_walker_command(data):
             direction = int(commandlist[2])
             print("walking " + str(num_steps) + " steps forward in direction " + str(direction))
             hex_walker.walk(num_steps, direction)
-        
-        
-        if commandlist[0] == "rotate":
+        elif commandlist[0] == "rotate":
             if len(commandlist) != 3:
                 assert "incorrect number of arguments for rotate"
             num_steps = int(commandlist[1])
@@ -69,9 +68,7 @@ def do_hex_walker_command(data):
                 direction = RIGHT
             print("rotating " + str(num_steps) + commandlist[2])
             hex_walker.rotate(num_steps, direction)
-        
-        
-        if commandlist[0] == "leg_wave":
+        elif commandlist[0] == "leg_wave":
             if len(commandlist) != 3:
                 assert "incorrect number of arguments for leg_wave"
             num_times = int(commandlist[1])
@@ -81,14 +78,15 @@ def do_hex_walker_command(data):
                 direction = RIGHT
             print("leg waving " + str(num_times) + " in the direction " + commandlist[2])
             hex_walker.leg_wave(direction, .1, num_times)
-        
-        
-        if commandlist[0] == "bounce":
+        elif commandlist[0] == "bounce":
             if len(commandlist) != 3:
                 assert "incorrect number of arguments for bounce"
             num_times = int(commandlist[1])
             wait_time = float(commandlist[2])
+            print("bouncing " + str(num_times) + " for " + str(wait_time) + " seconds.")
             hex_walker.bounce(wait_time, num_times)
+        else:
+            print("MOTION: Received a non-empty and non-supported motion. Tied to match \"{}\" to no avail.".format(commandlist[0]))
 
 
     hex_done = hex_done + 1
@@ -99,10 +97,10 @@ def do_torso_command(data):
     global finish_torso_pub
     rospy.loginfo(rospy.get_caller_id() + ' I heard %s', data.data)
     if not data.data:
+        print("Not doing anything since I heard nothing.")
         pass
     else:
         commandlist = data.data.split()
-        
         
         if commandlist[0] == "wave":
             if len(commandlist) != 3:
@@ -111,33 +109,26 @@ def do_torso_command(data):
             direction = int(commandlist[2])
             print("waving " + str(num_times) + " times in direction " + str(direction))
             torso.wave(direction, num_times)
-
-
-        if commandlist[0] == "king_kong":
+        elif commandlist[0] == "king_kong":
             if len(commandlist) != 3:
                 assert "incorrect number of arguments for king_kong"
             num_times = int(commandlist[1])
             direction = int(commandlist[2])
             print("king_kong-ing " + str(num_times) + " times in direction " + str(direction))
             torso.king_kong(direction, num_times)
-        
-            
-        if commandlist[0] == "monkey":
+        elif commandlist[0] == "monkey":
             if len(commandlist) != 2:
                 assert "incorrect number of arguments for monkey"
             num_times = int(commandlist[1])
             print("monkeying " + str(num_times) + " times")
             torso.monkey(num_times)
-        
-            
-        if commandlist[0] == "handshake":
+        elif commandlist[0] == "handshake":
             if len(commandlist) != 3:
                 assert "incorrect number of arguments for handshake"
             num_times = int(commandlist[1])
             direction = int(commandlist[2])
             torso.hand_shake(direction, num_times) 
-       
-        if commandlist[0] == "point":
+        elif commandlist[0] == "point":
             if len(commandlist) != 3:
                 assert "incorrect number of arguments for pointing"
             if commandlist[1] == "right":
@@ -146,23 +137,22 @@ def do_torso_command(data):
                 direction = LEFT
             wait_time = float(commandlist[2])
             torso.point(direction, wait_time)
-
-        if commandlist[0] == "look":
+        elif commandlist[0] == "look":
             if len(commandlist) != 1:
                 assert "incorrect number of arguments for looking"
             torso.look()
-
-        if commandlist[0] == "neutral":
+        elif commandlist[0] == "neutral":
             if len(commandlist) != 2:
                 assert "incorrect number of arguments for returning to neutral"
             direction = int(commandlist[1])
             torso.neutral_rotate(direction)
-
-        if commandlist[0] == "turn":
+        elif commandlist[0] == "turn":
             if len(commandlist) != 2:
                 assert "incorrect number of arguments for looking"
             direction = int(commandlist[1])
             torso.set_torso_rotation(direction)
+        else:
+            print("TORSO: Received a non-empty and non-supported motion. Tied to match \"{}\" to no avail.".format(commandlist[0]))
     
     # make sure we don't set done too fast. probably unnecessary but it is safer
     sleep(.1)
