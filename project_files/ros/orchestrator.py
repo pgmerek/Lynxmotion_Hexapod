@@ -175,6 +175,7 @@ def orchestrator():
 def small_talk():
     global dialog_response
     global dialog_intent
+    global play_started
     global talk_command
     global talk
 
@@ -196,7 +197,6 @@ def small_talk():
     elif intent == "play":
         play_started = 1
 
-
     talk = 1
 
 
@@ -210,7 +210,8 @@ def execute_play():
     global send_motion_command
     global talk
 
-    talk = 1
+    send_motion_command = 1
+    send_torso_command = 1
     # If it's our turn 
     if our_turn:
         current_line = play_lines[play_counter].rstrip('\n')
@@ -235,6 +236,9 @@ def execute_play():
                 play_counter += 1 # Increment counter past the wait line. We'll still be blocked because our_turn is False
                 feynman_done_publisher.publish(play_counter)    # Publish a one to tell Turing it's his turn                
                 print("Done talking and moving for now. Waiting for Turing.")
+        else:
+            print("Waiting on talk ({0}), send_motion_command({1}), or send_torso_command({2})."
+                    .format(talk, send_motion_command, send_torso_command))
     else:
        # feynman_done_publisher.publish(play_counter)    # Publish a new integer to tell Turing it's his turn                
         print("Waiting for Turing")

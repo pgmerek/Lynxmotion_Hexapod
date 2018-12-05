@@ -16,6 +16,7 @@ global current_directory
 global done
 global finish_dialog
 global response_dialog
+global intent_dialog
 
 
 # set globals
@@ -99,6 +100,7 @@ def node_setup():
     global current_directory
     global finish_dialog
     global response_dialog
+    global intent_dialog
     
     environment = os.path.join(current_directory, 'Feelings-0b93d9f44df2.json')
     os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = environment
