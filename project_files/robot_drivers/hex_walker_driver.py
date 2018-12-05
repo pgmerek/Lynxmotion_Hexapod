@@ -242,6 +242,9 @@ class Leg(object):
         self.tip_motor = -1
         self.mid_motor = -1
         self.rot_motor = -1
+        self.tip_motor_angle = -1
+        self.mid_motor_angle = -1
+        self.rot_motor_angle = -1
         if(leg_num == ARM_L or leg_num == ARM_R):
             self.set_leg_position(TORSO_ARM_TABLE["NEUTRAL"])
         else:
@@ -331,6 +334,7 @@ class Leg(object):
 
             # do the write out and update internal value
             self.tip_motor = pwm_val
+            self.tip_motor_angle = angle
             self.pwm.set_pwm(self.tip_channel, 0, pwm_val)
 
         elif motor == MID_MOTOR:
@@ -348,6 +352,7 @@ class Leg(object):
 
             # do the write out and update internal value
             self.mid_motor = pwm_val
+            self.mid_motor_angle = angle
             self.pwm.set_pwm(self.mid_channel, 0, pwm_val)
 
         elif motor == ROT_MOTOR:
@@ -365,6 +370,7 @@ class Leg(object):
 
             # do the write out
             self.rot_motor = pwm_val
+            self.rot_motor_angle = angle
             self.pwm.set_pwm(self.rot_channel, 0, pwm_val)
 
 # speed options: this is just the time it waits betweeen moves

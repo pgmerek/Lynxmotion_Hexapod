@@ -170,7 +170,65 @@ def node_setup():
     finish_torso_pub = rospy.Publisher('torso_command_finished', Int32, queue_size = 1)
     finish_hex_pub.publish(0)
     finish_torso_pub.publish(0)
-    rospy.spin()
+    
+
+    rf_tip = rospy.Publisher('legs/rf_tip', Int32, queue_size=1)
+    rf_mid = rospy.Publisher('legs/rf_mid', Int32, queue_size=1)
+    rf_rot = rospy.Publisher('legs/rf_rot', Int32, queue_size=1)
+    
+    rm_tip = rospy.Publisher('legs/rm_tip', Int32, queue_size=1)
+    rm_mid = rospy.Publisher('legs/rm_mid', Int32, queue_size=1)
+    rm_rot = rospy.Publisher('legs/rm_rot', Int32, queue_size=1)
+    
+    rr_tip = rospy.Publisher('legs/rr_tip', Int32, queue_size=1)
+    rr_mid = rospy.Publisher('legs/rr_mid', Int32, queue_size=1)
+    rr_rot = rospy.Publisher('legs/rr_rot', Int32, queue_size=1)
+    
+    lf_tip = rospy.Publisher('legs/lf_tip', Int32, queue_size=1)
+    lf_mid = rospy.Publisher('legs/lf_mid', Int32, queue_size=1)
+    lf_rot = rospy.Publisher('legs/lf_rot', Int32, queue_size=1)
+    
+    lm_tip = rospy.Publisher('legs/lm_tip', Int32, queue_size=1)
+    lm_mid = rospy.Publisher('legs/lm_mid', Int32, queue_size=1)
+    lm_rot = rospy.Publisher('legs/lm_rot', Int32, queue_size=1)
+    
+    lr_tip = rospy.Publisher('legs/lr_tip', Int32, queue_size=1)
+    lr_mid = rospy.Publisher('legs/lr_mid', Int32, queue_size=1)
+    lr_rot = rospy.Publisher('legs/lr_rot', Int32, queue_size=1)
+    
+    want_publish = True
+    
+    # robot data publication
+    if want_publish:
+        refresh_rate = rospy.Rate(1)
+        while not rospy.is_shutdown():
+            rf_tip.publish(hex_walker.leg0.tip_motor_angle)
+            rf_mid.publish(hex_walker.leg0.mid_motor_angle)
+            rf_rot.publish(hex_walker.leg0.rot_motor_angle)
+            
+            rm_tip.publish(hex_walker.leg1.tip_motor_angle)
+            rm_mid.publish(hex_walker.leg1.mid_motor_angle)
+            rm_rot.publish(hex_walker.leg1.rot_motor_angle)
+
+            rr_tip.publish(hex_walker.leg2.tip_motor_angle)
+            rr_mid.publish(hex_walker.leg2.mid_motor_angle)
+            rr_rot.publish(hex_walker.leg2.rot_motor_angle)
+
+            lf_tip.publish(hex_walker.leg3.tip_motor_angle)
+            lf_mid.publish(hex_walker.leg3.mid_motor_angle)
+            lf_rot.publish(hex_walker.leg3.rot_motor_angle)
+
+            lm_tip.publish(hex_walker.leg4.tip_motor_angle)
+            lm_mid.publish(hex_walker.leg4.mid_motor_angle)
+            lm_rot.publish(hex_walker.leg4.rot_motor_angle)
+
+            lr_tip.publish(hex_walker.leg5.tip_motor_angle)
+            lr_mid.publish(hex_walker.leg5.mid_motor_angle)
+            lr_rot.publish(hex_walker.leg5.rot_motor_angle)
+    
+            refresh_rate.sleep()
+    else:
+        rospy.spin()
 
 if __name__ == '__main__':
     node_setup()
