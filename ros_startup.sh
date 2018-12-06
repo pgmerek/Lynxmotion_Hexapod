@@ -14,7 +14,7 @@ sleep 5
 echo "waiting...."
 sleep 5
 echo "starting the orchestrator"
-rosrun lynxmotion_package orchestrator.py > /dev/null &
+rosrun lynxmotion_package orchestrator.py &
 echo "starting recorder"
 rosrun lynxmotion_package recorder.py &> /dev/null &
 echo "starting dialogflow"
