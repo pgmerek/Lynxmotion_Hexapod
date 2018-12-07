@@ -17,6 +17,7 @@ from std_msgs.msg import String
 # pip install boto3
 # pip install pygame
 
+# this is the topic that is published to when the call back is finished
 global talk_finished
 talk_finished = 0
 
@@ -40,25 +41,24 @@ def talk_callback(data):
                 pass
         else:
                 previous = data.data # update previous variable
-                spoken_text = polly.synthesize_speech(Text = data.data, OutputFormat='mp3', VoiceId = 'Matthew')
+                spoken_text = polly.synthesize_speech(Text = data.data, OutputFormat='mp3', VoiceId = 'Matthew') # send string to polly
 
                 with open('output.mp3', 'wb') as f:
                     f.write(spoken_text['AudioStream'].read())
                     f.close()
 
                 mixer.init()
-                mixer.music.load('output.mp3')
+                mixer.music.load('output.mp3')	# this plays the audio file
                 mixer.music.play()
 
                 while mixer.music.get_busy() == True:
                     pass
 
                 mixer.quit()
-                os.remove('output.mp3')
+                os.remove('output.mp3')	# this removes the audio file
 
                 talk_finished = talk_finished + 1 # Keeps track of how many times polly has talked
                 pub_talk_done.publish(talk_finished)
-                print("This is the end of the callback")
 	
 
 def talk_node_setup():
@@ -72,7 +72,7 @@ def talk_node_setup():
 	# create a subscriber
 	rospy.Subscriber("talk_command", String, talk_callback)
 
-	pub_talk_done = rospy.Publisher("talk_done", Int32, queue_size=1)
+	pub_talk_done = rospy.Publisher("talk_done", Int32, queue_size=1) # publish to talk node
 	pub_talk_done.publish(0)
 
 	rospy.spin()
