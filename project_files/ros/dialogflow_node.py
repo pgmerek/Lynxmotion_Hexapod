@@ -2,21 +2,22 @@
 
 """
 Last updated by Emma Smith
-04 December 2018
+06 December 2018
 """
 
+i# Impports
 import rospy
 from std_msgs.msg import Int32
 from std_msgs.msg import String
 import dialogflow_v2 as dialogflow
 import os
 
-# define globals
-global current_directory
-global done
-global finish_dialog
-global response_dialog
-global intent_dialog
+# Define globals
+global current_directory # Directory where node is stored
+global done # flag to indicate that the processing is done
+global finish_dialog # publisher used to send the done flag
+global response_dialog # publisher to send the text response from dialogflow
+global intent_dialog # publisher to send the intent from dialogflow
 
 
 # set globals
@@ -33,21 +34,29 @@ def detect_intent_audio(project_id, session_id, audio_file_path, language_code):
     """
     global done
 	
+    # Sets session for dialogflow. This is used to create a continuing conversation and essentially save your place
+    # Not used currently
     session_client = dialogflow.SessionsClient()
 
+    # Paramaters for the file
     audio_encoding = dialogflow.enums.AudioEncoding.AUDIO_ENCODING_LINEAR_16
     sample_rate_hertz = 44100
 
+    # Associates session with the project on dialogflow
     session = session_client.session_path(project_id, session_id)
 
+    # Opens audio file and reads it
     with open(audio_file_path, 'rb') as audio_file:
         input_audio = audio_file.read()
 
+    # Decodes audo file based off the encodinng before
     audio_config = dialogflow.types.InputAudioConfig(
         audio_encoding=audio_encoding, language_code=language_code,
         sample_rate_hertz=sample_rate_hertz)
+    # Lets dialogflow know that we're sending a decoded audio file
     query_input = dialogflow.types.QueryInput(audio_config=audio_config)
 
+    # Response from dialogflow
     response = session_client.detect_intent(
         session=session, query_input=query_input,
         input_audio=input_audio)
@@ -71,17 +80,22 @@ def detect_intent_texts(project_id, session_id, texts, language_code):
     Using the same `session_id` between requests allows continuation
     of the conversation."""
 
-    import dialogflow_v2 as dialogflow
+    # Sets the client
     session_client = dialogflow.SessionsClient()
 
+    # Session
     session = session_client.session_path(project_id, session_id)
 
+    # Processes all text strings from the input array
     for text in texts:
+        # Configures text input settings
         text_input = dialogflow.types.TextInput(
             text=text, language_code=language_code)
 
+        # Sends text to dialogflow for procesing
         query_input = dialogflow.types.QueryInput(text=text_input)
 
+        # Response from dialogflow
         response = session_client.detect_intent(
             session=session, query_input=query_input)
 
@@ -96,7 +110,7 @@ def dialog_command_callback (data):
 
 
 def node_setup():
-    # Sets current directory and environment
+    # Declare globals
     global current_directory
     global finish_dialog
     global response_dialog
@@ -111,6 +125,7 @@ def node_setup():
     finish_dialog = rospy.Publisher('dialog_finished', Int32, queue_size=1)
     response_dialog = rospy.Publisher('dialog_response', String, queue_size=1)
     intent_dialog = rospy.Publisher('dialog_intent', String, queue_size=1)
+
     print ("Dialog node has been initialized")
     rospy.spin()
 
