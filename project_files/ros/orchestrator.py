@@ -94,14 +94,14 @@ dialog_command_publisher = rospy.Publisher('dialog_command', String, queue_size=
 
 
 # Get the lines, text files must be in same directory as orchestrator.py
-with open(getcwd() + '/lines.txt', 'r') as file:
+with open(getcwd() + '/romeoLines.txt', 'r') as file:
     line = file.readline()
     while line:
         num_play_lines += 1
         play_lines.append(line)
         line = file.readline()
 # Get the motions
-with open(getcwd() + '/motions.txt', 'r') as file:
+with open(getcwd() + '/romeoMotions.txt', 'r') as file:
     motion = file.readline()
     while motion:
         play_motions.append(motion)

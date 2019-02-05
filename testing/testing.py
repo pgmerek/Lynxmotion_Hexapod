@@ -228,6 +228,6 @@ for leg in all_legs:
 # create a test walker
 #crouch_rotate_test(hex_walker)
 #crouch_walk_test(hex_walker)
-for i in range(0,10):
-    tall_side_walk_test(hex_walker)
+for i in range(0,100):
+    tall_walk_test(hex_walker)
 hex_walker.do_move_set([TALL_NEUTRAL])
