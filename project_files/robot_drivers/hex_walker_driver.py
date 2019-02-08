@@ -500,6 +500,7 @@ class Hex_Walker(object):
 	def do_move_set(self, hex_walker_position_list):
 		for next_pos in hex_walker_position_list:
 			if next_pos in HEX_WALKER_POSITIONS[self.current_pos].safe_moves:
+				print("Sending command")
 				self.set_hex_walker_position(next_pos)
 				time.sleep(self.speed)
 			else:
