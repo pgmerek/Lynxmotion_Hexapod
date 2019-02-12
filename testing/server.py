@@ -17,29 +17,28 @@ def main():
     host = '127.0.0.1'
     port = 65432
 
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-        s.bind((host, port))
-        s.listen()
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.bind((host, port))
+    s.listen(5)
 
-        # In degrees, with the 0 degress pointing straight up
-        client_input = '' 
-        print('Waiting for connection...')
+    # In degrees, with the 0 degress pointing straight up
+    client_input = '' 
+    print('Waiting for connection...')
 
-        while True:
-            connection, client_address = s.accept()
-            with connection:
-                print('Connection from ', client_address)
-                client_input = connection.recv(20).decode('ascii')
-                print('Received {}'.format(client_input))
-                if client_input:
-                    move_robot(client_input)
+    while True:
+        connection, client_address = s.accept()
+        print('Connection from ', client_address)
+        client_input = connection.recv(20).decode('ascii')
+        print('Received {}'.format(client_input))
+        if client_input:
+            move_robot(client_input)
 
-                    # Send acknowledge signal back to client
-                    data = b'ack'
-                    connection.sendall(data)
-                    client_input = ''
-                else:
-                    print('no data from', client_address)
+            # Send acknowledge signal back to client
+            data = b'ack'
+            connection.sendall(data)
+            client_input = ''
+        else:
+            print('no data from', client_address)
 
 
 
@@ -92,9 +91,11 @@ def send_motion_command(client_command, motion_command_dict):
             if multiplier_present:
                 # Send the command X times
                 for x in range(0, command_multiplier + 1):
+                    print("Sending {}".format(command))
                     command_arbiter(command)
                 multiplier_present = False
             else:
+                print("Sending {}".format(command))
                 command_arbiter(command)
 
 

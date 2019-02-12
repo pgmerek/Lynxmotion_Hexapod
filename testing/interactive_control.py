@@ -42,13 +42,21 @@ def command_arbiter(command):
     elif command == 'a' or command == 'A':
         tall_side_walk_test(hex_walker, 'left')
     elif command == 's' or command == 'S':
-        tall_walk_test(hex_walker, 'backwards')
+        tall_walk_test(hex_walker, 'backward')
     elif command == 'd' or command == 'D':
         tall_side_walk_test(hex_walker, 'right')
     elif command == 'q' or command == 'Q':
         tall_rotate_test(hex_walker, 'left')
     elif command == 'e' or command == 'E':
         tall_rotate_test(hex_walker, 'right')
+    elif command == 'wd' or command == 'WD':
+        tall_walk_test(hex_walker, 'right_forward')
+    elif command == 'wa' or command == 'WA':
+        tall_walk_test(hex_walker, 'left_forward')
+    elif command == 'sd' or command == 'SD':
+        tall_walk_test(hex_walker, 'right_backward')
+    elif command == 'sa' or command == 'SA':
+        tall_walk_test(hex_walker, 'left_backward')
 
 
 def tall_side_walk_test(hw, direction):
@@ -92,10 +100,25 @@ def tall_walk_test(hw, direction):
     ]
 
     if direction == 'forward':
+        hw.set_new_front("5-0")
         hw.do_move_set(moves)
-    else:
-        hw.do_move_set(moves[::-1])
+    elif direction == 'backward':
+        hw.set_new_front("2-3")
+        hw.do_move_set(moves)
+    elif direction == 'right_forward':
+        hw.set_new_front("0-1")
+        hw.do_move_set(moves)
+    elif direction == 'left_forward':
+        hw.set_new_front("4-5")
+        hw.do_move_set(moves)
+    elif direction == 'right_backward':
+        hw.set_new_front("1-2")
+        hw.do_move_set(moves)
+    elif direction == 'left_backward':
+        hw.set_new_front("3-4")
+        hw.do_move_set(moves)
 
+    hw.set_new_front("5-0")
 
 
 def tall_rotate_test(hw, direction):
