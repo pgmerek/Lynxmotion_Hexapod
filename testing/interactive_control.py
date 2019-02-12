@@ -13,9 +13,12 @@ global hex_walker
 
 def setup():
     #init the pwm stuffs and run selected tests
-    global right_side = Adafruit_PCA9685.PCA9685(address=0x40)
-    global left_side = Adafruit_PCA9685.PCA9685(address=0x41)
+    global right_side
+    global left_side
+    global hex_walker
 
+    right_side = Adafruit_PCA9685.PCA9685(address=0x40)
+    left_side = Adafruit_PCA9685.PCA9685(address=0x41)
     # create some legs
     right_side.set_pwm_freq(60)
     left_side.set_pwm_freq(60)
@@ -29,7 +32,7 @@ def setup():
     left_legs = [lr, lm, lf]
 
     # Setup robot
-    global hex_walker = Hex_Walker(rf, rm, rr, lr, lm, lf)
+    hex_walker = Hex_Walker(rf, rm, rr, lr, lm, lf)
     hex_walker.do_move_set([TALL_NEUTRAL])
 
 
