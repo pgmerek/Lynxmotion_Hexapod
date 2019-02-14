@@ -48,12 +48,12 @@ def move_robot(command):
     that this script is running on.
     """
     global robot_type
-    hexapod_motions = {'up'         : ['9', 'wd', 'w'],
-                       'left_up'    : ['9',  'w', 'sd'],
-                       'left_down'  : ['7', 'wa', 'w', 'd'],
-                       'right_up'   : [''],
-                       'right_down' : [''],
-                       'down'       : ['10', 'sa', '2', 'a', 'w']}
+    hexapod_motions = {'up'         : ['7', 'wd'],
+                       'left_up'    : ['7', 'w'],
+                       'left_down'  : ['7', 'wa'],
+                       'right_up'   : ['7', 'sd'],
+                       'right_down' : ['7', 's'],
+                       'down'       : ['7',' sa']}
 
     vikingbot0_motions = {'up'         : ['9', 'a', '6', 'w'],
                           'left_up'    : ['3', 'a', '5', 'w', '5', 'a', 'w'],

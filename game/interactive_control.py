@@ -84,7 +84,7 @@ def tall_side_walk_test(hw, direction):
 
 
 def tall_walk_test(hw, direction):
-    hw.speed = 0.05
+    hw.speed = 0.15
     moves = [
     TALL_NEUTRAL,
     TALL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL,
