@@ -14,7 +14,7 @@ import Adafruit_PCA9685
 
 # Initialise the PCA9685 using the default address (0x40).
 pwm = Adafruit_PCA9685.PCA9685(address=0x41)
-channel = 10
+channel = 6
 #pwm = Adafruit_PCA9685.PCA9685(address=0x41, busnum=2)
 
 # Helper function to make setting a servo pulse width simpler.
@@ -37,7 +37,7 @@ pwm.set_pwm_freq(60)
 print('Moving servo on channel "+ str(channel) + ", press Ctrl-C to quit...')
 while True:
     # Move servo on channel O between extremes.
-    for i in range(300, 1000, 1):
+    for i in range(100, 1000, 1):
       val =  i
       print("setting to "+str(val))
       #pwm.set_pwm(channel, something, pwm_value)
