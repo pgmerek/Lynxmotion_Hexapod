@@ -71,7 +71,6 @@ def tall_side_walk_test(hw, direction):
     TALL_TRI_FRONT_UP_NEUTRAL_BACK_BACKWARDS,
     TALL_TRI_FRONT_NEUTRAL_BACK_BACKWARDS,
     TALL_TRI_FRONT_NEUTRAL_BACK_UP_NEUTRAL,
-    TALL_NEUTRAL
     ]
 
     if direction == 'left':
@@ -81,6 +80,7 @@ def tall_side_walk_test(hw, direction):
 
     hw.do_move_set(moves)
     hw.set_new_front("5-0")
+    hw.do_move_set[TALL_NEUTRAL]
 
 
 def tall_walk_test(hw, direction):
@@ -96,7 +96,6 @@ def tall_walk_test(hw, direction):
     TALL_TRI_RIGHT_FORWARD_LEFT_BACK,
     TALL_TRI_RIGHT_FORWARD_LEFT_UP_BACK,
     TALL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL,
-    TALL_NEUTRAL
     ]
 
     if direction == 'forward':
@@ -119,6 +118,7 @@ def tall_walk_test(hw, direction):
         hw.do_move_set(moves)
 
     hw.set_new_front("5-0")
+    hw.do_move_set[TALL_NEUTRAL]
 
 
 def tall_rotate_test(hw, direction):
@@ -130,7 +130,6 @@ def tall_rotate_test(hw, direction):
     TALL_TRI_RIGHT_RIGHT_LEFT_LEFT,
     TALL_TRI_RIGHT_UP_RIGHT_LEFT_LEFT,
     TALL_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL,
-    TALL_NEUTRAL
     ]
 
     if direction == 'left':
@@ -138,3 +137,7 @@ def tall_rotate_test(hw, direction):
     else:
         hw.do_move_set(moves[::-1])
 
+    hw.do_move_set[TALL_NEUTRAL]
+
+def leg_ripple(hw, direction):
+    hw.leg_wave(1, .1, 4)

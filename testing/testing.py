@@ -213,10 +213,9 @@ lf = Leg(0, pwm_41, 3, 7, 8, 5)
 right_legs = [rf, rm, rr]
 left_legs = [lf, lm, lr]
 all_legs = right_legs + left_legs
-rf.set_angle(90, TIP_MOTOR)
 
-#hex_walker = Hex_Walker(rf, rm, rr, lr, lm, lf)
-#hex_walker.do_move_set([TALL_NEUTRAL])
+hex_walker = Hex_Walker(rf, rm, rr, lr, lm, lf)
+hex_walker.do_move_set([TALL_NEUTRAL])
 '''
 for leg in all_legs:
     print("-----------------------------next leg-----------------------------")
@@ -228,6 +227,6 @@ for leg in all_legs:
 # create a test walker
 #crouch_rotate_test(hex_walker)
 #crouch_walk_test(hex_walker)
-#for i in range(0,100):
-#    tall_walk_test(hex_walker)
-#hex_walker.do_move_set([TALL_NEUTRAL])
+for i in range(0,100):
+    tall_walk_test(hex_walker)
+hex_walker.do_move_set([TALL_NEUTRAL])

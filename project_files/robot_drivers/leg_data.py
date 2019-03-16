@@ -101,46 +101,46 @@ CROUCH_TRI_SIDE_MOVEMENT_TABLE = {
         }
 
 TALL_TRI_ROTATION_TABLE = {
-        "NEUTRAL"           : Leg_Position(90, 45, 90),
+        "NEUTRAL"           : Leg_Position(120, 45, 90),
         "UP_NEUTRAL"        : Leg_Position(45, 90, 90),
         
-        "RIGHT"             : Leg_Position(90, 45, 120),
+        "RIGHT"             : Leg_Position(120, 45, 120),
         "UP_RIGHT"          : Leg_Position(45, 90, 120),
         
-        "LEFT"              : Leg_Position(90, 45, 60),
+        "LEFT"              : Leg_Position(120, 45, 60),
         "UP_LEFT"           : Leg_Position(45, 90, 60)
 
 }
 
 TALL_TRI_MOVEMENT_TABLE = {
-        "NEUTRAL"               : Leg_Position(90, 45, 90),
+        "NEUTRAL"               : Leg_Position(120, 45, 90),
         "UP_NEUTRAL"            : Leg_Position(45, 90, 90),
       
-        "CORN_OUT_LEFT"         : Leg_Position(95, 52, 80),
-        "CORN_OUT_RIGHT"        : Leg_Position(95, 52, 100),
+        "CORN_OUT_LEFT"         : Leg_Position(125, 52, 80),
+        "CORN_OUT_RIGHT"        : Leg_Position(125, 52, 100),
 
-        "CORN_UP_OUT_LEFT"      : Leg_Position(30, 90, 80),
-        "CORN_UP_OUT_RIGHT"     : Leg_Position(30, 90, 100),
+        "CORN_UP_OUT_LEFT"      : Leg_Position(60, 90, 80),
+        "CORN_UP_OUT_RIGHT"     : Leg_Position(60, 90, 100),
 
-        "SIDE_RIGHT"            : Leg_Position(85, 60, 130),
-        "SIDE_LEFT"             : Leg_Position(85, 60, 50),
+        "SIDE_RIGHT"            : Leg_Position(115, 60, 130),
+        "SIDE_LEFT"             : Leg_Position(115, 60, 50),
 
-        "SIDE_UP_RIGHT"         : Leg_Position(30, 80, 130),
-        "SIDE_UP_LEFT"          : Leg_Position(30, 80, 50)
+        "SIDE_UP_RIGHT"         : Leg_Position(60, 80, 130),
+        "SIDE_UP_LEFT"          : Leg_Position(60, 80, 50)
 }
 
 # There's no center in because the mid motor is limited to 45 degrees 
 TALL_TRI_SIDE_MOVEMENT_TABLE = {
-        "NEUTRAL": Leg_Position(90, 45, 90),
+        "NEUTRAL": Leg_Position(120, 45, 90),
         "UP_NEUTRAL": Leg_Position(45, 90, 90),
 
-        "SIDE_OUT_LEFT": Leg_Position(90, 50, 65),
-        "SIDE_OUT_RIGHT": Leg_Position(90, 50, 115),
+        "SIDE_OUT_LEFT": Leg_Position(120, 50, 65),
+        "SIDE_OUT_RIGHT": Leg_Position(120, 50, 115),
 
         "SIDE_UP_OUT_LEFT": Leg_Position(90, 70, 65),
         "SIDE_UP_OUT_RIGHT": Leg_Position(90, 70, 115),
 
-        "CENTER_OUT": Leg_Position(90, 45, 90),
+        "CENTER_OUT": Leg_Position(120, 45, 90),
          
         "CENTER_UP_OUT": Leg_Position(100, 70, 90),
         }
