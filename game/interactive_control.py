@@ -37,26 +37,30 @@ def setup():
 
 
 def command_arbiter(command):
-    if command == 'w' or command == 'W':
-        tall_walk_test(hex_walker, 'forward')
-    elif command == 'a' or command == 'A':
+    if command == 'w':
+        walk(hex_walker, 'forward')
+    elif command == 'a':
         tall_side_walk_test(hex_walker, 'left')
-    elif command == 's' or command == 'S':
-        tall_walk_test(hex_walker, 'backward')
-    elif command == 'd' or command == 'D':
+    elif command == 's':
+        walk(hex_walker, 'backward')
+    elif command == 'd':
         tall_side_walk_test(hex_walker, 'right')
-    elif command == 'q' or command == 'Q':
+    elif command == 'q':
         tall_rotate_test(hex_walker, 'left')
-    elif command == 'e' or command == 'E':
+    elif command == 'e':
         tall_rotate_test(hex_walker, 'right')
-    elif command == 'wd' or command == 'WD':
-        tall_walk_test(hex_walker, 'right_forward')
-    elif command == 'wa' or command == 'WA':
-        tall_walk_test(hex_walker, 'left_forward')
-    elif command == 'sd' or command == 'SD':
-        tall_walk_test(hex_walker, 'right_backward')
-    elif command == 'sa' or command == 'SA':
-        tall_walk_test(hex_walker, 'left_backward')
+    elif command == 'wd':
+        walk(hex_walker, 'right_forward')
+    elif command == 'wa':
+        walk(hex_walker, 'left_forward')
+    elif command == 'sd':
+        walk(hex_walker, 'right_backward')
+    elif command == 'sa':
+        walk(hex_walker, 'left_backward')
+    elif command == 'qq':
+        walk(hex_walker, 'left')
+    elif command == 'ee':
+        walk(hex_walker, 'right')
 
 
 def tall_side_walk_test(hw, direction):
@@ -83,61 +87,35 @@ def tall_side_walk_test(hw, direction):
     hw.do_move_set[TALL_NEUTRAL]
 
 
-def tall_walk_test(hw, direction):
-    hw.speed = 0.15
-    moves = [
-    TALL_NEUTRAL,
-    TALL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL,
-    TALL_TRI_RIGHT_BACK_LEFT_UP_FORWARD,
-    TALL_TRI_RIGHT_BACK_LEFT_FORWARD,
-    TALL_TRI_RIGHT_UP_BACK_LEFT_FORWARD,
-    TALL_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL,
-    TALL_TRI_RIGHT_UP_FORWARD_LEFT_BACK,
-    TALL_TRI_RIGHT_FORWARD_LEFT_BACK,
-    TALL_TRI_RIGHT_FORWARD_LEFT_UP_BACK,
-    TALL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL,
-    ]
-
+def walk(hw, direction):
     if direction == 'forward':
-        hw.set_new_front("5-0")
-        hw.do_move_set(moves)
+        hw.walk(1,0)
     elif direction == 'backward':
-        hw.set_new_front("2-3")
-        hw.do_move_set(moves)
+        hw.walk(1,180)
     elif direction == 'right_forward':
-        hw.set_new_front("0-1")
-        hw.do_move_set(moves)
+        hw.walk(1,60)
     elif direction == 'left_forward':
-        hw.set_new_front("4-5")
-        hw.do_move_set(moves)
+        hw.walk(1,300)
     elif direction == 'right_backward':
-        hw.set_new_front("1-2")
-        hw.do_move_set(moves)
+        hw.walk(1,120)
     elif direction == 'left_backward':
-        hw.set_new_front("3-4")
-        hw.do_move_set(moves)
+        hw.walk(1,240)
 
-    hw.set_new_front("5-0")
     hw.do_move_set[TALL_NEUTRAL]
 
 
 def tall_rotate_test(hw, direction):
-    hw.speed = 0.1
-    moves = [
-    TALL_NEUTRAL,
-    TALL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL,
-    TALL_TRI_RIGHT_RIGHT_LEFT_UP_LEFT,
-    TALL_TRI_RIGHT_RIGHT_LEFT_LEFT,
-    TALL_TRI_RIGHT_UP_RIGHT_LEFT_LEFT,
-    TALL_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL,
-    ]
-
     if direction == 'left':
-        hw.do_move_set(moves)
+        hex_walker.rotate(1, LEFT)
     else:
-        hw.do_move_set(moves[::-1])
+        hex_walker.rotate(1, RIGHT)
 
     hw.do_move_set[TALL_NEUTRAL]
 
 def leg_ripple(hw, direction):
-    hw.leg_wave(1, .1, 4)
+    if direction == 'left':
+        hex_walker.leg_wave(LEFT, .1, 4)
+    else:
+        hex_walker.leg_wave(RIGHT, .1, 4)
+
+    hw.do_move_set[TALL_NEUTRAL]
