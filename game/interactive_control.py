@@ -37,6 +37,8 @@ def setup():
 
 
 def command_arbiter(command):
+    global hex_walker
+
     if command == 'w':
         walk(hex_walker, 'forward')
     elif command == 'a':
@@ -58,9 +60,9 @@ def command_arbiter(command):
     elif command == 'sa':
         walk(hex_walker, 'left_backward')
     elif command == 'qq':
-        walk(hex_walker, 'left')
+        hex_walker.leg_wave(LEFT, .1, 4)
     elif command == 'ee':
-        walk(hex_walker, 'right')
+        hex_walker.leg_wave(RIGHT, .1, 4)
 
 
 def tall_side_walk_test(hw, direction):
@@ -84,7 +86,7 @@ def tall_side_walk_test(hw, direction):
 
     hw.do_move_set(moves)
     hw.set_new_front("5-0")
-    hw.do_move_set[TALL_NEUTRAL]
+    hw.do_move_set([TALL_NEUTRAL])
 
 
 def walk(hw, direction):
@@ -101,7 +103,7 @@ def walk(hw, direction):
     elif direction == 'left_backward':
         hw.walk(1,240)
 
-    hw.do_move_set[TALL_NEUTRAL]
+    hw.do_move_set([TALL_NEUTRAL])
 
 
 def tall_rotate_test(hw, direction):
@@ -110,7 +112,7 @@ def tall_rotate_test(hw, direction):
     else:
         hex_walker.rotate(1, RIGHT)
 
-    hw.do_move_set[TALL_NEUTRAL]
+    hw.do_move_set([TALL_NEUTRAL])
 
 def leg_ripple(hw, direction):
     if direction == 'left':
@@ -118,4 +120,4 @@ def leg_ripple(hw, direction):
     else:
         hex_walker.leg_wave(RIGHT, .1, 4)
 
-    hw.do_move_set[TALL_NEUTRAL]
+    hw.do_move_set([TALL_NEUTRAL])

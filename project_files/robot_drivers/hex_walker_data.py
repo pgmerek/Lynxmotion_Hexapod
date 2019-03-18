@@ -133,6 +133,14 @@ TALL_TRI_FRONT_NEUTRAL_BACK_UP_NEUTRAL = 53
 # bounce position
 TALL_TRI_BOUNCE_DOWN = 54
 
+# Fine rotations 
+TALL_TRI_FINE_RIGHT_RIGHT_LEFT_UP_LEFT = 55
+TALL_TRI_FINE_RIGHT_RIGHT_LEFT_LEFT = 56
+TALL_TRI_FINE_RIGHT_UP_RIGHT_LEFT_LEFT = 57
+# TALL_TRI_FINE_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL
+TALL_TRI_FINE_RIGHT_UP_LEFT_LEFT_RIGHT = 58
+TALL_TRI_FINE_RIGHT_LEFT_LEFT_RIGHT = 59
+TALL_TRI_FINE_RIGHT_LEFT_LEFT_UP_RIGHT = 60
 # testing positions
 FRONT_LEGS_UP = 1001
 
@@ -675,6 +683,12 @@ HEX_WALKER_POSITIONS = {
                              TALL_TRI_RIGHT_UP_RIGHT_LEFT_LEFT,
                              TALL_TRI_RIGHT_UP_FORWARD_LEFT_BACK,
                              TALL_TRI_RIGHT_UP_BACK_LEFT_FORWARD,
+                             TALL_TRI_FINE_RIGHT_RIGHT_LEFT_UP_LEFT,
+                             TALL_TRI_FINE_RIGHT_RIGHT_LEFT_LEFT,
+                             TALL_TRI_FINE_RIGHT_UP_RIGHT_LEFT_LEFT,
+                             TALL_TRI_FINE_RIGHT_UP_LEFT_LEFT_RIGHT,
+                             TALL_TRI_FINE_RIGHT_LEFT_LEFT_RIGHT,
+                             TALL_TRI_FINE_RIGHT_LEFT_LEFT_UP_RIGHT,
                              TALL_NEUTRAL
                              ],
                             "right is up, left is neutral",
@@ -924,6 +938,91 @@ HEX_WALKER_POSITIONS = {
                             "crouched down from tall height",
                             ),
 
+        # Fine rotations
+        # 55
+        TALL_TRI_FINE_RIGHT_RIGHT_LEFT_UP_LEFT:
+        Hex_Walker_Position(TALL_TRI_FINE_ROTATION_TABLE["RIGHT"],
+                            TALL_TRI_FINE_ROTATION_TABLE["UP_LEFT"],
+                            TALL_TRI_FINE_ROTATION_TABLE["RIGHT"],
+                            TALL_TRI_FINE_ROTATION_TABLE["UP_LEFT"],
+                            TALL_TRI_FINE_ROTATION_TABLE["RIGHT"],
+                            TALL_TRI_FINE_ROTATION_TABLE["UP_LEFT"],
+                            [TALL_TRI_FINE_RIGHT_RIGHT_LEFT_UP_LEFT,
+                            TALL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL,
+                            TALL_TRI_FINE_RIGHT_RIGHT_LEFT_LEFT
+                            ],
+                            "right is right, left is up",
+                            ),
+        # 56
+        TALL_TRI_FINE_RIGHT_RIGHT_LEFT_LEFT:
+        Hex_Walker_Position(TALL_TRI_FINE_ROTATION_TABLE["RIGHT"],
+                            TALL_TRI_FINE_ROTATION_TABLE["LEFT"],
+                            TALL_TRI_FINE_ROTATION_TABLE["RIGHT"],
+                            TALL_TRI_FINE_ROTATION_TABLE["LEFT"],
+                            TALL_TRI_FINE_ROTATION_TABLE["RIGHT"],
+                            TALL_TRI_FINE_ROTATION_TABLE["LEFT"],
+                            [TALL_TRI_FINE_RIGHT_RIGHT_LEFT_LEFT,
+                            TALL_TRI_FINE_RIGHT_UP_RIGHT_LEFT_LEFT,
+                            TALL_TRI_FINE_RIGHT_RIGHT_LEFT_UP_LEFT
+                            ],
+                            "right is right, left is left",
+                            ),
+        # 57
+        TALL_TRI_FINE_RIGHT_UP_RIGHT_LEFT_LEFT:
+        Hex_Walker_Position(TALL_TRI_FINE_ROTATION_TABLE["UP_RIGHT"],
+                            TALL_TRI_FINE_ROTATION_TABLE["LEFT"],
+                            TALL_TRI_FINE_ROTATION_TABLE["UP_RIGHT"],
+                            TALL_TRI_FINE_ROTATION_TABLE["LEFT"],
+                            TALL_TRI_FINE_ROTATION_TABLE["UP_RIGHT"],
+                            TALL_TRI_FINE_ROTATION_TABLE["LEFT"],
+                            [TALL_TRI_FINE_RIGHT_UP_RIGHT_LEFT_LEFT,
+                            TALL_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL,
+                            TALL_TRI_FINE_RIGHT_RIGHT_LEFT_LEFT,
+                            ],
+                            "right is up, left is left",
+                            ),
+        # 58
+        TALL_TRI_FINE_RIGHT_UP_LEFT_LEFT_RIGHT:
+        Hex_Walker_Position(TALL_TRI_FINE_ROTATION_TABLE["UP_LEFT"],
+                            TALL_TRI_FINE_ROTATION_TABLE["RIGHT"],
+                            TALL_TRI_FINE_ROTATION_TABLE["UP_LEFT"],
+                            TALL_TRI_FINE_ROTATION_TABLE["RIGHT"],
+                            TALL_TRI_FINE_ROTATION_TABLE["UP_LEFT"],
+                            TALL_TRI_FINE_ROTATION_TABLE["RIGHT"],
+                            [TALL_TRI_FINE_RIGHT_UP_LEFT_LEFT_RIGHT,
+                            TALL_TRI_FINE_RIGHT_LEFT_LEFT_RIGHT,
+                            TALL_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL
+                            ],
+                            "right is up, left is right",
+                            ),
+        # 59
+        TALL_TRI_FINE_RIGHT_LEFT_LEFT_RIGHT:
+        Hex_Walker_Position(TALL_TRI_FINE_ROTATION_TABLE["LEFT"],
+                            TALL_TRI_FINE_ROTATION_TABLE["RIGHT"],
+                            TALL_TRI_FINE_ROTATION_TABLE["LEFT"],
+                            TALL_TRI_FINE_ROTATION_TABLE["RIGHT"],
+                            TALL_TRI_FINE_ROTATION_TABLE["LEFT"],
+                            TALL_TRI_FINE_ROTATION_TABLE["RIGHT"],
+                            [TALL_TRI_FINE_RIGHT_LEFT_LEFT_RIGHT,
+                            TALL_TRI_FINE_RIGHT_LEFT_LEFT_UP_RIGHT,
+                            TALL_TRI_FINE_RIGHT_UP_LEFT_LEFT_RIGHT
+                            ],
+                            "Right is left, left is right",
+                            ),
+        # 60
+        TALL_TRI_FINE_RIGHT_LEFT_LEFT_UP_RIGHT:
+        Hex_Walker_Position(TALL_TRI_FINE_ROTATION_TABLE["LEFT"],
+                            TALL_TRI_FINE_ROTATION_TABLE["UP_RIGHT"],
+                            TALL_TRI_FINE_ROTATION_TABLE["LEFT"],
+                            TALL_TRI_FINE_ROTATION_TABLE["UP_RIGHT"],
+                            TALL_TRI_FINE_ROTATION_TABLE["LEFT"],
+                            TALL_TRI_FINE_ROTATION_TABLE["UP_RIGHT"],
+                            [TALL_TRI_FINE_RIGHT_LEFT_LEFT_UP_RIGHT,
+                            TALL_TRI_FINE_RIGHT_LEFT_LEFT_RIGHT,
+                            TALL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL
+                            ],
+                            "right is left, left is up",
+                            ),
         # past here are just positions that are used for testing.
         # past here are just positions that are used for testing.
         # They can only be reached by __set_hex_walker_position direct calls
@@ -938,5 +1037,6 @@ HEX_WALKER_POSITIONS = {
                             "front two legs are raised",
                             )
         }
+
 
 

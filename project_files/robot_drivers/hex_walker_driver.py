@@ -589,6 +589,53 @@ class Hex_Walker(object):
 		#cleanup
 		self.set_hex_walker_position(TALL_NEUTRAL)
 
+	def fine_rotate(self, num_steps, direction):
+		
+		# start rotate by lifting legs
+		self.set_hex_walker_position(TALL_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL)
+		# define positions to go through to get steps from neutral legs up
+		go_left_right_step = [
+		TALL_TRI_FINE_RIGHT_RIGHT_LEFT_UP_LEFT,
+		TALL_TRI_FINE_RIGHT_RIGHT_LEFT_LEFT,
+		TALL_TRI_FINE_RIGHT_UP_RIGHT_LEFT_LEFT,
+		TALL_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL]
+
+		go_left_left_step = [
+		TALL_TRI_FINE_RIGHT_UP_LEFT_LEFT_RIGHT,
+		TALL_TRI_FINE_RIGHT_LEFT_LEFT_RIGHT,
+		TALL_TRI_FINE_RIGHT_LEFT_LEFT_UP_RIGHT,
+		TALL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL]
+
+		go_right_right_step = [
+		TALL_TRI_FINE_RIGHT_LEFT_LEFT_UP_RIGHT,
+		TALL_TRI_FINE_RIGHT_LEFT_LEFT_RIGHT,
+		TALL_TRI_FINE_RIGHT_UP_LEFT_LEFT_RIGHT,
+		TALL_TRI_RIGHT_UP_NEUTRAL_LEFT_NEUTRAL]
+
+		go_right_left_step = [
+		TALL_TRI_FINE_RIGHT_UP_RIGHT_LEFT_LEFT,
+		TALL_TRI_FINE_RIGHT_RIGHT_LEFT_LEFT,
+		TALL_TRI_FINE_RIGHT_RIGHT_LEFT_UP_LEFT,
+		TALL_TRI_RIGHT_NEUTRAL_LEFT_UP_NEUTRAL]
+
+		if(direction == RIGHT):
+			left_step = go_right_left_step
+			right_step = go_right_right_step
+		if(direction == LEFT):
+			left_step = go_left_left_step
+			right_step = go_left_right_step
+
+		last_step = "right"
+		for i in range (0, num_steps):
+			if(last_step == "right"):
+				self.do_move_set(left_step)
+				last_step = "left"
+			elif(last_step == "left"):
+				self.do_move_set(right_step)
+				last_step = "right"
+		#cleanup
+		self.set_hex_walker_position(TALL_NEUTRAL)
+
 	def leg_wave(self, direction, speed, repetitions):
 		for i in range(0, repetitions):
 			if(direction == RIGHT):
