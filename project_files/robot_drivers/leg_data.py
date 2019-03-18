@@ -116,11 +116,11 @@ TALL_TRI_FINE_ROTATION_TABLE = {
         "NEUTRAL"           : Leg_Position(120, 45, 90),
         "UP_NEUTRAL"        : Leg_Position(45, 90, 90),
         
-        "RIGHT"             : Leg_Position(120, 45, 95),
-        "UP_RIGHT"          : Leg_Position(45, 90, 95),
+        "RIGHT"             : Leg_Position(120, 45, 92),
+        "UP_RIGHT"          : Leg_Position(45, 90, 92),
         
-        "LEFT"              : Leg_Position(120, 45, 85),
-        "UP_LEFT"           : Leg_Position(45, 90, 85)
+        "LEFT"              : Leg_Position(120, 45, 88),
+        "UP_LEFT"           : Leg_Position(45, 90, 89)
 
 }
 

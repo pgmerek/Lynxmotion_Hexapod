@@ -60,9 +60,9 @@ def command_arbiter(command):
     elif command == 'sa':
         walk(hex_walker, 'left_backward')
     elif command == 'qq':
-        hex_walker.leg_wave(LEFT, .1, 4)
+        tall_fine_rotate_test(hex_walker, 'left')
     elif command == 'ee':
-        hex_walker.leg_wave(RIGHT, .1, 4)
+        tall_fine_rotate_test(hex_walker, 'right')
 
 
 def tall_side_walk_test(hw, direction):
@@ -111,6 +111,15 @@ def tall_rotate_test(hw, direction):
         hex_walker.rotate(1, LEFT)
     else:
         hex_walker.rotate(1, RIGHT)
+
+    hw.do_move_set([TALL_NEUTRAL])
+
+
+def tall_fine_rotate_test(hw, direction):
+    if direction == 'left':
+        hex_walker.fine_rotate(1, LEFT)
+    else:
+        hex_walker.fine_rotate(1, RIGHT)
 
     hw.do_move_set([TALL_NEUTRAL])
 
